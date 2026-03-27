@@ -17,7 +17,9 @@ public class UsersController : ControllerBase
     [HttpGet("")]
     public IActionResult GetUsers()
     {
-        var users = _context.Users.ToList();
+        var users = _context.Users
+            .Select(u => new { u.Id, u.Pseudo, u.Email, u.SteamId, u.ProfilePicturePath })
+            .ToList();
         return Ok(users);
     }
 
