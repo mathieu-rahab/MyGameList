@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mygamelist.API", "Mygamelist.API\Mygamelist.API.csproj", "{506DF2BA-631D-468F-B95B-BBF936A5FBFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mygamelist.Entity", "Mygamelist.Entity\Mygamelist.Entity.csproj", "{14C32B28-B6FD-4B26-A301-77597900C960}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mygamelist.DatabaseRepository", "Mygamelist.DatabaseRepository\Mygamelist.DatabaseRepository.csproj", "{DFE7D357-0114-4EEB-AAF1-D6ED6009005B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{506DF2BA-631D-468F-B95B-BBF936A5FBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{506DF2BA-631D-468F-B95B-BBF936A5FBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{506DF2BA-631D-468F-B95B-BBF936A5FBFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14C32B28-B6FD-4B26-A301-77597900C960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14C32B28-B6FD-4B26-A301-77597900C960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14C32B28-B6FD-4B26-A301-77597900C960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14C32B28-B6FD-4B26-A301-77597900C960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE7D357-0114-4EEB-AAF1-D6ED6009005B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE7D357-0114-4EEB-AAF1-D6ED6009005B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE7D357-0114-4EEB-AAF1-D6ED6009005B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE7D357-0114-4EEB-AAF1-D6ED6009005B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
