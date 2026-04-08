@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Mygamelist.DatabaseRepository.Context;
 using Mygamelist.Entity;
+using Mygamelist.Utiles;
+
 namespace Mygamelist.Controllers;
 
 [ApiController]
@@ -34,10 +36,16 @@ public class UsersController : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> CreateUser(User user)
     {
-        //TODO: Validation des paramètres, mdp hash (Bcrypt), etc.
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-        return Ok(user);
+        if (Utiles.Utiles.IsValidEmail(user.Email) && Utiles.Utiles.IsValidPassword(user.PasswordHash))
+        {
+            //Hashage du pwd
+            user.PasswordHash = Utiles.Utiles.HashPassword(user.PasswordHash);
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return Ok(user);
+        }
+        
+        return BadRequest("error");
     }
 
     // PUT: api/users/{id}
