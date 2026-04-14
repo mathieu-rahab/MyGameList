@@ -1,0 +1,17 @@
+#title{
+    display: flex;
+    justify-content: flex-start;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+   
+}
+
+#alternative{
+    display: flex;
+    justify-content: center;
+}
