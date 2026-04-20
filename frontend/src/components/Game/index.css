@@ -1,0 +1,14 @@
+.library-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+
+  --gap: 20px;
+  --columns: 7; 
+  gap: var(--gap);
+}
+
+.game-card {
+  width: calc((100% - ((var(--columns) - 1) * var(--gap))) / var(--columns));
+  flex: 0 0 auto;
+}
