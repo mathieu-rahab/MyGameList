@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Mygamelist.DatabaseRepository.Context;
+using Mygamelist.Entity;
+using Mygamelist.Utiles;
 
 namespace Mygamelist.Controllers;
 
@@ -6,11 +9,20 @@ namespace Mygamelist.Controllers;
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
+    private readonly AppDbContext _context;
+    public UsersController(AppDbContext context)
+    {
+        _context = context;
+    }
+    
     // GET: api/users
     [HttpGet("")]
     public IActionResult GetUsers()
     {
-        return Ok(new { Message = "Liste des utilisateurs" });
+        var users = _context.Users
+            .Select(u => new { u.Id, u.Pseudo, u.Email, u.SteamId, u.ProfilePicturePath })
+            .ToList();
+        return Ok(users);
     }
 
     // GET: api/users/{id}
@@ -22,9 +34,18 @@ public class UsersController : ControllerBase
 
     // POST: api/users
     [HttpPost("")]
-    public IActionResult CreateUser()
+    public async Task<IActionResult> CreateUser(User user)
     {
-        return Created($"api/users/1", new { Id = 1, Message = "Utilisateur créé" });
+        if (Utiles.Utiles.IsValidEmail(user.Email) && Utiles.Utiles.IsValidPassword(user.PasswordHash))
+        {
+            //Hashage du pwd
+            user.PasswordHash = Utiles.Utiles.HashPassword(user.PasswordHash);
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return Ok(user);
+        }
+        
+        return BadRequest("error");
     }
 
     // PUT: api/users/{id}
