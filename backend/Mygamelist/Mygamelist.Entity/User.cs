@@ -8,4 +8,6 @@ public class User
     public string PasswordHash { get; set; }
     public string? SteamId { get; set; }
     public string? ProfilePicturePath { get; set; }
+    public ICollection<Friendship>? Friendships { get; set; }
+    public ICollection<Collection>? Collections { get; set; }
 }
