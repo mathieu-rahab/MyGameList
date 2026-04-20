@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddMemoryCache();
+
 
 // DB
 builder.Services.AddDbContext<AppDbContext>(options =>
