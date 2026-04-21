@@ -1,4 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Mygamelist.Business;
+using Mygamelist.Core.Business;
+using Mygamelist.Core.Repository;
+using Mygamelist.DatabaseRepository;
 using Mygamelist.DatabaseRepository.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,11 +12,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
 
+// DI
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 // DB
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddControllers();
 
 
 var app = builder.Build();

@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mygamelist.DatabaseRepository.Context;
 using Mygamelist.Entity;
-using Mygamelist.Utiles;
+using Mygamelist.Core;
+using Mygamelist.Core.Business;
 
 namespace Mygamelist.Controllers;
 
@@ -10,58 +11,66 @@ namespace Mygamelist.Controllers;
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
-    private readonly AppDbContext _context;
-    public UsersController(AppDbContext context)
+    private readonly IUserService _userService;
+    public UsersController(IUserService userService)
     {
-        _context = context;
+        _userService = userService;
     }
     
     // GET: api/users
     [HttpGet("")]
     public IActionResult GetUsers()
     {
-        var users = _context.Users
-            .Select(u => new { u.Id, u.Pseudo, u.Email, u.SteamId, u.ProfilePicturePath })
-            .ToList();
+        var users = _userService.RetrieveAll();
         return Ok(users);
     }
 
     // GET: api/users/{id}
-    [HttpGet("{id}")]
-    public IActionResult GetUser(int id)
+    [HttpGet("{id:int:min(1)}")]
+    public async Task<IActionResult> GetUser(int id)
     {
-        return Ok(new { Id = id, Message = "Utilisateur trouvé" });
+        
+        try
+        {
+            var user = _userService.RetrieveById(id);
+            if (user == null)
+                return NotFound(new { error = "USER_NOT_FOUND" });
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = "INTERNAL_ERROR" });
+        }
     }
 
     // POST: api/users
     [HttpPost("")]
     public async Task<IActionResult> CreateUser(User user)
     {
-        // 1. Validation email
+        // Validation email
         if (!Utiles.Utiles.IsValidEmail(user.Email))
             return BadRequest(new { error = "INVALID_EMAIL" });
 
-        // 2. Validation mot de passe
+        // Validation mot de passe
         if (!Utiles.Utiles.IsValidPassword(user.PasswordHash))
             return BadRequest(new { error = "INVALID_PASSWORD" });
 
-        // 3. Vérification unicité email et pseudo AVANT insertion
-        bool emailExists = await _context.Users.AnyAsync(u => u.Email == user.Email);
+        // Vérification unicité email et pseudo AVANT insertion
+        bool emailExists = _userService.EmailExists(user.Email);
         if (emailExists)
             return Conflict(new { error = "EMAIL_ALREADY_EXISTS" });
 
-        bool pseudoExists = await _context.Users.AnyAsync(u => u.Pseudo == user.Pseudo);
+        bool pseudoExists = _userService.PseudoExists(user.Pseudo);
         if (pseudoExists)
             return Conflict(new { error = "USERNAME_ALREADY_EXISTS" });
 
-        // 4. Hashage du mot de passe
+        // Hashage du mot de passe
         user.PasswordHash = Utiles.Utiles.HashPassword(user.PasswordHash);
 
         // Insertion
         try
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            _userService.Add(user);
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, new
             {
@@ -85,21 +94,21 @@ public class UsersController : ControllerBase
     }
 
     // PUT: api/users/{id}
-    [HttpPut("{id}")]
+    [HttpPut("{id:int:min(1)}")]
     public IActionResult UpdateUser(int id)
     {
         return Ok(new { Id = id, Message = "Utilisateur mis à jour" });
     }
     
     // PATCH: api/users/{id}
-    [HttpPatch("{id}")]
+    [HttpPatch("{id:int:min(1)}")]
     public IActionResult UpdateUserPartial(int id)
     {
         return Ok(new { Id = id, Message = "Utilisateur partiellement mis à jour" });
     }
 
     // DELETE: api/users/{id}
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int:min(1)}")]
     public IActionResult DeleteUser(int id)
     {
         return Ok(new { Id = id, Message = "Utilisateur supprimé" });
