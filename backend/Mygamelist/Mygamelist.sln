@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mygamelist.Core", "Mygameli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mygamelist.Business", "Mygamelist.Business\Mygamelist.Business.csproj", "{DDFAA90F-1A34-4A6C-9FEC-54EB8BE317E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mygamelist.Contracts", "Mygamelist.Contracts\Mygamelist.Contracts.csproj", "{B0C2BD5E-23B7-4F4F-A937-DECB8CE8DD6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{DDFAA90F-1A34-4A6C-9FEC-54EB8BE317E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDFAA90F-1A34-4A6C-9FEC-54EB8BE317E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDFAA90F-1A34-4A6C-9FEC-54EB8BE317E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0C2BD5E-23B7-4F4F-A937-DECB8CE8DD6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C2BD5E-23B7-4F4F-A937-DECB8CE8DD6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C2BD5E-23B7-4F4F-A937-DECB8CE8DD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C2BD5E-23B7-4F4F-A937-DECB8CE8DD6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

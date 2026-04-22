@@ -1,13 +1,14 @@
+using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Entity;
 
 namespace Mygamelist.Core.Business
 {
     public interface IUserService
     {
-        IEnumerable<User> RetrieveAll();
-        User? RetrieveById(int id);
+        IEnumerable<UserResponseDto> RetrieveAll();
+        UserResponseDto? RetrieveById(int id);
 
-        User Add(User bet);
+        UserResponseDto Add(CreateUserDto dto);
         User Update(int id, User user);
         bool Remove(int id);
         bool EmailExists(string email);

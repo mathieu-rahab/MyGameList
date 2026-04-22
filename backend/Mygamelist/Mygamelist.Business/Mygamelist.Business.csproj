@@ -8,6 +8,12 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Mygamelist.Core\Mygamelist.Core.csproj" />
+        <ProjectReference Include="..\Mygamelist.Contracts\Mygamelist.Contracts.csproj" />
+
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
     </ItemGroup>
 
 </Project>

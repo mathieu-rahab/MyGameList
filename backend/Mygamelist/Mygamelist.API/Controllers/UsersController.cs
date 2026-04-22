@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.DatabaseRepository.Context;
 using Mygamelist.Entity;
 using Mygamelist.Core;
@@ -29,7 +30,6 @@ public class UsersController : ControllerBase
     [HttpGet("{id:int:min(1)}")]
     public async Task<IActionResult> GetUser(int id)
     {
-        
         try
         {
             var user = _userService.RetrieveById(id);
@@ -37,7 +37,7 @@ public class UsersController : ControllerBase
                 return NotFound(new { error = "USER_NOT_FOUND" });
             return Ok(user);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return StatusCode(500, new { error = "INTERNAL_ERROR" });
         }
@@ -45,39 +45,31 @@ public class UsersController : ControllerBase
 
     // POST: api/users
     [HttpPost("")]
-    public async Task<IActionResult> CreateUser(User user)
+    public async Task<IActionResult> CreateUser(CreateUserDto dto)
     {
         // Validation email
-        if (!Utiles.Utiles.IsValidEmail(user.Email))
+        if (!Utiles.Utiles.IsValidEmail(dto.Email))
             return BadRequest(new { error = "INVALID_EMAIL" });
 
         // Validation mot de passe
-        if (!Utiles.Utiles.IsValidPassword(user.PasswordHash))
+        if (!Utiles.Utiles.IsValidPassword(dto.Password))
             return BadRequest(new { error = "INVALID_PASSWORD" });
 
         // Vérification unicité email et pseudo AVANT insertion
-        bool emailExists = _userService.EmailExists(user.Email);
+        bool emailExists = _userService.EmailExists(dto.Email);
         if (emailExists)
             return Conflict(new { error = "EMAIL_ALREADY_EXISTS" });
 
-        bool pseudoExists = _userService.PseudoExists(user.Pseudo);
+        bool pseudoExists = _userService.PseudoExists(dto.Pseudo);
         if (pseudoExists)
             return Conflict(new { error = "USERNAME_ALREADY_EXISTS" });
-
-        // Hashage du mot de passe
-        user.PasswordHash = Utiles.Utiles.HashPassword(user.PasswordHash);
-
+        
         // Insertion
         try
         {
-            _userService.Add(user);
+            var createdUser = _userService.Add(dto);
+            return Ok(createdUser);
 
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, new
-            {
-                user.Id,
-                user.Pseudo,
-                user.Email
-            });
         }
         catch (DbUpdateException ex)
         {
@@ -97,6 +89,7 @@ public class UsersController : ControllerBase
     [HttpPut("{id:int:min(1)}")]
     public IActionResult UpdateUser(int id)
     {
+        // TODO
         return Ok(new { Id = id, Message = "Utilisateur mis à jour" });
     }
     
@@ -104,6 +97,7 @@ public class UsersController : ControllerBase
     [HttpPatch("{id:int:min(1)}")]
     public IActionResult UpdateUserPartial(int id)
     {
+        // TODO
         return Ok(new { Id = id, Message = "Utilisateur partiellement mis à jour" });
     }
 
@@ -111,6 +105,7 @@ public class UsersController : ControllerBase
     [HttpDelete("{id:int:min(1)}")]
     public IActionResult DeleteUser(int id)
     {
+        // TODO
         return Ok(new { Id = id, Message = "Utilisateur supprimé" });
     }
 

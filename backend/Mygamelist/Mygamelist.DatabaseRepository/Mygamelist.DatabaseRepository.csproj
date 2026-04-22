@@ -12,9 +12,13 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
-      <ProjectReference Include="..\Mygamelist.Entity\Mygamelist.Entity.csproj" />
-      <ProjectReference Include="..\Mygamelist.Core\Mygamelist.Core.csproj" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Mygamelist.Entity\Mygamelist.Entity.csproj" />
+        <ProjectReference Include="..\Mygamelist.Core\Mygamelist.Core.csproj" />
+        <ProjectReference Include="..\Mygamelist.Contracts\Mygamelist.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>

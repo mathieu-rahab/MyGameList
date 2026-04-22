@@ -1,4 +1,5 @@
-﻿using Mygamelist.Core.Business;
+﻿using Mygamelist.Contracts.DTOs.User;
+using Mygamelist.Core.Business;
 using Mygamelist.Core.Repository;
 using Mygamelist.Entity;
 
@@ -13,10 +14,33 @@ namespace Mygamelist.Business
         {
             _userRepository = userRepository;
         }
-
-        public User Add(User user)
+        
+        public static string HashPassword(string password)
         {
-            return _userRepository.Insert(user);
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+        
+        private static UserResponseDto MapToDto(User user) => new UserResponseDto
+        {
+            Id = user.Id,
+            Pseudo = user.Pseudo,
+            Email = user.Email,
+            SteamId = user.SteamId,
+            ProfilePicturePath = user.ProfilePicturePath
+        };
+
+        public UserResponseDto Add(CreateUserDto dto)
+        {
+            var user = new User
+            {
+                Pseudo = dto.Pseudo,
+                Email = dto.Email,
+                // Hashage du mot de passe
+                PasswordHash = HashPassword(dto.Password)
+            };
+            
+            return MapToDto(_userRepository.Insert(user));
+    ;
         }
 
         public bool Remove(int id)
@@ -24,16 +48,15 @@ namespace Mygamelist.Business
             return _userRepository.Delete(id);
         }
 
-        public IEnumerable<User> RetrieveAll()
+        public IEnumerable<UserResponseDto> RetrieveAll()
         {
-            
-            return (_userRepository.SelectAll()
-                .ToList());
+            return _userRepository.SelectAll().Select(MapToDto).ToList();
         }
 
-        public User? RetrieveById(int id)
+        public UserResponseDto? RetrieveById(int id)
         {
-            return _userRepository.SelectById(id);
+            var user = _userRepository.SelectById(id);
+            return user == null ? null : MapToDto(user);
         }
 
         public User Update(int id, User user)

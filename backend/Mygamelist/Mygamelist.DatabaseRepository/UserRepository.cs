@@ -1,3 +1,4 @@
+using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Core.Repository;
 using Mygamelist.DatabaseRepository.Context;
 using Mygamelist.Entity;
@@ -17,6 +18,7 @@ namespace Mygamelist.DatabaseRepository
         public bool Delete(int id)
         {
             var userToDelete = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+            if (userToDelete == null) return false;
             _dbContext.Users.Remove(userToDelete);
             _dbContext.SaveChanges();
 

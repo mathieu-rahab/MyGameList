@@ -54,9 +54,5 @@ static class Utiles
     {
         return (password.Length > 6);
     }
-    
-    public static string HashPassword(string password)
-    {
-        return BCrypt.Net.BCrypt.HashPassword(password);
-    }
+
 }
