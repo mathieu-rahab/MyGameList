@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mygamelist.Contracts.DTOs.User;
-using Mygamelist.DatabaseRepository.Context;
 using Mygamelist.Entity;
-using Mygamelist.Core;
 using Mygamelist.Core.Business;
 
 namespace Mygamelist.Controllers;
@@ -97,7 +95,7 @@ public class UsersController : ControllerBase
     [HttpPatch("{id:int:min(1)}")]
     public IActionResult UpdateUserPartial(int id)
     {
-        // TODO
+        // TODO (PATCH facultatif)
         return Ok(new { Id = id, Message = "Utilisateur partiellement mis à jour" });
     }
 

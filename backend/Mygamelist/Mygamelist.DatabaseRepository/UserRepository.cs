@@ -1,4 +1,3 @@
-using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Core.Repository;
 using Mygamelist.DatabaseRepository.Context;
 using Mygamelist.Entity;

@@ -1,5 +1,4 @@
-﻿using Mygamelist.Contracts.DTOs.User;
-using Mygamelist.Entity;
+﻿using Mygamelist.Entity;
 
 namespace Mygamelist.Core.Repository
 {
