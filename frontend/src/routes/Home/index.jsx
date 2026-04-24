@@ -1,4 +1,5 @@
-import GamePreview from '../../components/Game';
+import GamePreview from '../../components/GamePreview';
+import { Link } from 'react-router';
 
 const placeholder = { /*TODO: récup les info de jeux de l'API */ 
     title: "UnSuperJeu",
@@ -22,7 +23,12 @@ export default function Home(){
 
             <div className="library-container" style={{ '--columns': 6 }}>
                 {gamesData.map((game) => (
-                    <GamePreview key={game.id} game={game} />
+                    <Link to={"/Game"}>
+                        <button>
+                            <GamePreview key={game.id} game={game} />
+                        </button>
+                    </Link>
+                    
                 ))}
             </div>
         </div>

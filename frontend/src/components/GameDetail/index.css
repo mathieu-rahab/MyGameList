@@ -1,0 +1,8 @@
+.GameDetail{
+    display: flex;
+}
+
+.GameDescription{
+    color: white;
+    mix-blend-mode: difference;
+}
