@@ -29,11 +29,11 @@ static class Utiles
                 return match.Groups[1].Value + domainName;
             }
         }
-        catch (RegexMatchTimeoutException e)
+        catch (RegexMatchTimeoutException)
         {
             return false;
         }
-        catch (ArgumentException e)
+        catch (ArgumentException)
         {
             return false;
         }
@@ -54,9 +54,5 @@ static class Utiles
     {
         return (password.Length > 6);
     }
-    
-    public static string HashPassword(string password)
-    {
-        return BCrypt.Net.BCrypt.HashPassword(password);
-    }
+
 }

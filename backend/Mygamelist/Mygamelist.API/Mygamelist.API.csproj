@@ -8,8 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
-        <ProjectReference Include="..\Mygamelist.DatabaseRepository\Mygamelist.DatabaseRepository.csproj" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5">
@@ -19,6 +17,13 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.5" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Mygamelist.DatabaseRepository\Mygamelist.DatabaseRepository.csproj" />
+        <ProjectReference Include="..\Mygamelist.Core\Mygamelist.Core.csproj" />
+        <ProjectReference Include="..\Mygamelist.Business\Mygamelist.Business.csproj" />
+        <ProjectReference Include="..\Mygamelist.Contracts\Mygamelist.Contracts.csproj" />
     </ItemGroup>
 
 </Project>
