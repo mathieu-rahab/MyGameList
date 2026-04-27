@@ -21,6 +21,15 @@ public class CollectionRepository : ICollectionRepository
         _dbContext.SaveChanges();
         return collection;
     }
-    
+
+    public bool Delete(int id)
+    {
+        var collectionToDelete = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+        if (collectionToDelete == null) return false;
+        _dbContext.Users.Remove(collectionToDelete);
+        _dbContext.SaveChanges();
+
+        return true;
+    }
     
 }

@@ -42,4 +42,12 @@ public class CollectionController : ControllerBase
             return StatusCode(500, new { error = "INTERNAL_ERROR" });
         }
     }
+    
+    // DELETE: api/users/{userId}/collection/{id}
+    [HttpDelete("{id:int:min(1)}")]
+    public IActionResult DeleteUser(int id)
+    {
+        // TODO
+        return Ok(new { Id = id, Message = "Collection supprimé" });
+    }
 }

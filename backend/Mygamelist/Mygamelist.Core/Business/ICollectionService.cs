@@ -6,6 +6,8 @@ namespace Mygamelist.Core.Business
     {
         IEnumerable<Collection> RetrieveAll(int userId);
         Collection Add(int userId, string label);
+        bool Remove(int id);
+
 
         
     }
