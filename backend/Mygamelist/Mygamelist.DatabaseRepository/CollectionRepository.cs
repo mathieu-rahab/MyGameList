@@ -21,6 +21,18 @@ public class CollectionRepository : ICollectionRepository
         _dbContext.SaveChanges();
         return collection;
     }
+    
+    public Collection? SelectById(int id)
+    {
+        return _dbContext.Collections.FirstOrDefault(u => u.Id == id);
+    }
+
+    public Collection Update(int id, Collection collection)
+    {
+        // TODO
+        return collection;
+    }
+
 
     public bool Delete(int id)
     {

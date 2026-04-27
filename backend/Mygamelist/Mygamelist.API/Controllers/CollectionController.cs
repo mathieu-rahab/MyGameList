@@ -43,11 +43,21 @@ public class CollectionController : ControllerBase
         }
     }
     
+    // PUT: api/users/{userId}/collection/{id}
+    [HttpPut("{id:int:min(1)}")]
+    public IActionResult UpdateCollection(int userId, int id)
+    {
+        // TODO
+        return Ok(new { Id = id, Message = "Collection mis à jour" });
+    }
+    
     // DELETE: api/users/{userId}/collection/{id}
     [HttpDelete("{id:int:min(1)}")]
-    public IActionResult DeleteUser(int id)
+    public IActionResult DeleteUser(int userId, int id)
     {
         // TODO
         return Ok(new { Id = id, Message = "Collection supprimé" });
     }
+    
+    
 }

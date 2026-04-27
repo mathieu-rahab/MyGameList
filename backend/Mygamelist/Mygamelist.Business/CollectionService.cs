@@ -22,6 +22,11 @@ namespace Mygamelist.Business
             return _collectionRepository.Insert( new Collection {Label = label, UserId = userId, GamesId = new List<int>()});
         }
 
+        public Collection? RetrieveById(int id) => _collectionRepository.SelectById(id);
+        
+        public Collection Update(int id, Collection collection) => _collectionRepository.Update(id, collection);
+        
+
         public bool Remove(int id) => _collectionRepository.Delete(id);
         
         
