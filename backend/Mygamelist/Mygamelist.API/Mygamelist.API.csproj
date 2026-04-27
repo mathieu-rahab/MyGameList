@@ -15,8 +15,10 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.17.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.5" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.5" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
     </ItemGroup>
 
     <ItemGroup>
