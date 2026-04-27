@@ -15,6 +15,8 @@ builder.Services.AddMemoryCache();
 // DI
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICollectionService, CollectionService>();
+builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
 
 
 // DB
