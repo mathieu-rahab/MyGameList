@@ -103,8 +103,18 @@ public class UsersController : ControllerBase
     [HttpDelete("{id:int:min(1)}")]
     public IActionResult DeleteUser(int id)
     {
-        // TODO
-        return Ok(new { Id = id, Message = "Utilisateur supprimé" });
+        try
+        {
+            var user = _userService.RetrieveById(id);
+            if (user == null)
+                return NotFound(new { error = "USER_NOT_FOUND" });
+            _userService.Remove(id);
+            return Ok(id);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new { error = "INTERNAL_ERROR" });
+        }
     }
 
 
