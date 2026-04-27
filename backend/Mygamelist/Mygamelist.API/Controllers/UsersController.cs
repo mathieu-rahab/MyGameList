@@ -45,6 +45,10 @@ public class UsersController : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> CreateUser(CreateUserDto dto)
     {
+        // Validation Pseudo
+        if (!Utiles.Utiles.IsValidPseudo(dto.Pseudo))
+            return BadRequest(new { error = "INVALID_PSEUDO" });
+
         // Validation email
         if (!Utiles.Utiles.IsValidEmail(dto.Email))
             return BadRequest(new { error = "INVALID_EMAIL" });

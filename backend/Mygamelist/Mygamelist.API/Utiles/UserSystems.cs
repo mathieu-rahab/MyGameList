@@ -6,6 +6,22 @@ namespace Mygamelist.Utiles;
 
 static class Utiles
 {
+    public static bool IsValidPseudo(string pseudo)
+    {
+        if (string.IsNullOrWhiteSpace(pseudo))
+            return false;
+        
+        try
+        {
+            return Regex.IsMatch(pseudo,
+                @"^[a-zA-Z0-9_\-\.]{3,20}$",
+                RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+        }
+        catch (RegexMatchTimeoutException)
+        {
+            return false;
+        }
+    }
     public static bool IsValidEmail(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
