@@ -43,5 +43,21 @@ public class CollectionRepository : ICollectionRepository
 
         return true;
     }
+
+    public Collection InsertGame(int collectionId, int gameId)
+    {
+        var collection = SelectById(collectionId);
+        collection.GamesId.Add(gameId);
+        _dbContext.SaveChanges();
+        return collection;
+    }
+    
+    public Collection DeleteGame(int collectionId, int gameId)
+    {
+        var collection = SelectById(collectionId);
+        collection.GamesId.Remove(gameId);
+        _dbContext.SaveChanges();
+        return collection;
+    }
     
 }

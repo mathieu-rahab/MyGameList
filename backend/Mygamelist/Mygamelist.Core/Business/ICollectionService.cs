@@ -9,8 +9,8 @@ namespace Mygamelist.Core.Business
         Collection Add(int userId, string label);
         Collection Update(int id, Collection collection);
         bool Remove(int id);
-
-
+        Collection? AddGame(int userId, int collectionId, int gameId);
+        Collection? RemoveGame(int userId, int collectionId, int gameId);
         
     }
 }

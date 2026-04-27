@@ -53,10 +53,25 @@ public class CollectionController : ControllerBase
     
     // DELETE: api/users/{userId}/collection/{id}
     [HttpDelete("{id:int:min(1)}")]
-    public IActionResult DeleteUser(int userId, int id)
+    public IActionResult DeleteCollection(int userId, int id)
     {
         // TODO
         return Ok(new { Id = id, Message = "Collection supprimé" });
+    }
+    
+    
+    // POST: api/users/{userId}/collection/{id}/addGame
+    [HttpPost("{id:int:min(1)}/addGame")]
+    public IActionResult AddGame(int userId, int id, [FromBody] GameIdDto dto)
+    {
+        return Ok(_collectionService.AddGame(userId, id, dto.GameId));
+    }
+    
+    // POST: api/users/{userId}/collection/{id}/removeGame
+    [HttpPost("{id:int:min(1)}/removeGame")]
+    public IActionResult RemoveGame(int userId, int id, [FromBody] GameIdDto dto)
+    {
+        return Ok(_collectionService.RemoveGame(userId, id, dto.GameId));
     }
     
     

@@ -28,7 +28,37 @@ namespace Mygamelist.Business
         
 
         public bool Remove(int id) => _collectionRepository.Delete(id);
-        
-        
+
+        public Collection? AddGame(int userId, int collectionId, int gameId)
+        {
+            var collection = _collectionRepository.SelectById(collectionId);
+            if (collection == null) return null;
+            
+            // Le jeu doit appartenir au User
+            if (collection.UserId != userId)
+                throw new Exception("NOT_YOUR_COLLECTION");
+
+            // Le jeu ne doit pas déjà être dans la collection
+            if (collection.GamesId.Contains(gameId))
+                throw new Exception("ALREADY_IN_COLLECTION");
+            
+            return _collectionRepository.InsertGame(collectionId, gameId);
+        }
+
+        public Collection RemoveGame(int userId, int collectionId, int gameId)
+        {
+            var collection = _collectionRepository.SelectById(collectionId);
+            if (collection == null) return null;
+            
+            // Le jeu doit appartenir au User
+            if (collection.UserId != userId)
+                throw new Exception("NOT_YOUR_COLLECTION");
+
+            // Le jeu  doit  être dans la collection
+            if (!collection.GamesId.Contains(gameId))
+                throw new Exception("NOT_IN_COLLECTION");
+            
+            return _collectionRepository.DeleteGame(collectionId, gameId);
+        } 
     }
 }
