@@ -30,8 +30,7 @@ public class IdentityController : ControllerBase
             string userRole = GetUserRole(request.UserEmail);
             var tokenHandler = new JwtSecurityTokenHandler();
             
-            var value = Environment.GetEnvironmentVariable("AUTH_KEY") ?? throw new Exception("AUTH_KEY_NOT_FOUND") ;
-
+            var value = Environment.GetEnvironmentVariable("AUTH_KEY") ?? throw new Exception("INTERNAL_ERROR") ;
             var key = Encoding.UTF8.GetBytes(value);
             
             var claims = new List<Claim>

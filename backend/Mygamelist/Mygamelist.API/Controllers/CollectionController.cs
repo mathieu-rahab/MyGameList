@@ -61,14 +61,14 @@ public class CollectionController : ControllerBase
     
     
     // POST: api/users/{userId}/collection/{id}/addGame
-    [HttpPost("{id:int:min(1)}/addGame")]
+    [HttpPost("{id:int:min(1)}/game")]
     public IActionResult AddGame(int userId, int id, [FromBody] GameIdDto dto)
     {
         return Ok(_collectionService.AddGame(userId, id, dto.GameId));
     }
     
     // POST: api/users/{userId}/collection/{id}/removeGame
-    [HttpPost("{id:int:min(1)}/removeGame")]
+    [HttpDelete("{id:int:min(1)}/game")]
     public IActionResult RemoveGame(int userId, int id, [FromBody] GameIdDto dto)
     {
         return Ok(_collectionService.RemoveGame(userId, id, dto.GameId));
