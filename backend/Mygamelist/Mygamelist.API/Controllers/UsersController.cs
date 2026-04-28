@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Entity;
+using Mygamelist.Hateos;
 using Mygamelist.Core.Business;
+using Mygamelist.Identity;
 
 namespace Mygamelist.Controllers;
 
@@ -11,9 +13,13 @@ namespace Mygamelist.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
-    public UsersController(IUserService userService)
+    
+    private readonly IHateosLinkGenerator _hateosLinkGenerator;
+    
+    public UsersController(IUserService userService, IHateosLinkGenerator hateosLinkGenerator)
     {
         _userService = userService;
+        _hateosLinkGenerator = hateosLinkGenerator;
     }
     
     // GET: api/users
@@ -121,5 +127,25 @@ public class UsersController : ControllerBase
         }
     }
 
-
+    private void AddHateosLinks(UserModel user)
+    {
+        user.Links.AddRange(new List<Link> {
+            _hateosLinkGenerator.Generate(
+                "GetBet",
+                new {id = user.Id },
+                "self",
+                "GET"),
+            _hateosLinkGenerator.Generate(
+                "UpdateBet",
+                new { id = user.Id },
+                "update-bet",
+                "PUT"),
+            _hateosLinkGenerator.Generate(
+                "DeleteBet",
+                new {id = user.Id
+                },
+                "delete-bet",
+                "DELETE")
+        });
+    }
 }
