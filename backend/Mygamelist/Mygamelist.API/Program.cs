@@ -17,7 +17,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
-
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // DB
 builder.Services.AddDbContext<AppDbContext>(options =>

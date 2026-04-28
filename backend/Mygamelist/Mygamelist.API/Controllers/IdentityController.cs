@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Mygamelist.Core.Business;
 using Mygamelist.Identity;
 using Mygamelist.Utiles;
 
@@ -12,23 +13,26 @@ namespace Mygamelist.Controllers;
 [ApiController]
 public class IdentityController : ControllerBase
 {
+    private readonly IAuthService _authService;
+    public IdentityController(IAuthService authService)
+    {
+        _authService = authService;
+    }
+    
     [HttpPost("token")]
     public IActionResult GenerateToken([FromBody] IdentityRequest request)
     {
         try
         {
-            if (request.UserEmail != "root@root.com" && request.Password != "toto" )
-            {
-                throw new UnauthorizedAccessException("username or password are not valid");
-            }
+            // Vérification de l'authentification
+            _authService.Authenticate(request.UserEmail, request.Password);
 
             string userRole = GetUserRole(request.UserEmail);
-
             var tokenHandler = new JwtSecurityTokenHandler();
             
             EnvReader.Load(".env");
             
-            string value = Environment.GetEnvironmentVariable("API_KEY");
+            string value = Environment.GetEnvironmentVariable("AUTH_KEY");
 
             var key = Encoding.UTF8.GetBytes(value);
             
@@ -60,5 +64,5 @@ public class IdentityController : ControllerBase
         }
     }
 
-    private static string GetUserRole(string userEmail) => userEmail == "root@root.com" ? "admin" : "reader";
+    private static string GetUserRole(string userEmail) => userEmail == "root@root.com" ? "admin" : "user";
 }
