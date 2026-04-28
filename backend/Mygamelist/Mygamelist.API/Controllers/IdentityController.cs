@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Text;
 using Mygamelist.Core.Business;
 using Mygamelist.Identity;
-using Mygamelist.Utiles;
 
 namespace Mygamelist.Controllers;
 
@@ -30,9 +29,7 @@ public class IdentityController : ControllerBase
             string userRole = GetUserRole(request.UserEmail);
             var tokenHandler = new JwtSecurityTokenHandler();
             
-            EnvReader.Load(".env");
-            
-            string value = Environment.GetEnvironmentVariable("AUTH_KEY");
+            var value = Environment.GetEnvironmentVariable("AUTH_KEY") ?? throw new Exception("AUTH_KEY_NOT_FOUND") ;
 
             var key = Encoding.UTF8.GetBytes(value);
             
