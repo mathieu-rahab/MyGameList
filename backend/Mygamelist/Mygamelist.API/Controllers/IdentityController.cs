@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Mygamelist.Core.Business;
+using Mygamelist.Entity;
 using Mygamelist.Identity;
 
 namespace Mygamelist.Controllers;
@@ -24,7 +25,7 @@ public class IdentityController : ControllerBase
         try
         {
             // Vérification de l'authentification
-            _authService.Authenticate(request.UserEmail, request.Password);
+            User user =_authService.Authenticate(request.UserEmail, request.Password);
 
             string userRole = GetUserRole(request.UserEmail);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -38,7 +39,8 @@ public class IdentityController : ControllerBase
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new(JwtRegisteredClaimNames.Sub, request.UserEmail),
             new(JwtRegisteredClaimNames.Email, request.UserEmail),
-            new("userRole", userRole)
+            new("userRole", userRole),
+            new("userId", user.Id.ToString())
         };
 
             var tokenDescriptor = new SecurityTokenDescriptor

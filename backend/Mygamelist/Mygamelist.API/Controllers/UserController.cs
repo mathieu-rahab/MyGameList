@@ -1,11 +1,14 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Entity;
 using Mygamelist.Core.Business;
 
 namespace Mygamelist.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UserController : ControllerBase
@@ -17,7 +20,11 @@ public class UserController : ControllerBase
     }
     
     // GET: api/users
-    [HttpGet("")]
+    [Authorize(Policy = "isAdmin")]
+    [HttpGet]
+    [Route("")]
+    [EndpointName("GetUsers")]
+    [ActionName("GetUsers")]
     public IActionResult GetUsers()
     {
         var users = _userService.RetrieveAll();
@@ -25,9 +32,13 @@ public class UserController : ControllerBase
     }
 
     // GET: api/users/{id}
-    [HttpGet("{id:int:min(1)}")]
+    [HttpGet]
+    [Route("{id:int:min(1)}")]
+    [EndpointName("GetUser")]
+    [ActionName("GetUser")]
     public async Task<IActionResult> GetUser(int id)
     {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, id)) return Forbid();
         try
         {
             var user = _userService.RetrieveById(id);
@@ -42,19 +53,23 @@ public class UserController : ControllerBase
     }
 
     // POST: api/users
-    [HttpPost("")]
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("")]
+    [EndpointName("CreateUser")]
+    [ActionName("CreateUser")]
     public async Task<IActionResult> CreateUser(CreateUserDto dto)
     {
         // Validation Pseudo
-        if (!Utiles.Utiles.IsValidPseudo(dto.Pseudo))
+        if (!Utiles.UserSystems.IsValidPseudo(dto.Pseudo))
             return BadRequest(new { error = "INVALID_PSEUDO" });
 
         // Validation email
-        if (!Utiles.Utiles.IsValidEmail(dto.Email))
+        if (!Utiles.UserSystems.IsValidEmail(dto.Email))
             return BadRequest(new { error = "INVALID_EMAIL" });
 
         // Validation mot de passe
-        if (!Utiles.Utiles.IsValidPassword(dto.Password))
+        if (!Utiles.UserSystems.IsValidPassword(dto.Password))
             return BadRequest(new { error = "INVALID_PASSWORD" });
 
         // Vérification unicité email et pseudo AVANT insertion
@@ -88,7 +103,10 @@ public class UserController : ControllerBase
     }
 
     // PUT: api/users/{id}
-    [HttpPut("{id:int:min(1)}")]
+    [HttpPut]
+    [Route("{id:int:min(1)}")]
+    [EndpointName("UpdateUser")]
+    [ActionName("UpdateUser")]
     public IActionResult UpdateUser(int id)
     {
         // TODO
@@ -96,17 +114,25 @@ public class UserController : ControllerBase
     }
     
     // PATCH: api/users/{id}
-    [HttpPatch("{id:int:min(1)}")]
+    [HttpPatch]
+    [Route("{id:int:min(1)}")]
+    [EndpointName("UpdateUserPartial")]
+    [ActionName("UpdateUserPartial")]
     public IActionResult UpdateUserPartial(int id)
     {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, id)) return Forbid();
         // TODO (PATCH facultatif)
         return Ok(new { Id = id, Message = "Utilisateur partiellement mis à jour" });
     }
 
     // DELETE: api/users/{id}
-    [HttpDelete("{id:int:min(1)}")]
+    [HttpDelete]
+    [Route("{id:int:min(1)}")]
+    [EndpointName("DeleteUser")]
+    [ActionName("DeleteUser")]
     public IActionResult DeleteUser(int id)
     {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, id)) return Forbid();
         try
         {
             var user = _userService.RetrieveById(id);

@@ -52,7 +52,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("isAdmin", p =>
-        p.RequireClaim("role", "admin"));
+        p.RequireClaim("userRole", "admin"));
 });
 
 builder.Services.AddSwaggerGen(option =>
