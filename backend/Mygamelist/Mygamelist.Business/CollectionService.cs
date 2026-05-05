@@ -1,5 +1,7 @@
+using System.Net;
 using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Core.Business;
+using Mygamelist.Core.Exceptions;
 using Mygamelist.Core.Repository;
 using Mygamelist.Entity;
 
@@ -32,33 +34,33 @@ namespace Mygamelist.Business
         public Collection? AddGame(int userId, int collectionId, int gameId)
         {
             var collection = _collectionRepository.SelectById(collectionId);
-            if (collection == null) return null;
+            if (collection == null)
+                throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND");
             
-            // Le jeu doit appartenir au User
+            // La collection doit appartenir au User
             if (collection.UserId != userId)
-                throw new Exception("NOT_YOUR_COLLECTION");
+                throw new BusinessException(HttpStatusCode.Unauthorized, "NOT_YOUR_COLLECTION");
 
             // Le jeu ne doit pas déjà être dans la collection
-            if (collection.GamesId.Contains(gameId))
-                throw new Exception("ALREADY_IN_COLLECTION");
-            
-            return _collectionRepository.InsertGame(collectionId, gameId);
+            return (collection.GamesId.Contains(gameId))
+                ? throw new BusinessException(HttpStatusCode.Conflict, "ALREADY_IN_COLLECTION")
+                :  _collectionRepository.InsertGame(collectionId, gameId);
         }
 
         public Collection RemoveGame(int userId, int collectionId, int gameId)
         {
             var collection = _collectionRepository.SelectById(collectionId);
-            if (collection == null) return null;
+            if (collection == null)
+                throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND");
             
-            // Le jeu doit appartenir au User
+            // La collection doit appartenir au User
             if (collection.UserId != userId)
-                throw new Exception("NOT_YOUR_COLLECTION");
+                throw new BusinessException(HttpStatusCode.Unauthorized, "NOT_YOUR_COLLECTION");
 
-            // Le jeu  doit  être dans la collection
-            if (!collection.GamesId.Contains(gameId))
-                throw new Exception("NOT_IN_COLLECTION");
-            
-            return _collectionRepository.DeleteGame(collectionId, gameId);
+            // Le jeu doit être dans la collection
+            return (!collection.GamesId.Contains(gameId))
+                ? throw new BusinessException(HttpStatusCode.Conflict, "NOT_IN_COLLECTION")
+                : _collectionRepository.DeleteGame(collectionId, gameId);
         } 
     }
 }
