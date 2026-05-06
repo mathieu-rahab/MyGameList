@@ -9,7 +9,7 @@ using Mygamelist.Core.Business;
 
 [Authorize]
 [ApiController]
-[Route("api/users/{userId:int:min(1)}/[controller]")]
+[Route("api/user/{userId:int:min(1)}/[controller]")]
 public class CollectionController : ControllerBase
 {
     private readonly ICollectionService _collectionService;
