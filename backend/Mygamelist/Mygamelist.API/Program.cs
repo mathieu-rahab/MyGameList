@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Mygamelist.API.Middlewares;
@@ -12,6 +13,8 @@ using Mygamelist.DatabaseRepository.Context;
 using Mygamelist.Utiles;
 
 var builder = WebApplication.CreateBuilder(args);
+EnvReader.Load(".env");
+
 
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
@@ -22,15 +25,20 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddHttpClient<ISteamService, SteamService>();
+builder.Services.AddScoped<ISteamService>(provider =>
+{
+    var steamKey = Environment.GetEnvironmentVariable("STEAM_KEY");
+    return (steamKey == null) 
+        ? throw new Exception("STEAM_KEY_NOT_FOUND")
+        : new SteamService(steamKey, provider.GetRequiredService<HttpClient>());
+});
 
 // DB
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Auth
-
-EnvReader.Load(".env");
-
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
