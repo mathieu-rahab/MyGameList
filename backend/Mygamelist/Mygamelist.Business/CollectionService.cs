@@ -25,11 +25,19 @@ namespace Mygamelist.Business
         }
 
         public Collection? RetrieveById(int id) => _collectionRepository.SelectById(id);
-        
-        public Collection Update(int id, Collection collection) => _collectionRepository.Update(id, collection);
-        
 
-        public bool Remove(int id) => _collectionRepository.Delete(id);
+        public Collection Update(int id, Collection collection)
+        { 
+            return _collectionRepository.Update(id, collection);
+        } 
+        
+        public bool Remove(int id)
+        {
+            var deleted = _collectionRepository.Delete(id);
+            return (!deleted)
+                ? throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND")
+                : true;
+        }
 
         public Collection? AddGame(int userId, int collectionId, int gameId)
         {
