@@ -17,10 +17,7 @@ namespace Mygamelist.Business
             _userRepository = userRepository;
         }
         
-        public static string HashPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.HashPassword(password);
-        }
+        private static string HashPassword(string password) => BCrypt.Net.BCrypt.HashPassword(password);
         
         private static UserResponseDto MapToDto(User user) => new UserResponseDto
         {
@@ -52,17 +49,12 @@ namespace Mygamelist.Business
         public bool Remove(int id)
         {
             var deleted = _userRepository.Delete(id);
-            if (!deleted)
-            {
-                throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
-            }
-            return true;
+            return (!deleted)
+                ? throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND")
+                : true;
         }
 
-        public IEnumerable<UserResponseDto> RetrieveAll()
-        {
-            return _userRepository.SelectAll().Select(MapToDto).ToList();
-        }
+        public IEnumerable<UserResponseDto> RetrieveAll() => _userRepository.SelectAll().Select(MapToDto).ToList();
 
         public UserResponseDto RetrieveById(int id)
         {
