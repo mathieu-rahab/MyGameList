@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -31,7 +32,7 @@ builder.Services.AddScoped<ISteamService>(provider =>
     var steamKey = Environment.GetEnvironmentVariable("STEAM_KEY");
     return (steamKey == null) 
         ? throw new Exception("STEAM_KEY_NOT_FOUND")
-        : new SteamService(steamKey, provider.GetRequiredService<HttpClient>());
+        : new SteamService(steamKey, provider.GetRequiredService<HttpClient>(), provider.GetRequiredService<IMemoryCache>());
 });
 
 // DB
@@ -50,7 +51,7 @@ builder.Services.AddAuthentication(x =>
     {
         ValidIssuer = "http://localhost:5131/",
         ValidAudience = "http://localhost:5131/",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("AUTH_KEY"))),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("AUTH_KEY") ?? throw new Exception("AUTH_KEY_NOT_FOUND"))),
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
