@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 import { useContext, useState } from "react";
 import "./index.css"
+import "../../auth.css"
+
 
 export default function NewUser(){
     const [inputs, setInputs] = useState({});
@@ -15,44 +17,45 @@ export default function NewUser(){
     e.preventDefault();
     alert("submited");
     }
-
     return (
-        <div id="page">
-            <h1 id="title">Créer un compte</h1>
-            <form id="login" onSubmit={handleSubmit} >
-                <input 
-                    type="text" 
-                    name="pseudo"
-                    placeholder="Pseudo"
-                    value={inputs.pseudo} 
-                    onChange={handleChange}
-                />
-                
-                <input 
-                    type="password" 
-                    name="password"
-                    placeholder="Mot de passe"
-                    value={inputs.password} 
-                    onChange={handleChange}
-                />
+        <div className="auth-page">
+            <div className="auth-card">
 
-                <input 
-                    type="password" 
-                    name="passwordConfirm"
-                    placeholder="Confirmer Mot de passe"
-                    value={inputs.passwordConfirm} 
-                    onChange={handleChange}
-                />
-                <input id="submit" type="submit" value="Envoyer" />
-            </form>
-            <div id="alternative">
-                <i>Déjà un compte?  </i> <Link to="/Login">Connecte toi</Link>
+                <h1 className="auth-title">Créer un <span>compte</span></h1>
+
+                <form className="auth-form" onSubmit={handleSubmit}>
+                    <div className="input-wrap">
+                        <i className="ti ti-user" aria-hidden="true"></i>
+                        <input type="text" name="pseudo" placeholder="Pseudo"
+                               value={inputs.pseudo} onChange={handleChange} />
+                    </div>
+                    <div className="input-wrap">
+                        <i className="ti ti-mail" aria-hidden="true"></i>
+                        <input type="text" name="email" placeholder="Email"
+                               value={inputs.email} onChange={handleChange} />
+                    </div>
+                    <div className="input-wrap">
+                        <i className="ti ti-lock" aria-hidden="true"></i>
+                        <input type="password" name="password" placeholder="Mot de passe"
+                               value={inputs.password} onChange={handleChange} />
+                    </div>
+                    <div className="input-wrap">
+                        <i className="ti ti-lock-check" aria-hidden="true"></i>
+                        <input type="password" name="passwordConfirm" placeholder="Confirmer le mot de passe"
+                               value={inputs.passwordConfirm} onChange={handleChange} />
+                    </div>
+                    <button type="submit" className="auth-submit">Créer mon compte</button>
+                </form>
+
+                <div className="auth-alternative">
+                    Déjà un compte ? <Link to="/Login">Se connecter</Link>
+                </div>
+
             </div>
-
         </div>
-    
-  )
-    
+    );
+
+
 }
 
 

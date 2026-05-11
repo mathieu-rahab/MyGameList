@@ -4,7 +4,6 @@ import Home from "./routes/Home";
 import Login from "./routes/Login";
 import NewUser from "./routes/NewUser";
 import Game from "./routes/Game";
-import './App.css'; 
 
 //layout
 import Layout from "./components/Layout";
