@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router";
 import "./index.css";
+import { useTranslation } from "react-i18next";
 
 export default function Layout() {
+    //traduction
+    const {t} = useTranslation();
+    //
+
     const [theme, setTheme] = useState(() => {
         try { return localStorage.getItem('nx-theme') || 'dark'; }
         catch { return 'dark'; }
@@ -30,8 +35,8 @@ export default function Layout() {
                     MygameList
                 </div>
                 <nav>
-                    <Link to="/"><button className="active">Accueil</button></Link>
-                    <Link to="/dashboard"><button>Dashboard</button></Link>
+                    <Link to="/"><button className="active">{t('Layout.Home')}</button></Link>
+                    <Link to="/dashboard"><button>{t('Layout.Dashboard')}</button></Link>
                 </nav>
                 <div className="hright">
                     <div className="theme-toggle">
@@ -39,18 +44,18 @@ export default function Layout() {
                             className={`tog-opt ${theme === 'dark' ? 'on' : ''}`}
                             onClick={() => setTheme('dark')}
                         >
-                            Sombre
+                            {t('Layout.Dark')}
                         </div>
                         <div
                             className={`tog-opt ${theme === 'light' ? 'on' : ''}`}
                             onClick={() => setTheme('light')}
                         >
-                            Clair
+                            {t('Layout.Light')}
                         </div>
                     </div>
                     <div className="notif">⊹</div>
                     <Link to="/login">
-                        <button className="btn-login">Connexion</button>
+                        <button className="btn-login">{t('Layout.Login')}</button>
                     </Link>
                     <div className="av">
                         <i className="ti ti-user" aria-hidden="true"></i>
@@ -68,20 +73,20 @@ export default function Layout() {
 
             {/* Menu mobile drawer */}
             <nav className={`nav-drawer ${menuOpen ? 'open' : ''}`}>
-                <Link to="/" onClick={() => setMenuOpen(false)}>Accueil</Link>
-                <Link to="/dashboard" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+                <Link to="/" onClick={() => setMenuOpen(false)}>{t('Layout.Home')}</Link>
+                <Link to="/dashboard" onClick={() => setMenuOpen(false)}>{t('Layout.Dashboard')}</Link>
                 <div className="theme-toggle-mobile">
                     <div
                         className={`tog-opt ${theme === 'dark' ? 'on' : ''}`}
                         onClick={() => setTheme('dark')}
                     >
-                        Sombre
+                        {t('Layout.Dark')}
                     </div>
                     <div
                         className={`tog-opt ${theme === 'light' ? 'on' : ''}`}
                         onClick={() => setTheme('light')}
                     >
-                        Clair
+                        {t('Layout.Light')}
                     </div>
                 </div>
             </nav>

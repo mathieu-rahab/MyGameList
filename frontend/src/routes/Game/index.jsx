@@ -5,7 +5,7 @@ const placeholder = { /*TODO: récup les info de jeux de l'API */
     title: "UnSuperJeu",
     coverUrl: "/covers/placeholder.png",
     bgUrl: "/covers/placeholderBackground.jpg",
-    category: "FriendSlop",
+    category: "FriendSlop", //TRAD
     version: "V 0.Trust WIP",
     year: 2077,
     size: "420.69 MB",

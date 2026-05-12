@@ -1,0 +1,28 @@
+{
+  "CreateAccount": {
+    "ConfirmPassword": "Confirmer mot de passe",
+    "ExistingAccountQuestion": "Déjà un compte ?",
+    "Password": "Mot de passe",
+    "Submit": "Confirmer",
+    "Title": "Créer un compte",
+    "ToLogin": "Connectes-toi"
+  },
+  "GameDetail": {
+    "AboutTheGame": "A propos du jeu"
+  },
+  "Layout": {
+    "Dark": "Sombre",
+    "Dashboard": "Tableau de bord",
+    "Home": "Accueil",
+    "Light": "Clair",
+    "Login": "Se connecter"
+  },
+  "Login": {
+    "Alternative": "Ou connectes-toi avec",
+    "CreateAccount": "Crées-en un",
+    "LoginTitle": "Se connecter",
+    "NoAccountYetQuestion": "Pas encore de compte?",
+    "Password": "Mot de passe",
+    "Submit": "Confirmer"
+  }
+}

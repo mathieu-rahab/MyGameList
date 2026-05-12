@@ -1,0 +1,28 @@
+{
+  "CreateAccount": {
+    "ConfirmPassword": "Confirm password",
+    "ExistingAccountQuestion": "Already have an account?",
+    "Password": "Password",
+    "Submit": "Submit",
+    "Title": "Create account",
+    "ToLogin": "Login now"
+  },
+  "GameDetail": {
+    "AboutTheGame": "About the game"
+  },
+  "Layout": {
+    "Dark": "Dark",
+    "Dashboard": "Dashboard",
+    "Home": "Home",
+    "Light": "Light",
+    "Login": "Login"
+  },
+  "Login": {
+    "Alternative": "Or login with",
+    "CreateAccount": "Create one now",
+    "LoginTitle": "Login",
+    "NoAccountYetQuestion": "No account yet ?",
+    "Password": "Password",
+    "Submit": "Submit"
+  }
+}

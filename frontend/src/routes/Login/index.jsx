@@ -2,8 +2,11 @@ import { Link } from "react-router";
 import { useContext, useState } from "react";
 import "./index.css"
 import "../../auth.css"
+import { useTranslation } from "react-i18next";
 
 export default function Login(){
+    const {t} = useTranslation();
+
     const [inputs, setInputs] = useState({});
 
     const handleChange = (e) => {  /* TODO: surveiller les inputs*/ 
@@ -21,7 +24,7 @@ export default function Login(){
         <div className="auth-page">
             <div className="auth-card">
 
-                <h1 className="auth-title">Se <span>connecter</span></h1>
+                <h1 className="auth-title">{t('Login.LoginTitle')}</h1>
 
                 <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="input-wrap">
@@ -31,15 +34,15 @@ export default function Login(){
                     </div>
                     <div className="input-wrap">
                         <i className="ti ti-lock" aria-hidden="true"></i>
-                        <input type="password" name="password" placeholder="Mot de passe"
+                        <input type="password" name="password" placeholder={t('Login.Password')}
                                value={inputs.password} onChange={handleChange} />
                     </div>
-                    <button type="submit" className="auth-submit">Connexion</button>
+                    <button type="submit" className="auth-submit">{t('Login.Submit')}</button>
                 </form>
 
                 <div className="auth-divider" style={{display: "none"}}>
                     <div className="auth-divider-line"></div>
-                    <span className="auth-divider-text">ou continuer avec</span>
+                    <span className="auth-divider-text">{t('Login.Alternative')}</span> /*ou continuer avec*/
                     <div className="auth-divider-line"></div>
                 </div>
 
@@ -49,7 +52,7 @@ export default function Login(){
                 </button>
 
                 <div className="auth-alternative">
-                    Pas encore de compte ? <Link to="/NewUser">Créer un compte</Link>
+                    {t('Login.NoAccountYetQuestion')} <Link to="/NewUser">{t('Login.CreateAccount')}</Link>
                 </div>
 
             </div>
