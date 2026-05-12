@@ -6,6 +6,8 @@ using Mygamelist.Hateos;
 using Mygamelist.Core.Business;
 using Mygamelist.Identity;
 
+using Mygamelist.Contracts.Hateos;
+
 namespace Mygamelist.Controllers;
 
 [ApiController]
@@ -27,11 +29,17 @@ public class UsersController : ControllerBase
     public IActionResult GetUsers()
     {
         var users = _userService.RetrieveAll();
+        
+        foreach (var user in users)
+        {
+            AddHateosLinks(user);
+        }
+        
         return Ok(users);
     }
 
     // GET: api/users/{id}
-    [HttpGet("{id:int:min(1)}")]
+    [HttpGet("{id:int:min(1)}", Name = "GetUser")]
     public async Task<IActionResult> GetUser(int id)
     {
         try
@@ -39,6 +47,9 @@ public class UsersController : ControllerBase
             var user = _userService.RetrieveById(id);
             if (user == null)
                 return NotFound(new { error = "USER_NOT_FOUND" });
+
+            AddHateosLinks(user);
+                
             return Ok(user);
         }
         catch (Exception)
@@ -94,7 +105,7 @@ public class UsersController : ControllerBase
     }
 
     // PUT: api/users/{id}
-    [HttpPut("{id:int:min(1)}")]
+    [HttpPut("{id:int:min(1)}", Name = "UpdateUser")]
     public IActionResult UpdateUser(int id)
     {
         // TODO
@@ -110,7 +121,7 @@ public class UsersController : ControllerBase
     }
 
     // DELETE: api/users/{id}
-    [HttpDelete("{id:int:min(1)}")]
+    [HttpDelete("{id:int:min(1)}", Name = "DeleteUser")]
     public IActionResult DeleteUser(int id)
     {
         try
@@ -127,24 +138,24 @@ public class UsersController : ControllerBase
         }
     }
 
-    private void AddHateosLinks(UserModel user)
+    private void AddHateosLinks(UserResponseDto user)
     {
         user.Links.AddRange(new List<Link> {
             _hateosLinkGenerator.Generate(
-                "GetBet",
+                "GetUser",
                 new {id = user.Id },
                 "self",
                 "GET"),
             _hateosLinkGenerator.Generate(
-                "UpdateBet",
+                "UpdateUser",
                 new { id = user.Id },
-                "update-bet",
+                "update-user",
                 "PUT"),
             _hateosLinkGenerator.Generate(
-                "DeleteBet",
+                "DeleteUser",
                 new {id = user.Id
                 },
-                "delete-bet",
+                "delete-user",
                 "DELETE")
         });
     }

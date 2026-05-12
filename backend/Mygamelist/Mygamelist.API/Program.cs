@@ -4,6 +4,7 @@ using Mygamelist.Core.Business;
 using Mygamelist.Core.Repository;
 using Mygamelist.DatabaseRepository;
 using Mygamelist.DatabaseRepository.Context;
+using Mygamelist.Hateos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+builder.Services.AddScoped<IHateosLinkGenerator, HateosLinkGenerator>();
+
+builder.Services.AddHttpContextAccessor();
 
 // DB
 builder.Services.AddDbContext<AppDbContext>(options =>

@@ -1,5 +1,6 @@
 namespace Mygamelist.Hateos;
 
+using Mygamelist.Contracts.Hateos;
 public class HateosLinkGenerator : IHateosLinkGenerator
 {
     private readonly LinkGenerator _linkGenerator;

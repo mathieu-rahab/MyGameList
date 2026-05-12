@@ -1,4 +1,4 @@
-namespace Mygamelist.Hateos;
+namespace Mygamelist.Contracts.Hateos;
 
 public class Link
 {
