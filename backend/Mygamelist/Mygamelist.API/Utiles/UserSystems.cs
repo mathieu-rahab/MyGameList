@@ -1,10 +1,12 @@
 using System;
 using System.Globalization;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
+using Mygamelist.Entity;
 
 namespace Mygamelist.Utiles;
 
-static class Utiles
+static class UserSystems
 {
     public static bool IsValidPseudo(string pseudo)
     {
@@ -70,5 +72,15 @@ static class Utiles
     {
         return (password.Length > 6);
     }
+    
+    public static bool IsAdminOrSelf(ClaimsPrincipal claims, int id)
+    {
+        var role = claims.FindFirstValue("userRole");
+        if (role == "admin") return true;
+
+        var userIdClaim = claims.FindFirstValue("userId");
+        return int.TryParse(userIdClaim, out int tokenUserId) && tokenUserId == id;
+    }
+
 
 }

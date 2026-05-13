@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useContext, useState } from "react";
 import "./index.css"
+import "../../auth.css"
 
 export default function Login(){
     const [inputs, setInputs] = useState({});
@@ -17,32 +18,42 @@ export default function Login(){
     }
 
     return (
-        <div id="page">
-            <h1 id="title">Se Connecter</h1>
-            <form id="login" onSubmit={handleSubmit} >
-                <input 
-                    type="text" 
-                    name="pseudo"
-                    placeholder="Pseudo"
-                    value={inputs.pseudo} 
-                    onChange={handleChange}
-                />
-                
-                <input 
-                    type="password" 
-                    name="password"
-                    placeholder="Mot de passe"
-                    value={inputs.password} 
-                    onChange={handleChange}
-                />
-                <input id="submit" type="submit" value="Envoyer" />
-            </form>
-            <div id="alternative">
-                <i>Pas encore de compte?</i>&nbsp;<Link to="/NewUser">Crée en un</Link>
-            </div>
+        <div className="auth-page">
+            <div className="auth-card">
 
+                <h1 className="auth-title">Se <span>connecter</span></h1>
+
+                <form className="auth-form" onSubmit={handleSubmit}>
+                    <div className="input-wrap">
+                        <i className="ti ti-mail" aria-hidden="true"></i>
+                        <input type="text" name="email" placeholder="Email"
+                               value={inputs.email} onChange={handleChange} />
+                    </div>
+                    <div className="input-wrap">
+                        <i className="ti ti-lock" aria-hidden="true"></i>
+                        <input type="password" name="password" placeholder="Mot de passe"
+                               value={inputs.password} onChange={handleChange} />
+                    </div>
+                    <button type="submit" className="auth-submit">Connexion</button>
+                </form>
+
+                <div className="auth-divider" style={{display: "none"}}>
+                    <div className="auth-divider-line"></div>
+                    <span className="auth-divider-text">ou continuer avec</span>
+                    <div className="auth-divider-line"></div>
+                </div>
+
+                <button className="btn-steam" style={{display: "none"}}>
+                    <i className="ti ti-brand-steam" aria-hidden="true"></i>
+                    Steam
+                </button>
+
+                <div className="auth-alternative">
+                    Pas encore de compte ? <Link to="/NewUser">Créer un compte</Link>
+                </div>
+
+            </div>
         </div>
-    
-  )
+    );
     
 }

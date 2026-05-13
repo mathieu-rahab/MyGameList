@@ -19,8 +19,6 @@ const gamesData = Array.from({ length: 24 }, (_, i) => ({
 export default function Home(){
     return (
         <div>
-            <h1>MyGameList</h1>
-
             <div className="library-container" style={{ '--columns': 6 }}>
                 {gamesData.map((game) => (
                     <Link to={"/Game"}>
@@ -32,6 +30,6 @@ export default function Home(){
                 ))}
             </div>
         </div>
-        
+
     )
 }

@@ -1,0 +1,102 @@
+using Microsoft.AspNetCore.Authorization;
+
+namespace Mygamelist.Controllers;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Mygamelist.Contracts.DTOs.Collection;
+using Mygamelist.Core.Business;
+
+[Authorize]
+[ApiController]
+[Route("api/user/{userId:int:min(1)}/[controller]")]
+public class CollectionController : ControllerBase
+{
+    private readonly ICollectionService _collectionService;
+    public CollectionController(ICollectionService collectionService)
+    {
+        _collectionService = collectionService;
+    }
+    
+    // GET: api/users/{userId}/collection
+    [HttpGet]
+    [Route("")]
+    [EndpointName("GetAll")]
+    [ActionName("GetAll")]
+    public IActionResult GetAll(int userId)
+    {
+        return Ok(_collectionService.RetrieveAll(userId));
+    }
+    
+    
+    // POST: api/users/{userId}/collection
+    [HttpPost]
+    [Route("")]
+    [EndpointName("CreateCollection")]
+    [ActionName("CreateCollection")]
+    public IActionResult CreateCollection(int userId, [FromBody] CreateCollectionDto dto)
+    {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, userId)) return Forbid();
+        try
+        {
+            return Ok(_collectionService.Add(userId, dto.Label));
+        }
+        catch (DbUpdateException)
+        {
+            return StatusCode(500, new { error = "DATABASE_ERROR" });
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new { error = "INTERNAL_ERROR" });
+        }
+    }
+    
+    // PUT: api/users/{userId}/collection/{id}
+    [HttpPut]
+    [Route("{id:int:min(1)}")]
+    [EndpointName("UpdateCollection")]
+    [ActionName("UpdateCollection")]
+    public IActionResult UpdateCollection(int userId, int id)
+    {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, userId)) return Forbid();
+        // TODO
+        return Ok(new { Id = id, Message = "Collection mis à jour" });
+    }
+    
+    // DELETE: api/users/{userId}/collection/{id}
+    [HttpDelete]
+    [Route("{id:int:min(1)}")]
+    [EndpointName("DeleteCollection")]
+    [ActionName("DeleteCollection")]
+    public IActionResult DeleteCollection(int userId, int id)
+    {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, userId)) return Forbid();
+        // TODO
+        return Ok(new { Id = id, Message = "Collection supprimé" });
+    }
+    
+    
+    // POST: api/users/{userId}/collection/{id}/game
+    [HttpPost]
+    [Route("{id:int:min(1)}/game")]
+    [EndpointName("AddGame")]
+    [ActionName("AddGame")]
+    public IActionResult AddGame(int userId, int id, [FromBody] GameIdDto dto)
+    {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, userId)) return Forbid();
+        return Ok(_collectionService.AddGame(userId, id, dto.GameId));
+    }
+    
+    // POST: api/users/{userId}/collection/{id}/game
+    [HttpDelete]
+    [Route("{id:int:min(1)}/game")]
+    [EndpointName("RemoveGame")]
+    [ActionName("RemoveGame")]
+    public IActionResult RemoveGame(int userId, int id, [FromBody] GameIdDto dto)
+    {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, userId)) return Forbid();
+        return Ok(_collectionService.RemoveGame(userId, id, dto.GameId));
+    }
+    
+    
+}

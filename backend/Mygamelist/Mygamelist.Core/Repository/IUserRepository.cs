@@ -8,6 +8,7 @@ namespace Mygamelist.Core.Repository
         User Insert(User user);
         public IEnumerable<User> SelectAll();
         User? SelectById(int id);
+        User? SelectByEmail(string email);
         User Update(int id, User user);
         bool EmailExists(string email);
         bool PseudoExists(string pseudo);
