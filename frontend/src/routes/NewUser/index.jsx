@@ -2,9 +2,12 @@ import { Link } from "react-router";
 import { useContext, useState } from "react";
 import "./index.css"
 import "../../auth.css"
+import { useTranslation } from "react-i18next";
 
 
 export default function NewUser(){
+    const {t} = useTranslation();
+
     const [inputs, setInputs] = useState({});
 
     const handleChange = (e) => {  /* TODO: surveiller les inputs*/ 
@@ -21,7 +24,7 @@ export default function NewUser(){
         <div className="auth-page">
             <div className="auth-card">
 
-                <h1 className="auth-title">Créer un <span>compte</span></h1>
+                <h1 className="auth-title">{t('CreateAccount.Title')}</h1>
 
                 <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="input-wrap">
@@ -36,19 +39,19 @@ export default function NewUser(){
                     </div>
                     <div className="input-wrap">
                         <i className="ti ti-lock" aria-hidden="true"></i>
-                        <input type="password" name="password" placeholder="Mot de passe"
+                        <input type="password" name="password" placeholder={t('CreateAccount.Password')}
                                value={inputs.password} onChange={handleChange} />
                     </div>
                     <div className="input-wrap">
                         <i className="ti ti-lock-check" aria-hidden="true"></i>
-                        <input type="password" name="passwordConfirm" placeholder="Confirmer le mot de passe"
+                        <input type="password" name="passwordConfirm" placeholder={t('CreateAccount.ConfirmPassword')}
                                value={inputs.passwordConfirm} onChange={handleChange} />
                     </div>
-                    <button type="submit" className="auth-submit">Créer mon compte</button>
+                    <button type="submit" className="auth-submit">{t('CreateAccount.Submit')}</button>
                 </form>
 
                 <div className="auth-alternative">
-                    Déjà un compte ? <Link to="/Login">Se connecter</Link>
+                    {t('CreateAccount.ExistingAccountQuestion')}<Link to="/Login">{t('CreateAccount.ToLogin')}</Link>
                 </div>
 
             </div>
