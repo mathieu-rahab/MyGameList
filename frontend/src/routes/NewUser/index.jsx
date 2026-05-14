@@ -4,6 +4,7 @@ import { useState } from "react";
 import "./index.css"
 import "../../auth.css"
 import { useTranslation } from "react-i18next";
+import { getServerErrorMessage, getHttpErrorMessage } from '../../api/errorHandler.js';
 
 
 export default function NewUser(){
@@ -22,24 +23,6 @@ export default function NewUser(){
 
     const PSEUDO_REGEX = /^[a-zA-Z0-9_\-.]+$/;
     const EMAIL_REGEX  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-    const getServerErrorMessage = (errorCode) => {
-        const key = `CreateAccount.ServerErrors.${errorCode}`;
-        return i18n.exists(key) ? t(key) : getHttpErrorMessage(500);
-    }
-
-    const getHttpErrorMessage = (status) => {
-        switch (status) {
-            case 502:
-                return t('NetworkErrors.BAD_GATEWAY');
-            case 500:
-                return t('NetworkErrors.INTERNAL_SERVER_ERROR');
-            default:
-                return t('NetworkErrors.SERVER_UNREACHABLE');
-        }
-    }
-
 
 
     const validate = (values) => {
@@ -116,11 +99,11 @@ export default function NewUser(){
                 console.log(err);
                 // erreur backend connue
                 if (err.error) {
-                    setErrors(prev => ({ ...prev, server: getServerErrorMessage(err.error) }));
+                    setErrors(prev => ({ ...prev, server: getServerErrorMessage(err.error, t, i18n, 'CreateAccount') }));
                     return;
                 }
                 // erreur HTTP/réseau
-                setErrors(prev => ({ ...prev, server: getHttpErrorMessage(err.status) }));
+                setErrors(prev => ({ ...prev, server: getHttpErrorMessage(err.status, t) }));
             });
     }
 
