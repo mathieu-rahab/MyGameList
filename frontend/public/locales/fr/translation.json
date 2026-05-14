@@ -1,15 +1,43 @@
 {
   "CreateAccount": {
-    "ConfirmPassword": "Confirmer mot de passe",
-    "ExistingAccountQuestion": "Déjà un compte ?",
-    "Password": "Mot de passe",
-    "Submit": "Confirmer",
     "Title": "Créer un compte",
-    "ToLogin": "Connectes-toi"
+    "ExistingAccountQuestion": "Déjà un compte ?",
+    "Submit": "Confirmer",
+    "ToLogin": "Se connecter",
+
+    "Fields": {
+      "Pseudo": "Pseudo",
+      "Email": "Adresse e-mail",
+      "Password": "Mot de passe",
+      "ConfirmPassword": "Confirmer le mot de passe"
+    },
+
+    "Validation": {
+      "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères.",
+      "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",
+      "PseudoInvalidCharacter": "Le pseudo ne peut contenir que des lettres, des chiffres et les caractères - _ .",
+      "EmailInvalid": "L'adresse e-mail n'est pas valide.",
+      "PasswordInvalid": "Le mot de passe doit contenir au moins 7 caractères.",
+      "PasswordConfirmDifferent": "Les mots de passe ne correspondent pas."
+    },
+
+    "Success": {
+      "Title": "Compte créé avec succès !",
+      "Subtitle": "Redirection vers la page de connexion…"
+    },
+
+    "ServerErrors": {
+      "EMAIL_ALREADY_EXISTS": "Cette adresse e-mail est déjà associée à un compte.",
+      "PSEUDO_ALREADY_EXISTS": "Ce pseudo est déjà utilisé.",
+      "INVALID_PSEUDO": "Le pseudo fourni n'est pas valide.",
+      "UNKNOWN": "Une erreur inattendue est survenue. Veuillez réessayer."
+    }
   },
+
   "GameDetail": {
-    "AboutTheGame": "A propos du jeu"
+    "AboutTheGame": "À propos du jeu"
   },
+
   "Layout": {
     "Dark": "Sombre",
     "Dashboard": "Tableau de bord",
@@ -17,12 +45,19 @@
     "Light": "Clair",
     "Login": "Se connecter"
   },
+
   "Login": {
-    "Alternative": "Ou connectes-toi avec",
-    "CreateAccount": "Crées-en un",
-    "LoginTitle": "Se connecter",
-    "NoAccountYetQuestion": "Pas encore de compte?",
+    "Title": "Se connecter",
+    "NoAccountYetQuestion": "Pas encore de compte ?",
+    "CreateAccount": "En créer un",
+    "Alternative": "Ou continuer avec",
     "Password": "Mot de passe",
     "Submit": "Confirmer"
+  },
+
+  "NetworkErrors": {
+    "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion.",
+    "BAD_GATEWAY": "Le serveur est temporairement indisponible. Réessayez dans quelques instants.",
+    "INTERNAL_SERVER_ERROR": "Une erreur interne est survenue. Veuillez réessayer."
   }
 }
