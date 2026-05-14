@@ -58,7 +58,7 @@ export default function NewUser(){
     };
 
 
-    function handleSubmit(e) { /* TODO: gèrer le formulaire*/
+    function handleSubmit(e) {
         e.preventDefault();
         // Marquer tout comme touché pour afficher toutes les erreurs
         setTouched({ pseudo: true, email: true, password: true, passwordConfirm: true });
