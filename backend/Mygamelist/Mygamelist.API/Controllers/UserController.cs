@@ -5,6 +5,8 @@ using System.Security.Claims;
 using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Entity;
 using Mygamelist.Core.Business;
+using Mygamelist.Contracts.Hateos;
+using Mygamelist.Hateos;
 
 namespace Mygamelist.Controllers;
 
@@ -14,9 +16,11 @@ namespace Mygamelist.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
-    public UserController(IUserService userService)
+    private readonly IHateosLinkGenerator _hateosLinkGenerator;
+    public UserController(IUserService userService, IHateosLinkGenerator hateosLinkGenerator)
     {
         _userService = userService;
+        _hateosLinkGenerator = hateosLinkGenerator;
     }
     
     // GET: api/users
@@ -28,6 +32,10 @@ public class UserController : ControllerBase
     public IActionResult GetUsers()
     {
         var users = _userService.RetrieveAll();
+        foreach (UserResponseDto user in users)
+        {
+            AddHateosLinks(user);
+        }
         return Ok(users);
     }
 
@@ -102,5 +110,25 @@ public class UserController : ControllerBase
         return Ok(id);
     }
 
-
+    private void AddHateosLinks(UserResponseDto user)
+    {
+        user.Links.AddRange(new List<Link> {
+            _hateosLinkGenerator.Generate(
+                "GetUser",
+                new {id = user.Id },
+                "self",
+                "GET"),
+            _hateosLinkGenerator.Generate(
+                "UpdateUser",
+                new { id = user.Id },
+                "update-user",
+                "PUT"),
+            _hateosLinkGenerator.Generate(
+                "DeleteUser",
+                new {id = user.Id
+                },
+                "delete-user",
+                "DELETE")
+        });
+    }
 }

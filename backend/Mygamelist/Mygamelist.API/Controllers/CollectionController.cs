@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mygamelist.Contracts.DTOs.Collection;
 using Mygamelist.Core.Business;
+//using Mygamelist.Hateos;
+//using Mygamelist.Contracts.Hateos;
 
 [Authorize]
 [ApiController]
@@ -13,9 +15,11 @@ using Mygamelist.Core.Business;
 public class CollectionController : ControllerBase
 {
     private readonly ICollectionService _collectionService;
-    public CollectionController(ICollectionService collectionService)
+    //private readonly IHateosLinkGenerator _hateosLinkGenerator;
+    public CollectionController(ICollectionService collectionService) //, IHateosLinkGenerator hateosLinkGenerator)
     {
         _collectionService = collectionService;
+        //_hateosLinkGenerator = hateosLinkGenerator;
     }
     
     // GET: api/users/{userId}/collection
@@ -98,5 +102,27 @@ public class CollectionController : ControllerBase
         return Ok(_collectionService.RemoveGame(userId, id, dto.GameId));
     }
     
-    
+    /*
+    private void AddHateosLinks(CreateCollectionDto collection)
+    {
+        collection.Links.AddRange(new List<Link> {
+            _hateosLinkGenerator.Generate(
+                "GetUser",
+                new {id = collection.Label },
+                "self",
+                "GET"),
+            _hateosLinkGenerator.Generate(
+                "UpdateUser",
+                new { id = collection.Label },
+                "update-user",
+                "PUT"),
+            _hateosLinkGenerator.Generate(
+                "DeleteUser",
+                new {id = collection.Label
+                },
+                "delete-user",
+                "DELETE")
+        });
+    }
+    */
 }
