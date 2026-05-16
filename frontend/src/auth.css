@@ -78,7 +78,7 @@
     background: rgba(167, 139, 250, 0.15);
     border: 1px solid rgba(167, 139, 250, 0.3);
     border-radius: 12px;
-    color: #c4b5fd;
+    color: var(--accent);
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -92,7 +92,9 @@
     border-color: rgba(167, 139, 250, 0.5);
 }
 
-
+.auth-submit[disabled] {
+    cursor: not-allowed;
+}
 /* ── LIEN ALTERNATIF ── */
 .auth-alternative {
     text-align: center;
@@ -106,3 +108,33 @@
     font-weight: 500;
 }
 .auth-alternative a:hover { opacity: .8; }
+
+
+/* ── ERREURS ET CONTAINER ── */
+.error-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(226, 85, 85, 0.08);
+    border: 1px solid rgba(226, 85, 85, 0.25);
+    color: #f87171;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.error-container i {
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.error {
+    display: block;
+    padding: 6px 0;
+    color: #f87171;
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 4px;
+}

@@ -65,3 +65,7 @@ html.light {
     backdrop-filter: blur(22px);
     -webkit-backdrop-filter: blur(22px);
 }
+
+label {
+    cursor: pointer;
+}

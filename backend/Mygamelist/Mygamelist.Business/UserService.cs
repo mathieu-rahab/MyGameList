@@ -34,7 +34,7 @@ namespace Mygamelist.Business
                 throw new BusinessException(HttpStatusCode.Conflict, "EMAIL_ALREADY_EXISTS");
             
             if (_userRepository.PseudoExists(dto.Pseudo))
-                throw new BusinessException(HttpStatusCode.Conflict, "USERNAME_ALREADY_EXISTS");
+                throw new BusinessException(HttpStatusCode.Conflict, "PSEUDO_ALREADY_EXISTS");
 
             var user = new User
             {
