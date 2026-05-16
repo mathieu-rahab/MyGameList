@@ -109,20 +109,34 @@ public class CollectionController : ControllerBase
     
     private void AddHateosLinks(CollectionResponseDto collection)
     {
-        collection.Links.AddRange(new List<Link> {
+        collection.Links.AddRange(new List<Link>
+        {
             _hateosLinkGenerator.Generate(
                 "GetCollection",
-                new {label = collection.Label },
+                new
+                {
+                    userId = collection.UserId,
+                    id = collection.Id
+                },
                 "self",
                 "GET"),
+
             _hateosLinkGenerator.Generate(
                 "UpdateCollection",
-                new { label = collection.Label },
+                new
+                {
+                    userId = collection.UserId,
+                    id = collection.Id
+                },
                 "update-collection",
                 "PUT"),
+
             _hateosLinkGenerator.Generate(
                 "DeleteCollection",
-                new {label = collection.Label
+                new
+                {
+                    userId = collection.UserId,
+                    id = collection.Id
                 },
                 "delete-collection",
                 "DELETE")

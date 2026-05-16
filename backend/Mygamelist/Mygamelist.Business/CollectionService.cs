@@ -19,7 +19,10 @@ namespace Mygamelist.Business
         
         private static CollectionResponseDto MapToDto(Collection collection) => new CollectionResponseDto
         {
+            Id = collection.Id,
+            UserId = collection.UserId,
             Label = collection.Label,
+            GamesId = collection.GamesId
         };
         
         public IEnumerable<CollectionResponseDto> RetrieveAll(int userId) => _collectionRepository.SelectAll(userId).Select(MapToDto).ToList();
