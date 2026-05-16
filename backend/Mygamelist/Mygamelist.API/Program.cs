@@ -12,6 +12,7 @@ using Mygamelist.Core.Repository;
 using Mygamelist.DatabaseRepository;
 using Mygamelist.DatabaseRepository.Context;
 using Mygamelist.Utiles;
+using Mygamelist.Hateos;
 
 var builder = WebApplication.CreateBuilder(args);
 EnvReader.Load(".env");
@@ -34,6 +35,9 @@ builder.Services.AddScoped<ISteamService>(provider =>
         ? throw new Exception("STEAM_KEY_NOT_FOUND")
         : new SteamService(steamKey, provider.GetRequiredService<HttpClient>(), provider.GetRequiredService<IMemoryCache>());
 });
+
+builder.Services.AddScoped<IHateosLinkGenerator, HateosLinkGenerator>();
+builder.Services.AddHttpContextAccessor();
 
 // DB
 builder.Services.AddDbContext<AppDbContext>(options =>

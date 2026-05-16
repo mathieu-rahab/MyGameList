@@ -1,5 +1,5 @@
 using System.Net;
-using Mygamelist.Contracts.DTOs.User;
+using Mygamelist.Contracts.DTOs.Collection;
 using Mygamelist.Core.Business;
 using Mygamelist.Core.Exceptions;
 using Mygamelist.Core.Repository;
@@ -17,14 +17,25 @@ namespace Mygamelist.Business
             _collectionRepository = collectionRepository;
         }
         
-        public IEnumerable<Collection> RetrieveAll(int userId) => _collectionRepository.SelectAll(userId);
-
-        public Collection Add(int userId, string label)
+        private static CollectionResponseDto MapToDto(Collection collection) => new CollectionResponseDto
         {
-            return _collectionRepository.Insert( new Collection {Label = label, UserId = userId, GamesId = new List<int>()});
+            Label = collection.Label,
+        };
+        
+        public IEnumerable<CollectionResponseDto> RetrieveAll(int userId) => _collectionRepository.SelectAll(userId).Select(MapToDto).ToList();
+
+        public CollectionResponseDto Add(int userId, string label)
+        {
+            return MapToDto(_collectionRepository.Insert( new Collection {Label = label, UserId = userId, GamesId = new List<int>()}));
         }
 
-        public Collection? RetrieveById(int id) => _collectionRepository.SelectById(id);
+        public CollectionResponseDto RetrieveById(int id)
+        {
+            var collection = _collectionRepository.SelectById(id);
+            return collection is null
+                ? throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND")
+                : MapToDto(collection);
+        }
 
         public Collection Update(int id, Collection collection)
         { 

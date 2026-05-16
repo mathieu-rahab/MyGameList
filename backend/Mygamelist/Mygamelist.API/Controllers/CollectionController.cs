@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mygamelist.Contracts.DTOs.Collection;
 using Mygamelist.Core.Business;
-//using Mygamelist.Hateos;
-//using Mygamelist.Contracts.Hateos;
+using Mygamelist.Hateos;
+using Mygamelist.Contracts.Hateos;
 
 [Authorize]
 [ApiController]
@@ -15,11 +15,11 @@ using Mygamelist.Core.Business;
 public class CollectionController : ControllerBase
 {
     private readonly ICollectionService _collectionService;
-    //private readonly IHateosLinkGenerator _hateosLinkGenerator;
-    public CollectionController(ICollectionService collectionService) //, IHateosLinkGenerator hateosLinkGenerator)
+    private readonly IHateosLinkGenerator _hateosLinkGenerator;
+    public CollectionController(ICollectionService collectionService, IHateosLinkGenerator hateosLinkGenerator)
     {
         _collectionService = collectionService;
-        //_hateosLinkGenerator = hateosLinkGenerator;
+        _hateosLinkGenerator = hateosLinkGenerator;
     }
     
     // GET: api/users/{userId}/collection
@@ -29,7 +29,12 @@ public class CollectionController : ControllerBase
     [ActionName("GetAll")]
     public IActionResult GetAll(int userId)
     {
-        return Ok(_collectionService.RetrieveAll(userId));
+        var collections = _collectionService.RetrieveAll(userId);
+        foreach (var collection in collections)
+        {
+            AddHateosLinks(collection);
+        }
+        return Ok(collections);
     }
     
     
@@ -102,27 +107,25 @@ public class CollectionController : ControllerBase
         return Ok(_collectionService.RemoveGame(userId, id, dto.GameId));
     }
     
-    /*
-    private void AddHateosLinks(CreateCollectionDto collection)
+    private void AddHateosLinks(CollectionResponseDto collection)
     {
         collection.Links.AddRange(new List<Link> {
             _hateosLinkGenerator.Generate(
-                "GetUser",
-                new {id = collection.Label },
+                "GetCollection",
+                new {label = collection.Label },
                 "self",
                 "GET"),
             _hateosLinkGenerator.Generate(
-                "UpdateUser",
-                new { id = collection.Label },
-                "update-user",
+                "UpdateCollection",
+                new { label = collection.Label },
+                "update-collection",
                 "PUT"),
             _hateosLinkGenerator.Generate(
-                "DeleteUser",
-                new {id = collection.Label
+                "DeleteCollection",
+                new {label = collection.Label
                 },
-                "delete-user",
+                "delete-collection",
                 "DELETE")
         });
     }
-    */
 }
