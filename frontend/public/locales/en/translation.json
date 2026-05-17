@@ -48,7 +48,7 @@
 
   "Login": {
     "Title": "Sign in",
-    "NoAccountYetQuestion": "Don't have an account yet?",
+    "NoAccountYetQuestion": "Don't have an account yet ?",
     "CreateAccount": "Create one",
     "Alternative": "Or continue with",
     "Password": "Password",

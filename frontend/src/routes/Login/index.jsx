@@ -24,7 +24,7 @@ export default function Login(){
         <div className="auth-page">
             <div className="auth-card">
 
-                <h1 className="auth-title">{t('Login.LoginTitle')}</h1>
+                <h1 className="auth-title">{t('Login.Title')}</h1>
 
                 <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="input-wrap">
