@@ -49,7 +49,7 @@ public class UserController : ControllerBase
     [Route("")]
     [EndpointName("CreateUser")]
     [ActionName("CreateUser")]
-    public async Task<IActionResult> CreateUser(CreateUserDto dto)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserDto dto)
     {
         // Validation Pseudo
         if (!Utiles.UserSystems.IsValidPseudo(dto.Pseudo))
@@ -85,7 +85,7 @@ public class UserController : ControllerBase
     [Route("{id:int:min(1)}")]
     [EndpointName("UpdateUser")]
     [ActionName("UpdateUser")]
-    public IActionResult UpdateUser(int id, UpdateUserDto dto)
+    public IActionResult UpdateUser(int id, [FromBody] UpdateUserDto dto)
     {
         if (!Utiles.UserSystems.IsAdminOrSelf(User, id)) return Forbid();
 
