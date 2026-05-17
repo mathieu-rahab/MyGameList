@@ -139,6 +139,26 @@ public class CollectionController : ControllerBase
                     id = collection.Id
                 },
                 "delete-collection",
+                "DELETE"),
+            
+            _hateosLinkGenerator.Generate(
+            "AddGame",
+            new
+            {
+                userId = collection.UserId,
+                id = collection.Id
+            },
+            "add-game",
+            "PUT"),
+            
+            _hateosLinkGenerator.Generate(
+                "RemoveGame",
+                new
+                {
+                    userId = collection.UserId,
+                    id = collection.Id
+                },
+                "remove-game",
                 "DELETE")
         });
     }
