@@ -43,8 +43,10 @@ namespace Mygamelist.DatabaseRepository
 
         public User Update(int id, User user)
         {
-           // TODO
-           return user;
+            _dbContext.Users.Update(user);
+            _dbContext.SaveChanges();
+
+            return user;
         }
         
         public bool EmailExists(string email)

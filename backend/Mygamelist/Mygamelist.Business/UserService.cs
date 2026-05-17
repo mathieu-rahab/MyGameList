@@ -65,9 +65,32 @@ namespace Mygamelist.Business
         }
 
 
-        public User Update(int id, User user)
+        public UserResponseDto Update(int id, UpdateUserDto dto)
         {
-            return _userRepository.Update(id, user);
+            var user = _userRepository.SelectById(id);
+
+            if (user is null)
+                throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
+
+            if (dto.Email is not null && dto.Email != user.Email && _userRepository.EmailExists(dto.Email))
+                throw new BusinessException(HttpStatusCode.Conflict, "EMAIL_ALREADY_EXISTS");
+
+            if (dto.Pseudo is not null && dto.Pseudo != user.Pseudo && _userRepository.PseudoExists(dto.Pseudo))
+                throw new BusinessException(HttpStatusCode.Conflict, "USERNAME_ALREADY_EXISTS");
+
+            if (dto.Pseudo is not null)
+                user.Pseudo = dto.Pseudo;
+
+            if (dto.Email is not null)
+                user.Email = dto.Email;
+
+            if (dto.SteamId is not null)
+                user.SteamId = dto.SteamId;
+
+            if (dto.ProfilePicturePath is not null)
+                user.ProfilePicturePath = dto.ProfilePicturePath;
+
+            return MapToDto(_userRepository.Update(id, user));
         }
         
 

@@ -9,7 +9,7 @@ namespace Mygamelist.Core.Business
         UserResponseDto RetrieveById(int id);
 
         UserResponseDto Add(CreateUserDto dto);
-        User Update(int id, User user);
+        UserResponseDto Update(int id, UpdateUserDto user);
         bool Remove(int id);
     }
 }
