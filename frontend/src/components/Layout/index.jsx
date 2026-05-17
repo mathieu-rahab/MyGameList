@@ -4,9 +4,7 @@ import "./index.css";
 import { useTranslation } from "react-i18next";
 
 export default function Layout() {
-    //traduction
-    const {t} = useTranslation();
-    //
+    const { t, i18n } = useTranslation();
 
     const [theme, setTheme] = useState(() => {
         try { return localStorage.getItem('nx-theme') || 'dark'; }
@@ -22,6 +20,12 @@ export default function Layout() {
     }, [theme]);
 
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+    };
+
+    const currentLang = i18n.language || 'fr';
 
     return (
         <div id="page" className="page-bg">
@@ -59,7 +63,6 @@ export default function Layout() {
                     </Link>
                     <div className="av">
                         <i className="ti ti-user" aria-hidden="true"></i>
-
                     </div>
                     <div
                         className="hamburger"
@@ -98,6 +101,23 @@ export default function Layout() {
             <footer>
                 <div className="foot-in">
                     <div className="flogo">NEXPLAY</div>
+                    
+                    {/* Sélecteur de langue */}
+                    <div className="theme-toggle">
+                        <div
+                            className={`tog-opt ${currentLang.startsWith('fr') ? 'on' : ''}`}
+                            onClick={() => changeLanguage('fr')}
+                        >
+                            FR
+                        </div>
+                        <div
+                            className={`tog-opt ${currentLang.startsWith('en') ? 'on' : ''}`}
+                            onClick={() => changeLanguage('en')}
+                        >
+                            EN
+                        </div>
+                    </div>
+
                     <div className="fcopy">MyGameList ® 2026</div>
                 </div>
             </footer>
