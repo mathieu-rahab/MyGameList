@@ -98,6 +98,18 @@ public class UserController : ControllerBase
         var updatedUser = _userService.Update(id, dto);
         return Ok(new { Id = id, Message = "Utilisateur mis à jour" });
     }
+    
+    // DELETE: api/users/{id}
+    [HttpDelete]
+    [Route("{id:int:min(1)}")]
+    [EndpointName("DeleteUser")]
+    [ActionName("DeleteUser")]
+    public IActionResult DeleteUser(int id)
+    {
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, id)) return Forbid();
+        _userService.Remove(id);
+        return Ok(id);
+    }
 
 
 }
