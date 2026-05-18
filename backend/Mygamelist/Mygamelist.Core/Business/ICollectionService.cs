@@ -8,7 +8,7 @@ namespace Mygamelist.Core.Business
         IEnumerable<CollectionResponseDto> RetrieveAll(int userId);
         CollectionResponseDto RetrieveById(int id);
         CollectionResponseDto Add(int userId, string label);
-        Collection Update(int id, Collection collection);
+        CollectionResponseDto Update(int id, UpdateCollectionDto dto);
         bool Remove(int id);
         Collection? AddGame(int userId, int collectionId, int gameId);
         Collection? RemoveGame(int userId, int collectionId, int gameId);

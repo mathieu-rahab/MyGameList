@@ -22,7 +22,7 @@ public class CollectionController : ControllerBase
         _hateosLinkGenerator = hateosLinkGenerator;
     }
     
-    // GET: api/users/{userId}/collection
+    // GET: api/user/{userId}/collection
     [HttpGet]
     [Route("")]
     [EndpointName("GetAll")]
@@ -38,7 +38,7 @@ public class CollectionController : ControllerBase
     }
     
     
-    // POST: api/users/{userId}/collection
+    // POST: api/user/{userId}/collection
     [HttpPost]
     [Route("")]
     [EndpointName("CreateCollection")]
@@ -60,19 +60,19 @@ public class CollectionController : ControllerBase
         }
     }
     
-    // PUT: api/users/{userId}/collection/{id}
+    // PUT: api/user/{userId}/collection/{id}
     [HttpPut]
     [Route("{id:int:min(1)}")]
     [EndpointName("UpdateCollection")]
     [ActionName("UpdateCollection")]
-    public IActionResult UpdateCollection(int userId, int id)
+    public IActionResult UpdateCollection(int userId, int id, [FromBody] UpdateCollectionDto dto)
     {
         if (!Utiles.UserSystems.IsAdminOrSelf(User, userId)) return Forbid();
-        // TODO
-        return Ok(new { Id = id, Message = "Collection mis à jour" });
+        
+        return Ok(_collectionService.Update(id, dto));
     }
     
-    // DELETE: api/users/{userId}/collection/{id}
+    // DELETE: api/user/{userId}/collection/{id}
     [HttpDelete]
     [Route("{id:int:min(1)}")]
     [EndpointName("DeleteCollection")]
@@ -80,11 +80,12 @@ public class CollectionController : ControllerBase
     public IActionResult DeleteCollection(int userId, int id)
     {
         if (!Utiles.UserSystems.IsAdminOrSelf(User, userId)) return Forbid();
+        
         return Ok(_collectionService.Remove(id));
     }
     
     
-    // POST: api/users/{userId}/collection/{id}/game
+    // POST: api/user/{userId}/collection/{id}/game
     [HttpPost]
     [Route("{id:int:min(1)}/game")]
     [EndpointName("AddGame")]
@@ -95,7 +96,7 @@ public class CollectionController : ControllerBase
         return Ok(_collectionService.AddGame(userId, id, dto.GameId));
     }
     
-    // POST: api/users/{userId}/collection/{id}/game
+    // POST: api/user/{userId}/collection/{id}/game
     [HttpDelete]
     [Route("{id:int:min(1)}/game")]
     [EndpointName("RemoveGame")]
