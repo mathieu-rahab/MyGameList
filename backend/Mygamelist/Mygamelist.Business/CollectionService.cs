@@ -32,12 +32,9 @@ namespace Mygamelist.Business
         public CollectionResponseDto Add(int userId, string label)
         {
             var user = _userRepository.SelectById(userId);
-            if (user is null)
-                throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
-            var collection = _collectionRepository.SelectById(userId);
-            return collection is null
-                ? throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND")
-                : MapToDto(_collectionRepository.Insert( new Collection {Label = label, UserId = userId, GamesId = new List<int>()}));
+            return user is null
+                ? throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND")
+                :  MapToDto(_collectionRepository.Insert( new Collection {Label = label, UserId = userId, GamesId = new List<int>()}));
         }
 
         public CollectionResponseDto RetrieveById(int id)
