@@ -3,7 +3,7 @@
     "Title": "Create an account",
     "ExistingAccountQuestion": "Already have an account?",
     "Submit": "Create my account",
-    "ToLogin": "Submit",
+    "ToLogin": "Sign in",
 
     "Fields": {
       "Pseudo": "Username",
