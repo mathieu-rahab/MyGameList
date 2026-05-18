@@ -12,6 +12,16 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
 {
     private const string BaseUrlStore = "https://store.steampowered.com/api/";
     private const string BaseUrl = "https://api.steampowered.com/";
+    
+    private static string ValidateLanguage(string? l)
+    {
+        return l?.ToLowerInvariant() switch
+        {
+            "french" => "french",
+            "english" => "english",
+            _ => "french"
+        };
+    }
 
     private async Task<JsonElement> FetchApi(string apiUrl)
     {
@@ -30,14 +40,14 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
         }
     }
     
-    public async Task<GameDto> GameInfo(int id)
+    public async Task<GameDto> GameInfo(int id, string? l)
     {
-        string cacheKey = $"game_{id}";
+        string language = ValidateLanguage(l);
+        string cacheKey = $"game_{id}_{language}";
         // Vérifier si le jeu est déjà en cache
         if (memoryCache.TryGetValue(cacheKey, out GameDto? cachedGame) && cachedGame != null) return cachedGame; 
         
         // Si non, récupérer depuis l'API
-        const string language = "french";
         string apiUrl = $"{BaseUrlStore}appdetails?appids={id}&l={language}";
         JsonElement json = await FetchApi(apiUrl);
 
