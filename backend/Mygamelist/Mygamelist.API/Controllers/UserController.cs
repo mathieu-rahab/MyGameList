@@ -118,6 +118,17 @@ public class UserController : ControllerBase
         _userService.Remove(id);
         return Ok(id);
     }
+    
+    // GET: api/user/{id}/games
+    [HttpGet]
+    [Route("{id:int:min(1)}/games")]
+    [EndpointName("GetUserGames")]
+    [ActionName("GetUserGames")]
+    public async Task<IActionResult> GetUserGames(int id)
+    {
+        var games = await _userService.GetUserGames(id);
+        return Ok(games);    
+    }
 
     private void AddHateosLinks(UserResponseDto user)
     {
