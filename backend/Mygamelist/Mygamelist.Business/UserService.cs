@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Mygamelist.Contracts.DTOs.Steam;
 using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Core.Business;
 using Mygamelist.Core.Exceptions;
@@ -11,10 +12,12 @@ namespace Mygamelist.Business
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ISteamService _steamService;
         
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, ISteamService steamService)
         {
             _userRepository = userRepository;
+            _steamService = steamService;
         }
         
         private static string HashPassword(string password) => BCrypt.Net.BCrypt.HashPassword(password);
@@ -93,6 +96,19 @@ namespace Mygamelist.Business
             return MapToDto(_userRepository.Update(id, user));
         }
         
+        
+        public async Task<List<GameDto>> GetUserGames(int id)
+        {
+            var user = _userRepository.SelectById(id);
+
+            if (user is null)
+                throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
+
+            if (string.IsNullOrWhiteSpace(user.SteamId))
+                throw new BusinessException(HttpStatusCode.BadRequest, "USER_STEAM_ID_NOT_SET");
+
+            return await _steamService.UserGames(user.SteamId);
+        }
 
     }
 }

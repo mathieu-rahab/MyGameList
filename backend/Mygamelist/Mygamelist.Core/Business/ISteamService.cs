@@ -5,7 +5,9 @@ namespace Mygamelist.Core.Business
 {
     public interface ISteamService
     {
-        Task<GameDto> GameInfo(int id);
-        
+        Task<GameInfoDto> GameInfo(int id, string? l);
+        Task<List<GameDto>> UserGames(string steamId);
+
+
     }
 }
