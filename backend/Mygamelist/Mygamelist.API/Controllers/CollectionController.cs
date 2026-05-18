@@ -80,8 +80,7 @@ public class CollectionController : ControllerBase
     public IActionResult DeleteCollection(int userId, int id)
     {
         if (!Utiles.UserSystems.IsAdminOrSelf(User, userId)) return Forbid();
-        // TODO
-        return Ok(new { Id = id, Message = "Collection supprimé" });
+        return Ok(_collectionService.Remove(id));
     }
     
     
