@@ -29,16 +29,18 @@ public class CollectionRepository : ICollectionRepository
 
     public Collection Update(int id, Collection collection)
     {
-        // TODO
+        _dbContext.Collections.Update(collection);
+        _dbContext.SaveChanges();
+        
         return collection;
     }
 
 
     public bool Delete(int id)
     {
-        var collectionToDelete = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+        var collectionToDelete = _dbContext.Collections.FirstOrDefault(u => u.Id == id);
         if (collectionToDelete == null) return false;
-        _dbContext.Users.Remove(collectionToDelete);
+        _dbContext.Collections.Remove(collectionToDelete);
         _dbContext.SaveChanges();
 
         return true;
