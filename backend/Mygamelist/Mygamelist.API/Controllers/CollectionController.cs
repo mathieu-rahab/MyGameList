@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mygamelist.Contracts.DTOs.Collection;
 using Mygamelist.Core.Business;
+using Mygamelist.Hateos;
+using Mygamelist.Contracts.Hateos;
 
 [Authorize]
 [ApiController]
@@ -13,9 +15,11 @@ using Mygamelist.Core.Business;
 public class CollectionController : ControllerBase
 {
     private readonly ICollectionService _collectionService;
-    public CollectionController(ICollectionService collectionService)
+    private readonly IHateosLinkGenerator _hateosLinkGenerator;
+    public CollectionController(ICollectionService collectionService, IHateosLinkGenerator hateosLinkGenerator)
     {
         _collectionService = collectionService;
+        _hateosLinkGenerator = hateosLinkGenerator;
     }
     
     // GET: api/users/{userId}/collection
@@ -25,7 +29,12 @@ public class CollectionController : ControllerBase
     [ActionName("GetAll")]
     public IActionResult GetAll(int userId)
     {
-        return Ok(_collectionService.RetrieveAll(userId));
+        var collections = _collectionService.RetrieveAll(userId);
+        foreach (var collection in collections)
+        {
+            AddHateosLinks(collection);
+        }
+        return Ok(collections);
     }
     
     
@@ -98,5 +107,59 @@ public class CollectionController : ControllerBase
         return Ok(_collectionService.RemoveGame(userId, id, dto.GameId));
     }
     
-    
+    private void AddHateosLinks(CollectionResponseDto collection)
+    {
+        collection.Links.AddRange(new List<Link>
+        {
+            _hateosLinkGenerator.Generate(
+                "GetCollection",
+                new
+                {
+                    userId = collection.UserId,
+                    id = collection.Id
+                },
+                "self",
+                "GET"),
+
+            _hateosLinkGenerator.Generate(
+                "UpdateCollection",
+                new
+                {
+                    userId = collection.UserId,
+                    id = collection.Id
+                },
+                "update-collection",
+                "PUT"),
+
+            _hateosLinkGenerator.Generate(
+                "DeleteCollection",
+                new
+                {
+                    userId = collection.UserId,
+                    id = collection.Id
+                },
+                "delete-collection",
+                "DELETE"),
+            
+            _hateosLinkGenerator.Generate(
+            "AddGame",
+            new
+            {
+                userId = collection.UserId,
+                id = collection.Id
+            },
+            "add-game",
+            "PUT"),
+            
+            _hateosLinkGenerator.Generate(
+                "RemoveGame",
+                new
+                {
+                    userId = collection.UserId,
+                    id = collection.Id
+                },
+                "remove-game",
+                "DELETE")
+        });
+    }
 }
