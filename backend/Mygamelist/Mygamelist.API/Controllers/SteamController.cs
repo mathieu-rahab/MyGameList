@@ -29,16 +29,17 @@ public class SteamController : ControllerBase
         return Ok(result);
     }
     
-    
+    /*
     [AllowAnonymous]
     [HttpGet]
     [Route("user/{steamId}/games")]
-    [EndpointName("GetUserGames")]
-    [ActionName("GetUserGames")]
+    [EndpointName("GetSteamIdGames")]
+    [ActionName("GetStealIdGames")]
     public async Task<ActionResult<List<GameDto>>> GetUserGames(string steamId, [FromQuery(Name = "l")] string? language = null)
     {
-        var result = await _steamService.UserGames(steamId, language);
+        var result = await _steamService.UserGames(steamId);
         return Ok(result);
     }
+    */
     
 }

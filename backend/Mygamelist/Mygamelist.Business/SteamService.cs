@@ -12,6 +12,7 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
 {
     private const string BaseUrlStore = "https://store.steampowered.com/api/";
     private const string BaseUrlApi = "https://api.steampowered.com/";
+    private const string BaseUrlCapsule = "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/";
     
     private static string ValidateLanguage(string? l)
     {
@@ -75,15 +76,14 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
     }
     
     
-    public async Task<List<GameDto>> UserGames(string steamId, string? l)
+    public async Task<List<GameDto>> UserGames(string steamId)
     {
-        string language = ValidateLanguage(l);
-        string cacheKey = $"user_games_{steamId}_{language}";
+        string cacheKey = $"user_games_{steamId}";
 
         if (memoryCache.TryGetValue(cacheKey, out List<GameDto>? cachedGames) && cachedGames != null)
             return cachedGames;
 
-        string apiUrl = $"{BaseUrlApi}IPlayerService/GetOwnedGames/v1/?key={steamKey}&steamid={steamId}";
+        string apiUrl = $"{BaseUrlApi}IPlayerService/GetOwnedGames/v1/?key={steamKey}&steamid={steamId}&include_appinfo=true&include_extended_appinfo=true";
         JsonElement json = await FetchApi(apiUrl);
 
         if (!json.TryGetProperty("response", out var responseElement))
@@ -92,37 +92,30 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
         if (!responseElement.TryGetProperty("games", out var gamesElement))
             return new List<GameDto>();
 
-        var tasks = gamesElement
-            .EnumerateArray()
-            .Select(async gameElement =>
+
+        List<GameDto> list = new List<GameDto>();
+        
+        foreach (var gameElement in gamesElement.EnumerateArray())
+        {
+            try
             {
-                int appId = gameElement.GetProperty("appid").GetInt32();
+                int appId = gameElement.GetProperty("appid").GetInt32(); 
+                String name = gameElement.GetProperty("name").GetString() ?? "";
                 int playtimeForever = gameElement.GetProperty("playtime_forever").GetInt32();
+                String capsuleFilename = gameElement.GetProperty("capsule_filename").GetString() ?? "";
+                
 
-                try
+                list.Add(new GameDto
                 {
-                    GameInfoDto gameInfo = await GameInfo(appId, language);
-
-                    return new GameDto
-                    {
-                        Id = gameInfo.Id,
-                        Name = gameInfo.Name,
-                        Image = gameInfo.Image,
-                        PlaytimeForever = playtimeForever
-                    };
-                }
-                catch (BusinessException)
-                {
-                    return null;
-                }
-            });
-
-        GameDto?[] games = await Task.WhenAll(tasks);
-
-        List<GameDto> list = games
-            .Where(game => game != null)
-            .Select(game => game!)
-            .ToList();
+                    Id = appId,
+                    Name = name,
+                    Image = $"{BaseUrlCapsule}{appId}/{capsuleFilename}",
+                    PlaytimeForever = playtimeForever
+                });
+            }
+            catch (BusinessException) {}
+        }
+        
 
         memoryCache.Set(cacheKey, list, TimeSpan.FromHours(3));
 
