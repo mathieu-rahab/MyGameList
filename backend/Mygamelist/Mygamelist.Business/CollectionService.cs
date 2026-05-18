@@ -11,10 +11,12 @@ namespace Mygamelist.Business
     public class CollectionService : ICollectionService
     {
         private readonly ICollectionRepository _collectionRepository;
+        private readonly IUserRepository _userRepository;
 
-        public CollectionService(ICollectionRepository collectionRepository)
+        public CollectionService(ICollectionRepository collectionRepository, IUserRepository userRepository)
         {
             _collectionRepository = collectionRepository;
+            _userRepository = userRepository;
         }
         
         private static CollectionResponseDto MapToDto(Collection collection) => new CollectionResponseDto
@@ -29,7 +31,13 @@ namespace Mygamelist.Business
 
         public CollectionResponseDto Add(int userId, string label)
         {
-            return MapToDto(_collectionRepository.Insert( new Collection {Label = label, UserId = userId, GamesId = new List<int>()}));
+            var user = _userRepository.SelectById(userId);
+            if (user is null)
+                throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
+            var collection = _collectionRepository.SelectById(userId);
+            return collection is null
+                ? throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND")
+                : MapToDto(_collectionRepository.Insert( new Collection {Label = label, UserId = userId, GamesId = new List<int>()}));
         }
 
         public CollectionResponseDto RetrieveById(int id)
@@ -59,11 +67,11 @@ namespace Mygamelist.Business
             if (collection == null)
                 throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND");
             
-            // La collection doit appartenir au User
+            // La collection doit appartenir à l'User.
             if (collection.UserId != userId)
                 throw new BusinessException(HttpStatusCode.Unauthorized, "NOT_YOUR_COLLECTION");
 
-            // Le jeu ne doit pas déjà être dans la collection
+            // Le jeu ne doit pas déjà être dans la collection.
             return (collection.GamesId.Contains(gameId))
                 ? throw new BusinessException(HttpStatusCode.Conflict, "ALREADY_IN_COLLECTION")
                 :  _collectionRepository.InsertGame(collectionId, gameId);
@@ -75,11 +83,11 @@ namespace Mygamelist.Business
             if (collection == null)
                 throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND");
             
-            // La collection doit appartenir au User
+            // La collection doit appartenir à l'User
             if (collection.UserId != userId)
                 throw new BusinessException(HttpStatusCode.Unauthorized, "NOT_YOUR_COLLECTION");
 
-            // Le jeu doit être dans la collection
+            // Le jeu doit être dans la collection.
             return (!collection.GamesId.Contains(gameId))
                 ? throw new BusinessException(HttpStatusCode.Conflict, "NOT_IN_COLLECTION")
                 : _collectionRepository.DeleteGame(collectionId, gameId);
