@@ -93,8 +93,7 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
     /// </summary>
     /// <param name="appId">The Steam application ID of the game for which to fetch the achievement schema.</param>
     /// <param name="l">
-    /// The language code for the achievement names and descriptions.
-    /// If not provided, defaults to "french".
+    /// The language code for the achievement names. If not provided, defaults to "french".
     /// </param>
     /// <returns>
     /// A task that represents the asynchronous operation. The task result contains a list of achievement schemas
@@ -173,18 +172,21 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
     /// Retrieves the total number of achievements available for a specified Steam game application.
     /// </summary>
     /// <param name="appId">The Steam application ID for which to retrieve the total achievement count.</param>
+    /// <param name="l">
+    /// The language code for the achievement names. If not provided, defaults to "french".
+    /// </param>
     /// <returns>
     /// A task that represents the asynchronous operation. The task result contains the total count of achievements
     /// for the specified application ID. Returns 0 if no achievements are found or an error occurs.
     /// </returns>
-    private async Task<int> GetTotalAchievementsCount(int appId)
+    private async Task<int> GetTotalAchievementsCount(int appId, string? l = "french")
     {
         string cacheKey = GetCacheKey("total_achievements_count", appId);
 
             if (memoryCache.TryGetValue(cacheKey, out int cachedCount))
                 return cachedCount;
 
-            List<AchievementSchemaDto> schema = await GetAchievementsSchema(appId);
+            List<AchievementSchemaDto> schema = await GetAchievementsSchema(appId, l);
             int count = schema.Count;
 
             memoryCache.Set(cacheKey, count, TimeSpan.FromHours(24));
@@ -194,7 +196,7 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
         /// <summary>
         /// Calcule le pourcentage de progression des trophés pour un utilisateur
         /// </summary>
-        public async Task<double> GetAchievementProgressionPercentage(string steamId, int appId)
+        public async Task<double> GetAchievementProgressionPercentage(string steamId, int appId, string? l = "french")
         {
             string cacheKey = GetCacheKey("achievement_progression", $"{steamId}_{appId}");
 
@@ -202,7 +204,7 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
                 return cachedPercentage;
 
             List<UserAchievementDto> userAchievements = await GetUserAchievements(steamId, appId);
-            int totalAchievements = await GetTotalAchievementsCount(appId);
+            int totalAchievements = await GetTotalAchievementsCount(appId, l);
 
             if (totalAchievements == 0)
                 return 0;
@@ -319,17 +321,34 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
     }
 
 
-    /// <summary>
-    /// Retrieves a list of recently played games for a Steam user.
-    /// </summary>
-    /// <param name="steamId">The Steam user ID for which to fetch recently played games.</param>
-    /// <param name="count">Optional. The maximum number of games to return. If null, returns all available games.</param>
-    public async Task<List<GameDto>> UserRecentlyPlayedGames(string steamId, int? count = null,
-        bool? includeAchievements = false)
-    {
-        string cacheKey = GetCacheKey("user_recently_played_games", steamId);
+        /// <summary>
+        /// Retrieves a list of recently played games for a specified Steam user.
+        /// </summary>
+        /// <param name="steamId">The Steam user ID for which to fetch recently played games.</param>
+        /// <param name="count">
+        /// The maximum number of games to return. If not provided, all available games are returned.
+        /// </param>
+        /// <param name="includeProgression">
+        /// A flag indicating whether to include achievement progression data in the response.
+        /// Defaults to <c>false</c>.
+        /// </param>
+        /// <param name="l">
+        /// The language code for the achievement names. If not provided, defaults to "french".
+        /// </param>
+        /// <returns>
+        /// The task result contains a list of recently played games for the specified Steam user,
+        /// limited by the provided count or returning all games if no count is specified.
+        /// Returns an empty list if no games are found or if the request fails.
+        /// </returns>
+        /// <exception cref="BusinessException">
+        /// Thrown when the Steam API request fails or the response is invalid (e.g., no games found or insufficient data).
+        /// </exception>
+        public async Task<List<GameDto>> UserRecentlyPlayedGames(string steamId, int? count = null,
+            bool? includeProgression = false, string? l = "french")
+        {
+            string cacheKey = GetCacheKey("user_recently_played_games", steamId);
 
-        if (memoryCache.TryGetValue(cacheKey, out List<GameDto>? cachedGames) && cachedGames != null)
+            if (memoryCache.TryGetValue(cacheKey, out List<GameDto>? cachedGames) && cachedGames != null)
             return cachedGames.Take(count ?? cachedGames.Count).ToList();
 
 
@@ -357,9 +376,9 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
                 int playtimeForever = gameElement.GetProperty("playtime_forever").GetInt32();
                 int playtime2Weeks = gameElement.GetProperty("playtime_2weeks").GetInt32();
                 
-                double userAchiev = 0;
-                if (includeAchievements == true)
-                    userAchiev =  await GetAchievementProgressionPercentage(steamId, appId);
+                double userProgress = 0;
+                if (includeProgression == true)
+                    userProgress =  await GetAchievementProgressionPercentage(steamId, appId, l);
 
                 list.Add(new GameDto
                 {
@@ -368,7 +387,7 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
                     Image = GetImageUrl(appId, VerticalCapsule),
                     PlaytimeForever = playtimeForever,
                     Playtime2Weeks = playtime2Weeks,
-                    AchievementProgression = userAchiev
+                    AchievementProgression = userProgress
                     
                 });
             }
@@ -381,6 +400,148 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
     }
 
 
+        /// <summary>
+        /// Fetches the global achievement percentages for a specific Steam game application.
+        /// This endpoint provides the rarity percentage for each achievement.
+        /// </summary>
+        /// <param name="appId">The Steam application ID of the game.</param>
+        /// <returns>
+        /// A dictionary where the key is the achievement name and the value is the rarity percentage.
+        /// Returns an empty dictionary if no achievements are found or if the request fails.
+        /// </returns>
+        private async Task<Dictionary<string, double>> GetGlobalAchievementPercentages(int appId)
+        {
+            string cacheKey = GetCacheKey("global_achievement_percentages", appId);
+
+            if (memoryCache.TryGetValue(cacheKey, out Dictionary<string, double>? cachedPercentages) && cachedPercentages != null)
+                return cachedPercentages;
+
+            string apiUrl = $"{BaseUrlApi}ISteamUserStats/GetGlobalAchievementPercentagesForApp/v2/?gameid={appId}";
+            
+            try
+            {
+                JsonElement json = await FetchApi(apiUrl);
+
+                Dictionary<string, double> percentages = new Dictionary<string, double>();
+
+                if (json.TryGetProperty("achievementpercentages", out var achievementPercentagesElement))
+                {
+                    if (achievementPercentagesElement.TryGetProperty("achievements", out var achievementsElement))
+                    {
+                        foreach (var achievement in achievementsElement.EnumerateArray())
+                        {
+                            try
+                            {
+                                string name = achievement.GetProperty("name").GetString() ?? "";
+                                string percentStr = achievement.GetProperty("percent").GetString() ?? "0";
+                                
+                                if (double.TryParse(percentStr, System.Globalization.CultureInfo.InvariantCulture, out double percent))
+                                {
+                                    percentages[name] = percent;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                }
+
+                memoryCache.Set(cacheKey, percentages, TimeSpan.FromHours(24));
+                return percentages;
+            }
+            catch (BusinessException)
+            {
+                return new Dictionary<string, double>();
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the most recent achievements unlocked by a Steam user from their recently played games.
+        /// </summary>
+        /// <param name="steamId">The Steam user ID for which to fetch recent achievements.</param>
+        /// <param name="count">The maximum number of recent achievements to return. Default is 10.</param>
+        /// <param name="includeProgression">Whether to include the rarity percentage for each achievement. Default is false.</param>
+        /// <param name="l">
+        /// The language code for the achievement names. If not provided, defaults to "french".
+        /// </param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains a list of recent achievements
+        /// ordered by unlock time (most recent first).
+        /// </returns>
+        public async Task<List<AchievementSchemaDto>> GetRecentAchievements(string steamId, int count = 5, bool includeProgression = false, string l = "french")
+        {
+            string cacheKey = GetCacheKey("recent_achievements", $"{steamId}_{count}_{includeProgression}_{l}");
+
+            if (memoryCache.TryGetValue(cacheKey, out List<AchievementSchemaDto>? cachedAchievements) && cachedAchievements != null)
+                return cachedAchievements;
+
+            // Get recently played games
+            List<GameDto> recentGames = await UserRecentlyPlayedGames(steamId);
+
+            if (recentGames.Count == 0)
+                return new List<AchievementSchemaDto>();
+
+            List<(AchievementSchemaDto achievement, int unlockTime)> allRecentAchievements = new List<(AchievementSchemaDto, int)>();
+
+            // For each recently played game, get the user's achievements
+            foreach (var game in recentGames)
+            {
+                try
+                {
+                    List<UserAchievementDto> userAchievements = await GetUserAchievements(steamId, game.Id);
+                    
+                    if (userAchievements.Count == 0)
+                        continue;
+
+                    List<AchievementSchemaDto> achievementSchema = await GetAchievementsSchema(game.Id, l);
+                    Dictionary<string, double>? percentages = null;
+
+                    if (includeProgression)
+                    {
+                        percentages = await GetGlobalAchievementPercentages(game.Id);
+                    }
+
+                    // Map user achievements with their schema information
+                    foreach (var userAchievement in userAchievements)
+                    {
+                        var schema = achievementSchema.FirstOrDefault(a => a.Name == userAchievement.ApiName);
+                        
+                        if (schema != null)
+                        {
+                            AchievementSchemaDto achievement = new AchievementSchemaDto
+                            {
+                                Name = schema.Name,
+                                DisplayName = schema.DisplayName,
+                                Description = schema.Description,
+                                Icon = schema.Icon,
+                                Rarity = includeProgression && percentages != null && percentages.TryGetValue(userAchievement.ApiName, out var percent) 
+                                    ? percent 
+                                    : null,
+                                GameName = game.Name
+                            };
+
+                            allRecentAchievements.Add((achievement, userAchievement.UnlockTime));
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+
+            // Sort by unlock time (most recent first) and take the specified count
+            List<AchievementSchemaDto> result = allRecentAchievements
+                .OrderByDescending(a => a.unlockTime)
+                .Take(count)
+                .Select(a => a.achievement)
+                .ToList();
+
+            memoryCache.Set(cacheKey, result, TimeSpan.FromMinutes(10));
+            return result;
+        }
     
   
 
