@@ -7,6 +7,12 @@
       "Password": "Mot de passe",
       "Pseudo": "Pseudo"
     },
+    "ServerErrors": {
+      "EMAIL_ALREADY_EXISTS": "Cette adresse e-mail est déjà associée à un compte.",
+      "INVALID_PSEUDO": "Le pseudo fourni n'est pas valide.",
+      "PSEUDO_ALREADY_EXIST": "CreateAccount.ServerErrors.PSEUDO_ALREADY_EXIST",
+      "UNKNOWN": "Une erreur inattendue est survenue. Veuillez réessayer."
+    },
     "Submit": "Confirmer",
     "Success": {
       "Subtitle": "Redirection vers la page de connexion…",

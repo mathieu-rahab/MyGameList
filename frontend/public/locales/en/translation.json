@@ -1,14 +1,17 @@
 {
   "CreateAccount": {
     "ExistingAccountQuestion": "Already have an account?",
-    "Submit": "Create my account",
-    "ToLogin": "Sign in",
-
     "Fields": {
       "ConfirmPassword": "Confirm password",
       "Email": "Email address",
       "Password": "Password",
       "Pseudo": "Username"
+    },
+    "ServerErrors": {
+      "EMAIL_ALREADY_EXISTS": "This email address is already associated with an account.",
+      "INVALID_PSEUDO": "The provided username is not valid.",
+      "PSEUDO_ALREADY_EXIST": "",
+      "UNKNOWN": "An unexpected error occurred. Please try again."
     },
     "Submit": "Create my account",
     "Success": {
