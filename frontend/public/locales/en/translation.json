@@ -1,4 +1,10 @@
 {
+  "achievements": {
+    "bronze": "Bronze",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "silver": "Silver"
+  },
   "CreateAccount": {
     "ExistingAccountQuestion": "Already have an account?",
     "Fields": {
@@ -31,9 +37,6 @@
   },
   "GameDetail": {
     "AboutTheGame": "About the game"
-  },
-  "Greetings": {
-    "Hello": "Hello"
   },
   "Layout": {
     "Dark": "Dark",
