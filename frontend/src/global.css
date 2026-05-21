@@ -69,3 +69,7 @@ html.light {
 label {
     cursor: pointer;
 }
+
+#Outlet {
+    min-height: 87vh !important;
+}
