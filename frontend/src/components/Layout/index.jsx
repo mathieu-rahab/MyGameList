@@ -2,9 +2,43 @@ import { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router";
 import "./index.css";
 import { useTranslation } from "react-i18next";
+import { useCookies } from 'react-cookie';
+import { useAuth } from '../../utils/useAuth'
+
+
 
 export default function Layout() {
+    const { isAuthenticated, logout } = useAuth();
     const { t, i18n } = useTranslation();
+
+
+    const handleLogout = () => {
+        logout();
+        navigate('/'); 
+    };
+
+    const LoginButton = () => {
+      if (isAuthenticated) {
+        return (
+            <button onClick={handleLogout} className="btn-login">{t('Layout.Logout')}</button>
+        )
+      }else{
+        return (
+            <Link to="/login">
+                <button className="btn-login">{t('Layout.Login')}</button>
+            </Link>
+        )
+      }
+    }
+
+    const DashboardButton = () => {
+      if (isAuthenticated) {
+        return (
+            <Link to="/dashboard"><button>{t('Layout.Dashboard')}</button></Link>
+        )
+      }
+    }
+    
 
     const [theme, setTheme] = useState(() => {
         try { return localStorage.getItem('nx-theme') || 'dark'; }
@@ -40,7 +74,7 @@ export default function Layout() {
                 </div>
                 <nav>
                     <Link to="/"><button className="active">{t('Layout.Home')}</button></Link>
-                    <Link to="/dashboard"><button>{t('Layout.Dashboard')}</button></Link>
+                    {DashboardButton()}
                 </nav>
                 <div className="hright">
                     <div className="theme-toggle">
@@ -58,9 +92,7 @@ export default function Layout() {
                         </div>
                     </div>
                     <div className="notif">⊹</div>
-                    <Link to="/login">
-                        <button className="btn-login">{t('Layout.Login')}</button>
-                    </Link>
+                    {LoginButton()}
                     <div className="av">
                         <i className="ti ti-user" aria-hidden="true"></i>
                     </div>

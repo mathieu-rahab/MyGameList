@@ -1,63 +1,53 @@
 {
   "CreateAccount": {
-    "Title": "Create an account",
     "ExistingAccountQuestion": "Already have an account?",
-    "Submit": "Create my account",
-    "ToLogin": "Submit",
-
     "Fields": {
-      "Pseudo": "Username",
+      "ConfirmPassword": "Confirm password",
       "Email": "Email address",
       "Password": "Password",
-      "ConfirmPassword": "Confirm password"
+      "Pseudo": "Username"
     },
-
-    "Validation": {
-      "PseudoTooShort": "Username must be at least 3 characters long.",
-      "PseudoTooLong": "Username cannot exceed 20 characters.",
-      "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
-      "EmailInvalid": "Please enter a valid email address.",
-      "PasswordInvalid": "Password must be at least 7 characters long.",
-      "PasswordConfirmDifferent": "Passwords do not match."
-    },
-
+    "Submit": "Create my account",
     "Success": {
-      "Title": "Account created successfully!",
-      "Subtitle": "Redirecting to the login page…"
+      "Subtitle": "Redirecting to the login page…",
+      "Title": "Account created successfully!"
     },
-
-    "ServerErrors": {
-      "EMAIL_ALREADY_EXISTS": "This email address is already associated with an account.",
-      "PSEUDO_ALREADY_EXISTS": "This username is already taken.",
-      "INVALID_PSEUDO": "The provided username is not valid.",
-      "UNKNOWN": "An unexpected error occurred. Please try again."
+    "Title": "Create an account",
+    "ToLogin": "Submit",
+    "Validation": {
+      "EmailInvalid": "Please enter a valid email address.",
+      "PasswordConfirmDifferent": "Passwords do not match.",
+      "PasswordInvalid": "Password must be at least 7 characters long.",
+      "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
+      "PseudoTooLong": "Username cannot exceed 20 characters.",
+      "PseudoTooShort": "Username must be at least 3 characters long."
     }
   },
-
   "GameDetail": {
     "AboutTheGame": "About the game"
   },
-
+  "Greetings": {
+    "Hello": "Hello"
+  },
   "Layout": {
     "Dark": "Dark",
     "Dashboard": "Dashboard",
     "Home": "Home",
     "Light": "Light",
-    "Login": "Sign in"
+    "Login": "Sign in",
+    "Logout": "Logout"
   },
-
   "Login": {
-    "Title": "Sign in",
-    "NoAccountYetQuestion": "Don't have an account yet ?",
-    "CreateAccount": "Create one",
     "Alternative": "Or continue with",
+    "CreateAccount": "Create one",
+    "NoAccountYetQuestion": "Don't have an account yet ?",
     "Password": "Password",
-    "Submit": "Submit"
+    "Submit": "Submit",
+    "Title": "Sign in"
   },
-
   "NetworkErrors": {
-    "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection.",
     "BAD_GATEWAY": "The server is temporarily unavailable. Please try again in a few moments.",
-    "INTERNAL_SERVER_ERROR": "An internal error occurred. Please try again."
+    "INTERNAL_SERVER_ERROR": "An internal error occurred. Please try again.",
+    "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection."
   }
 }
