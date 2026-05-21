@@ -12,6 +12,7 @@ const dummyForExtractor = (t) => {
     t('CreateAccount.ServerErrors.INVALID_PSEUDO');
     t('CreateAccount.ServerErrors.PSEUDO_ALREADY_EXIST');
     t('CreateAccount.ServerErrors.UNKNOWN');
+    t('Login.ServerErrors.EMAIL_OR_PASSWORD_INCORRECT');
 };
 
 

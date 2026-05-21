@@ -76,7 +76,7 @@ export default function Login(){
                 console.log(err);
                 // erreur backend connue
                 if (err.error) {
-                    setErrors(prev => ({ ...prev, server: getServerErrorMessage(err.error, t, i18n, 'SignIn') }));
+                    setErrors(prev => ({ ...prev, server: getServerErrorMessage(err.error, t, i18n, 'Login') }));
                     return;
                 }
                 // erreur HTTP/réseau
@@ -101,6 +101,12 @@ export default function Login(){
                         <input type="password" name="password" placeholder={t('Login.Password')}
                                value={inputs.password} onChange={handleChange} onBlur={handleBlur} required />
                     </div>
+                    {errors.server && (
+                            <div className="error-container">
+                                <i className="ti ti-alert-circle" aria-hidden="true"></i>
+                                {errors.server}
+                            </div>
+                        )}
                     <button type="submit" className="auth-submit">{t('Login.Submit')}</button>
                 </form>
 

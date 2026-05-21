@@ -48,6 +48,9 @@
     "CreateAccount": "Create one",
     "NoAccountYetQuestion": "Don't have an account yet ?",
     "Password": "Password",
+    "ServerErrors": {
+      "EMAIL_OR_PASSWORD_INCORRECT": "Incorrect email or password"
+    },
     "Submit": "Submit",
     "Title": "Sign in"
   },
