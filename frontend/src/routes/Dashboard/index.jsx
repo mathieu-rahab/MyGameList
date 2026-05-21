@@ -3,11 +3,13 @@ import {useTranslation} from "react-i18next";
 import "./index.css"
 import {useUserService} from "../../api/userService.js";
 import {useEffect, useState} from "react";
+import {useAuth} from "../../utils/useAuth.jsx";
 
 
 export default function Dashboard (){
     const {t, i18n} = useTranslation();
     const { getRecentGames } = useUserService();
+    const { user, loading: authLoading } = useAuth();
     const [recentGames, setRecentGames] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -17,24 +19,40 @@ export default function Dashboard (){
         setImageErrors(prev => ({ ...prev, [gameId]: true }));
     };
 
-
     useEffect(() => {
         const fetchRecentGames = async () => {
             try {
                 setLoading(true);
-                const games = await getRecentGames(3, 6);
+                // Récupérer l'ID depuis user
+                const userId = user?.userId;
+                if (!userId) {
+                    setError('User ID not found');
+                    setLoading(false);
+                    return;
+                }
+                const games = await getRecentGames(userId, 6);
                 setRecentGames(games);
                 setError(null);
             } catch (err) {
-                setError(err.message);
+                if (err.error) {
+                    setError(err.error);
+                }
+                else {
+                    setError(err.status);
+                }
                 console.error(err);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchRecentGames();
-    }, []);
+        // Attendre que l'user soit chargé avant de récupérer les jeux
+        if (!authLoading && user?.userId) {
+            fetchRecentGames();
+        }
+    }, [user?.userId, authLoading]);
+
+
 
     const renderGameRows = () => {
         if (loading) return <div>Chargement...</div>;
@@ -75,13 +93,11 @@ export default function Dashboard (){
         ));
     };
 
-
-
     return (
         <main className="dashbord">
             <div className="greeting">
                 <div className="greeting-sub">Lundi 27 avril 2026</div>
-                <h1>Bon retour, <span>Alex</span></h1>
+                <h1>Bon retour, <span>{user?.pseudo || 'Guest'}</span></h1>
             </div>
 
             <div className="stats-row">
@@ -114,8 +130,6 @@ export default function Dashboard (){
                         <span className="sec-link">voir tout</span>
                     </div>
                     {renderGameRows()}
-
-
                 </div>
 
                 <div className="section glass">
@@ -159,9 +173,6 @@ export default function Dashboard (){
                 </div>
             </div>
 
-
-
-
             <div className="grid3">
                 <div className="section glass">
                     <div className="sec-head"><span className="sec-title">Collections</span><span className="sec-link">gérer</span>
@@ -192,16 +203,7 @@ export default function Dashboard (){
                         <div className="flvl">lv.72</div>
                     </div>
                 </div>
-
             </div>
-
         </main>
     );
-
-
 }
-
-
-
-
-

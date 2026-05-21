@@ -25,12 +25,17 @@ export const useApiCall = () => {
             });
 
             if (!response.ok) {
-                throw new Error(`${response.status}`);
+                let err = null;
+                try {
+                    err = await response.json();
+                } catch {}
+                return Promise.reject({
+                    status: response.status,
+                    error: err?.error
+                });
             }
-
             return await response.json();
         } catch (error) {
-            console.error('Erreur API:', error);
             throw error;
         }
     };
