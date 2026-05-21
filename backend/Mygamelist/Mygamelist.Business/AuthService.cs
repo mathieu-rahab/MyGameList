@@ -1,4 +1,6 @@
+using System.Net;
 using Mygamelist.Core.Business;
+using Mygamelist.Core.Exceptions;
 using Mygamelist.Core.Repository;
 using Mygamelist.Entity;
 
@@ -16,10 +18,10 @@ public class AuthService : IAuthService
     public User Authenticate(string email, string password)
     {
         var user = _userRepository.SelectByEmail(email)
-                   ?? throw new UnauthorizedAccessException("EMAIL_OR_PASSWORD_INCORRECT");
+                   ?? throw new BusinessException(HttpStatusCode.Unauthorized,"EMAIL_OR_PASSWORD_INCORRECT");
 
         if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
-            throw new UnauthorizedAccessException("EMAIL_OR_PASSWORD_INCORRECT");
+            throw new BusinessException(HttpStatusCode.Unauthorized,"EMAIL_OR_PASSWORD_INCORRECT");
 
         return user;
     }
