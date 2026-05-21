@@ -5,6 +5,16 @@
  * @param {Function} i18n - Instance i18next (pour i18n.exists)
  * @param {string} namespace - Namespace i18n de la page (ex: "CreateAccount")
  */
+
+const dummyForExtractor = (t) => {
+    // Erreurs de création de compte
+    t('CreateAccount.ServerErrors.EMAIL_ALREADY_EXISTS');
+    t('CreateAccount.ServerErrors.INVALID_PSEUDO');
+    t('CreateAccount.ServerErrors.PSEUDO_ALREADY_EXIST');
+    t('CreateAccount.ServerErrors.UNKNOWN');
+};
+
+
 export function getServerErrorMessage(errorCode, t, i18n, namespace) {
     const key = `${namespace}.ServerErrors.${errorCode}`;
     return i18n.exists(key) ? t(key) : getHttpErrorMessage(null, t);

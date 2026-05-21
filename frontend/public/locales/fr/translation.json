@@ -1,63 +1,59 @@
 {
   "CreateAccount": {
-    "Title": "Créer un compte",
     "ExistingAccountQuestion": "Déjà un compte ?",
-    "Submit": "Confirmer",
-    "ToLogin": "Se connecter",
-
     "Fields": {
-      "Pseudo": "Pseudo",
+      "ConfirmPassword": "Confirmer le mot de passe",
       "Email": "Adresse e-mail",
       "Password": "Mot de passe",
-      "ConfirmPassword": "Confirmer le mot de passe"
+      "Pseudo": "Pseudo"
     },
-
-    "Validation": {
-      "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères.",
-      "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",
-      "PseudoInvalidCharacter": "Le pseudo ne peut contenir que des lettres, des chiffres et les caractères - _ .",
-      "EmailInvalid": "L'adresse e-mail n'est pas valide.",
-      "PasswordInvalid": "Le mot de passe doit contenir au moins 7 caractères.",
-      "PasswordConfirmDifferent": "Les mots de passe ne correspondent pas."
-    },
-
-    "Success": {
-      "Title": "Compte créé avec succès !",
-      "Subtitle": "Redirection vers la page de connexion…"
-    },
-
     "ServerErrors": {
       "EMAIL_ALREADY_EXISTS": "Cette adresse e-mail est déjà associée à un compte.",
-      "PSEUDO_ALREADY_EXISTS": "Ce pseudo est déjà utilisé.",
       "INVALID_PSEUDO": "Le pseudo fourni n'est pas valide.",
+      "PSEUDO_ALREADY_EXIST": "CreateAccount.ServerErrors.PSEUDO_ALREADY_EXIST",
       "UNKNOWN": "Une erreur inattendue est survenue. Veuillez réessayer."
+    },
+    "Submit": "Confirmer",
+    "Success": {
+      "Subtitle": "Redirection vers la page de connexion…",
+      "Title": "Compte créé avec succès !"
+    },
+    "Title": "Créer un compte",
+    "ToLogin": "Se connecter",
+    "Validation": {
+      "EmailInvalid": "L'adresse e-mail n'est pas valide.",
+      "PasswordConfirmDifferent": "Les mots de passe ne correspondent pas.",
+      "PasswordInvalid": "Le mot de passe doit contenir au moins 7 caractères.",
+      "PseudoInvalidCharacter": "Le pseudo ne peut contenir que des lettres, des chiffres et les caractères - _ .",
+      "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",
+      "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères."
     }
   },
-
   "GameDetail": {
     "AboutTheGame": "À propos du jeu"
   },
-
+  "Greetings": {
+    "Hello": "Salut"
+  },
   "Layout": {
     "Dark": "Sombre",
     "Dashboard": "Tableau de bord",
     "Home": "Accueil",
     "Light": "Clair",
-    "Login": "Se connecter"
+    "Login": "Se connecter",
+    "Logout": "Se déconnecter"
   },
-
   "Login": {
-    "Title": "Se connecter",
-    "NoAccountYetQuestion": "Pas encore de compte ?",
-    "CreateAccount": "En créer un",
     "Alternative": "Ou continuer avec",
+    "CreateAccount": "En créer un",
+    "NoAccountYetQuestion": "Pas encore de compte ?",
     "Password": "Mot de passe",
-    "Submit": "Confirmer"
+    "Submit": "Confirmer",
+    "Title": "Se connecter"
   },
-
   "NetworkErrors": {
-    "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion.",
     "BAD_GATEWAY": "Le serveur est temporairement indisponible. Réessayez dans quelques instants.",
-    "INTERNAL_SERVER_ERROR": "Une erreur interne est survenue. Veuillez réessayer."
+    "INTERNAL_SERVER_ERROR": "Une erreur interne est survenue. Veuillez réessayer.",
+    "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion."
   }
 }
