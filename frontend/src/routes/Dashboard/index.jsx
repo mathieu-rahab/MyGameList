@@ -8,15 +8,24 @@ import {useAuth} from "../../utils/useAuth.jsx";
 
 export default function Dashboard (){
     const {t, i18n} = useTranslation();
-    const { getRecentGames } = useUserService();
+    const { getRecentGames, getRecentAchievements } = useUserService();
     const { user, loading: authLoading } = useAuth();
     const [recentGames, setRecentGames] = useState([]);
+    const [recentAchievements, setRecentAchievements] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [imageErrors, setImageErrors] = useState({});
 
     const handleImageError = (gameId) => {
         setImageErrors(prev => ({ ...prev, [gameId]: true }));
+    };
+
+    const getAchievementRarity = (percent) => {
+        if (percent <= 10) return { rarity: 'platinum', label: t('achievements.platinum'), class: 'b-pl' };
+        if (percent <= 30) return { rarity: 'silver', label: t('achievements.silver'), class: 'b-si' };
+        if (percent <= 60) return { rarity: 'gold', label: t('achievements.gold'), class: 'b-go' };
+
+        return { rarity: 'bronze', label: t('achievements.bronze'), class: 'b-br' };
     };
 
     useEffect(() => {
@@ -30,7 +39,12 @@ export default function Dashboard (){
                     setLoading(false);
                     return;
                 }
-                const games = await getRecentGames(userId, 6);
+                const games = await getRecentGames(
+                    userId,
+                    6,
+                    true,
+                    i18n.language === 'fr' ? 'french' : 'english'
+                );
                 setRecentGames(games);
                 setError(null);
             } catch (err) {
@@ -46,11 +60,29 @@ export default function Dashboard (){
             }
         };
 
-        // Attendre que l'user soit chargé avant de récupérer les jeux
+        const fetchRecentAchievements = async () => {
+            try {
+                const userId = user?.userId;
+                if (!userId) return;
+
+                const achievements = await getRecentAchievements(
+                    userId,
+                    7,
+                    true,
+                    i18n.language === 'fr' ? 'french' : 'english'
+                );
+                setRecentAchievements(achievements);
+            } catch (err) {
+                console.error('Erreur lors de la récupération des trophées:', err);
+            }
+        };
+
         if (!authLoading && user?.userId) {
-            fetchRecentGames();
+            fetchRecentGames()
+                .then(fetchRecentAchievements);
         }
-    }, [user?.userId, authLoading]);
+    }, [user?.userId, authLoading, i18n.language]);
+
 
 
 
@@ -92,6 +124,31 @@ export default function Dashboard (){
             </div>
         ));
     };
+
+    const renderAchievementRows = () => {
+        if (recentAchievements.length === 0) {
+            return <div style={{ padding: '1rem', textAlign: 'center', color: '#999' }}>Aucun trophée récent</div>;
+        }
+
+        return recentAchievements.map((achievement, index) => {
+            const rarityInfo = getAchievementRarity(achievement.rarity);
+            return (
+                <div key={index} className="trow">
+                    <div>
+                        <img className="tico achievementIcon" src={achievement.icon} alt={achievement.displayName}></img>
+                    </div>
+                    <div>
+                        <div className="tname">{achievement.displayName}</div>
+                        <div className="tgame">{achievement.gameName}</div>
+                    </div>
+                    <span className={`tbadge ${rarityInfo.class}`}>
+                        {rarityInfo.label.toUpperCase()}
+                    </span>
+                </div>
+            );
+        });
+    };
+
 
     return (
         <main className="dashbord">
@@ -137,38 +194,8 @@ export default function Dashboard (){
                 tout</span>
                     </div>
                     <div className="tlist">
-                        <div className="trow">
-                            <div className="tico ti-pl">◆</div>
-                            <div>
-                                <div className="tname">Maître de l'univers</div>
-                                <div className="tgame">Stellar Odyssey</div>
-                            </div>
-                            <span className="tbadge b-pl">PLATINE</span>
-                        </div>
-                        <div className="trow">
-                            <div className="tico ti-go">◇</div>
-                            <div>
-                                <div className="tname">Survivant</div>
-                                <div className="tgame">Crimson Arena</div>
-                            </div>
-                            <span className="tbadge b-go">OR</span>
-                        </div>
-                        <div className="trow">
-                            <div className="tico ti-si">○</div>
-                            <div>
-                                <div className="tname">Gardien de forêt</div>
-                                <div className="tgame">Verdant Realm</div>
-                            </div>
-                            <span className="tbadge b-si">ARGENT</span>
-                        </div>
-                        <div className="trow">
-                            <div className="tico ti-br">◌</div>
-                            <div>
-                                <div className="tname">Navigateur</div>
-                                <div className="tgame">Deep Protocol</div>
-                            </div>
-                            <span className="tbadge b-br">BRONZE</span>
-                        </div>
+                        {renderAchievementRows()}
+
                     </div>
                 </div>
             </div>

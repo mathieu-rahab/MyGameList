@@ -136,10 +136,27 @@ public class UserController : ControllerBase
     [Route("{id:int:min(1)}/recent-games")]
     [EndpointName("GetUserRecentlyPlayedGames")]
     [ActionName("GetUserRecentlyPlayedGame")]
-    public async Task<IActionResult> GetUserRecentlyPlayedGame(int id, [FromQuery] int? count = null, [FromQuery] bool? includeAchievements = false)
+    public async Task<IActionResult> GetUserRecentlyPlayedGame(int id, [FromQuery] int? count , [FromQuery] bool? includeProgression, [FromQuery] string? l)
     {
-        var games = await _userService.GetUserRecentlyPlayedGames(id, count, includeAchievements);
+        if (count <= 0)
+            return BadRequest(new { error = "COUNT_MUST_BE_POSITIVE" });
+        
+        var games = await _userService.GetUserRecentlyPlayedGames(id, count ?? null, includeProgression ?? false, l ?? "french");
         return Ok(games);    
+    }
+    
+    // GET: api/user/{id}/recent-achievements
+    [HttpGet]
+    [Route("{id:int:min(1)}/recent-achievements")]
+    [EndpointName("GetUserRecentAchievements")]
+    [ActionName("GetUserRecentAchievements")]
+    public async Task<IActionResult> GetUserRecentAchievements(int id, [FromQuery] int? count, [FromQuery] bool? includeRarity, [FromQuery] string? l)
+    {
+        if (count <= 0)
+            return BadRequest(new { error = "COUNT_MUST_BE_POSITIVE" });
+        
+        var achievements = await _userService.GetUserRecentAchievements(id, count ?? 10, includeRarity ?? false, l ?? "french");
+        return Ok(achievements);
     }
     
     
@@ -158,10 +175,14 @@ public class UserController : ControllerBase
                 "PUT"),
             _hateosLinkGenerator.Generate(
                 "DeleteUser",
-                new {id = user.Id
-                },
+                new {id = user.Id },
                 "delete-user",
-                "DELETE")
+                "DELETE"),
+            _hateosLinkGenerator.Generate(
+                "GetUserRecentAchievements",
+                new { id = user.Id },
+                "recent-achievements",
+                "GET")
         });
     }
 }
