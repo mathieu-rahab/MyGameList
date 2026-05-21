@@ -6,9 +6,11 @@ import "./index.css"
 import "../../auth.css"
 import { useTranslation } from "react-i18next";
 import { getServerErrorMessage, getHttpErrorMessage } from '../../api/errorHandler.js';
+import {useAuth} from "../../utils/useAuth.jsx";
 
 export default function Login(){
     const {t, i18n} = useTranslation();
+    const { user: _, loading: __ } = useAuth();
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['jwt_token']);
     const [inputs, setInputs] = useState({
