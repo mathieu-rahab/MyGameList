@@ -187,10 +187,6 @@ nav button.active {
 
 /* Footer */
 footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     border-top: 1px solid var(--glass-border);
     padding: 18px 28px;
     background: var(--footer-bg);
@@ -314,13 +310,8 @@ footer {
     .btn-login { display: none }
 
     header { padding: 0 20px; position: relative }
-
     main { padding: 22px 20px 32px }
 
-    .stats-row { grid-template-columns: repeat(2, 1fr) }
-
-    .grid2 { grid-template-columns: 1fr }
-    .grid3 { grid-template-columns: 1fr }
 
     .foot-in { flex-wrap: wrap; gap: 12px }
     .flinks { order: 3; width: 100%; flex-wrap: wrap; gap: 12px }
@@ -335,16 +326,6 @@ footer {
 
     main { padding: 18px 16px 28px }
 
-    .greeting h1 { font-size: 20px }
-
-    .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px }
-    .scard { padding: 13px 14px }
-    .scard-val { font-size: 20px }
-
-    .section { padding: 16px 16px }
-
-    .trow { padding: 9px 10px }
-    .tbadge { display: none }
 
     .foot-in { flex-direction: column; align-items: flex-start; gap: 10px }
     .fcopy { order: 4 }

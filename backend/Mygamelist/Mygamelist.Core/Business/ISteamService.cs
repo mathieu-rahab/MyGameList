@@ -5,7 +5,17 @@ namespace Mygamelist.Core.Business
 {
     public interface ISteamService
     {
-        Task<GameDto> GameInfo(int id);
+        Task<GameInfoDto> GameInfo(int id, string? l);
+        Task<List<GameDto>> UserGames(string steamId);
+        Task<List<GameDto>> UserRecentlyPlayedGames(string steamId, int? count, bool? includeAchievements);
         
+        
+        // Méthodes pour les trophés
+        Task<List<AchievementSchemaDto>> GetAchievementsSchema(int appId, string? l);
+        Task<List<UserAchievementDto>> GetUserAchievements(string steamId, int appId);
+        Task<double> GetAchievementProgressionPercentage(string steamId, int appId);
+
+        
+
     }
 }

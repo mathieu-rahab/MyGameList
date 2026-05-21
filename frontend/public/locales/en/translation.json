@@ -1,6 +1,9 @@
 {
   "CreateAccount": {
     "ExistingAccountQuestion": "Already have an account?",
+    "Submit": "Create my account",
+    "ToLogin": "Sign in",
+
     "Fields": {
       "ConfirmPassword": "Confirm password",
       "Email": "Email address",

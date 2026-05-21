@@ -45,7 +45,7 @@ public class IdentityController : ControllerBase
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(5)),
+                Expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(50)),
                 Issuer = "http://localhost:5131/",
                 Audience = "http://localhost:5131/",
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),

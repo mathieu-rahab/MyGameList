@@ -17,18 +17,29 @@ public class SteamController : ControllerBase
         _steamService = steamService;
     }
     
-    // GET: api/steam/game/{gameId}
+    // GET: api/steam/game/{gameId}/?l={language}
     [AllowAnonymous]
     [HttpGet]
-    [Route("game/{gameId:int:min(1)}")]
+    [Route("game/{gameId:int:min(1)}/")]
     [EndpointName("GetGame")]
     [ActionName("GetGame")]
-    public async Task<ActionResult<GameDto>> GetGame(int gameId)
+    public async Task<ActionResult<GameInfoDto>> GetGame(int gameId, [FromQuery(Name = "l")] string? language = null)
     {
-        var result = await _steamService.GameInfo(gameId);
+        var result = await _steamService.GameInfo(gameId, language);
         return Ok(result);
     }
     
-    
+    /*
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("user/{steamId}/games")]
+    [EndpointName("GetSteamIdGames")]
+    [ActionName("GetStealIdGames")]
+    public async Task<ActionResult<List<GameDto>>> GetUserGames(string steamId, [FromQuery(Name = "l")] string? language = null)
+    {
+        var result = await _steamService.UserGames(steamId);
+        return Ok(result);
+    }
+    */
     
 }

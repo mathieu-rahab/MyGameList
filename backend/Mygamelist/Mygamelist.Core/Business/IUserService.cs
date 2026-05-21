@@ -1,3 +1,4 @@
+using Mygamelist.Contracts.DTOs.Steam;
 using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Entity;
 
@@ -11,5 +12,8 @@ namespace Mygamelist.Core.Business
         UserResponseDto Add(CreateUserDto dto);
         UserResponseDto Update(int id, UpdateUserDto user);
         bool Remove(int id);
+        Task<List<GameDto>> GetUserGames(int id);
+        Task<List<GameDto>> GetUserRecentlyPlayedGames(int id, int? count, bool? includeAchievements);
+
     }
 }
