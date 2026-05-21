@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router";
+import {Link, NavLink, Outlet} from "react-router";
 import "./index.css";
 import { useTranslation } from "react-i18next";
 import { useCookies } from 'react-cookie';
@@ -20,7 +20,9 @@ export default function Layout() {
     const LoginButton = () => {
       if (isAuthenticated) {
         return (
-            <button onClick={handleLogout} className="btn-login">{t('Layout.Logout')}</button>
+            <Link to="/">
+                <button onClick={handleLogout} className="btn-login">{t('Layout.Logout')}</button>
+            </Link>
         )
       }else{
         return (
