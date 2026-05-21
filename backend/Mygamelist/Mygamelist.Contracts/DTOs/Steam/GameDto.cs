@@ -6,5 +6,7 @@ public class GameDto
     public required string Name { get; set; }
     public string? Image { get; set; }
     public int? PlaytimeForever { get; set; }
+    public int? Playtime2Weeks { get; set; }
+    public double? AchievementProgression { get; set; }
     
 }

@@ -130,6 +130,19 @@ public class UserController : ControllerBase
         return Ok(games);    
     }
 
+    
+    // GET: api/user/{id}/recent-games
+    [HttpGet]
+    [Route("{id:int:min(1)}/recent-games")]
+    [EndpointName("GetUserRecentlyPlayedGames")]
+    [ActionName("GetUserRecentlyPlayedGame")]
+    public async Task<IActionResult> GetUserRecentlyPlayedGame(int id, [FromQuery] int? count = null, [FromQuery] bool? includeAchievements = false)
+    {
+        var games = await _userService.GetUserRecentlyPlayedGames(id, count, includeAchievements);
+        return Ok(games);    
+    }
+    
+    
     private void AddHateosLinks(UserResponseDto user)
     {
         user.Links.AddRange(new List<Link> {

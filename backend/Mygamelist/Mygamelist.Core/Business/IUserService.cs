@@ -13,5 +13,7 @@ namespace Mygamelist.Core.Business
         UserResponseDto Update(int id, UpdateUserDto user);
         bool Remove(int id);
         Task<List<GameDto>> GetUserGames(int id);
+        Task<List<GameDto>> GetUserRecentlyPlayedGames(int id, int? count, bool? includeAchievements);
+
     }
 }

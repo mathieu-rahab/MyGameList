@@ -96,8 +96,7 @@ namespace Mygamelist.Business
             return MapToDto(_userRepository.Update(id, user));
         }
         
-        
-        public async Task<List<GameDto>> GetUserGames(int id)
+        private string GetSteamId(int id)
         {
             var user = _userRepository.SelectById(id);
 
@@ -107,8 +106,15 @@ namespace Mygamelist.Business
             if (string.IsNullOrWhiteSpace(user.SteamId))
                 throw new BusinessException(HttpStatusCode.BadRequest, "USER_STEAM_ID_NOT_SET");
 
-            return await _steamService.UserGames(user.SteamId);
+            return user.SteamId;
         }
+        
+        
+        public async Task<List<GameDto>> GetUserGames(int id) => await _steamService.UserGames(GetSteamId(id));
+        public async Task<List<GameDto>> GetUserRecentlyPlayedGames(int id, int? count, bool? includeAchievements) => await _steamService.UserRecentlyPlayedGames(GetSteamId(id), count, includeAchievements);
+
+        
+        
 
     }
 }
