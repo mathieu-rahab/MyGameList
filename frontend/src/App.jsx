@@ -5,9 +5,11 @@ import Login from "./routes/Login";
 import NewUser from "./routes/NewUser";
 import Game from "./routes/Game";
 import Dashboard from "./routes/Dashboard";
+import Settings from "./routes/Settings";
 
 //layout
 import Layout from "./components/Layout";
+
 
 export default function App(){
   return (
@@ -19,6 +21,7 @@ export default function App(){
                 <Route path="/newUser" element={<NewUser />}/>
                 <Route path="/Game" element={<Game/>}/>
                 <Route path="/dashboard" element={<Dashboard/>}/>
+                <Route path="/settings" element={<Settings/>}/>
             </Route>
         </Routes>
     </BrowserRouter>
