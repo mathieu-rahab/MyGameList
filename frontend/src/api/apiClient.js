@@ -1,6 +1,6 @@
 import { useCookies } from 'react-cookie';
 
-const API_BASE = '/api';
+const API_BASE = 'http://localhost:5131/api/';
 
 // Hook pour récupérer le token
 export const useApiCall = () => {
@@ -19,7 +19,7 @@ export const useApiCall = () => {
         }
 
         try {
-            const response = await fetch(`${API_BASE}${endpoint}`, {
+            const response = await fetch(endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`, {
                 ...options,
                 headers,
             });

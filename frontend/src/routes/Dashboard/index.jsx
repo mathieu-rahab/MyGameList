@@ -8,11 +8,14 @@ import {useAuth} from "../../utils/useAuth.jsx";
 
 export default function Dashboard (){
     const {t, i18n} = useTranslation();
-    const { getRecentGames, getRecentAchievements } = useUserService();
+    const { getRecentGames, getRecentAchievements, getProgressionGame } = useUserService();
     const { user, loading: authLoading } = useAuth();
     const [recentGames, setRecentGames] = useState([]);
     const [recentAchievements, setRecentAchievements] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [progressions, setProgressions] = useState({}); // clé: gameId, valeur: progression
+    const [loadingRecentGames, setLoadingRecentGames] = useState(true);
+    const [loadingRecentAchiev, setLoadingloadingRecentAchiev] = useState(true);
+
     const [error, setError] = useState(null);
     const [imageErrors, setImageErrors] = useState({});
 
@@ -28,35 +31,58 @@ export default function Dashboard (){
         return { rarity: 'bronze', label: t('achievements.bronze'), class: 'b-br' };
     };
 
+    // ... existing code ...
+
     useEffect(() => {
         const fetchRecentGames = async () => {
             try {
-                setLoading(true);
-                // Récupérer l'ID depuis user
+                setLoadingRecentGames(true);
+                setLoadingRecentGames(true);
                 const userId = user?.userId;
                 if (!userId) {
                     setError('User ID not found');
-                    setLoading(false);
+                    setLoadingRecentGames(false);
                     return;
                 }
                 const games = await getRecentGames(
                     userId,
                     6,
-                    true,
+                    false,
                     i18n.language === 'fr' ? 'french' : 'english'
                 );
                 setRecentGames(games);
                 setError(null);
+
+                // Récupérer les progressions en parallèle
+                const lang = i18n.language === 'fr' ? 'french' : 'english';
+                games.forEach(game => {
+                    console.log(game);
+                    const progressionLink = game.links?.find(
+                        link => link.rel === 'get-user-progression-game'
+                    );
+                    if (progressionLink) {
+                        getProgressionGame(progressionLink.href, lang)
+                            .then(progressionData => {
+                                setProgressions(prev => ({
+                                    ...prev,
+                                    [game.id]: progressionData.progression
+                                }));
+                            })
+                            .catch(err => {
+                                console.error(`Erreur progression pour ${game.name}:`, err);
+                            });
+                    }
+                });
             } catch (err) {
                 if (err.error) {
                     setError(err.error);
-                }
-                else {
+                } else {
                     setError(err.status);
                 }
                 console.error(err);
             } finally {
-                setLoading(false);
+                setLoadingRecentGames(false);
+                setLoadingloadingRecentAchiev(false);
             }
         };
 
@@ -87,8 +113,15 @@ export default function Dashboard (){
 
 
     const renderGameRows = () => {
-        if (loading) return <div>Chargement...</div>;
-        if (error) return <div>Erreur: {error}</div>;
+        if (loadingRecentGames) {
+            return <div className="message">t('Dashboard.loading')</div>;
+        }
+        if (error) {
+            return <div className="message">t('Dashboard.error')</div>;
+        }
+        if(recentGames.length === 0) {
+            return <div className="message">t('Dashboard.NoRecentGames')</div>;
+        }
 
         return recentGames.map((game) => (
             <div key={game.id} className="game-row">
@@ -112,7 +145,12 @@ export default function Dashboard (){
                     <div className="prog">
                         <div
                             className="prog-b"
-                            style={{'--progress-width': game.achievementProgression ? `${game.achievementProgression}%` : '0%', background: '#a78bfa'}}
+                            style={{
+                                '--progress-width': progressions[game.id] !== undefined
+                                    ? `${progressions[game.id]}%`
+                                    : '0%',
+                                background: '#a78bfa'
+                            }}
                         >
                         </div>
                     </div>
@@ -126,8 +164,14 @@ export default function Dashboard (){
     };
 
     const renderAchievementRows = () => {
-        if (recentAchievements.length === 0) {
-            return <div style={{ padding: '1rem', textAlign: 'center', color: '#999' }}>Aucun trophée récent</div>;
+        if (loadingRecentAchiev) {
+            return <div className="message">t('Dashboard.loading')</div>;
+        }
+        if (error) {
+            return <div className="message">t('Dashboard.error')</div>;
+        }
+        if(recentAchievements.length === 0) {
+            return <div className="message">t('Dashboard.NoRecentAchievements')</div>;
         }
 
         return recentAchievements.map((achievement, index) => {

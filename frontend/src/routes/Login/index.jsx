@@ -38,7 +38,7 @@ export default function Login(){
         // Marquer tout comme touché pour afficher toutes les erreurs
         setTouched({ email: true, password: true});
         setLoading(true);
-        fetch('/api/Identity/token', {
+        fetch('http://localhost:5131/api/Identity/token', {
             method: 'POST',
             body: JSON.stringify({
                 userEmail: inputs.email,
