@@ -1,15 +1,19 @@
 import { Link } from "react-router";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
+
 import "./index.css"
 import "../../auth.css"
 import { useTranslation } from "react-i18next";
 import { getServerErrorMessage, getHttpErrorMessage } from '../../api/errorHandler.js';
+import { useUserService } from "../../api/userService.js";
+
 
 
 export default function NewUser(){
     const {t, i18n} = useTranslation();
     const navigate = useNavigate();
+    const userService = useUserService();
     const [inputs, setInputs] = useState({
         pseudo: "",
         email: "",
@@ -66,33 +70,12 @@ export default function NewUser(){
         setErrors(errs);
         if (Object.keys(errs).length > 0) return; // bloque si erreurs
         setLoading(true);
-        fetch('/api/User/', {
-            method: 'POST',
-            body: JSON.stringify({
-                pseudo: inputs.pseudo,
-                email: inputs.email,
-                password: inputs.password
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        })
-            .then(async (response) => {
-                if (!response.ok) {
-                    let err = null;
-                    try {
-                        err = await response.json();
-                    } catch {}
-                    return Promise.reject({
-                        status: response.status,
-                        error: err?.error
-                    });
-                }
+        userService.createUser(inputs.pseudo, inputs.email, inputs.password)
+            .then(() => {
                 setSuccess(true);
                 setTimeout(() => {
                     navigate('/login', { state: { email: inputs.email } });
                 }, 3500);
-
             })
             .catch((err) => {
                 setLoading(false);

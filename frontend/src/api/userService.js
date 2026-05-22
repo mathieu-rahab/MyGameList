@@ -12,7 +12,24 @@ export const useUserService = () => {
                     userEmail: email,
                     password: password
                 }),
+                responseType: 'text'
             });
+        },
+
+        // Créer un nouvel utilisateur
+        createUser: async (pseudo, email, password) => {
+            return apiCall('User/', {
+                method: 'POST',
+                body: JSON.stringify({
+                    pseudo: pseudo,
+                    email: email,
+                    password: password
+                })
+            });
+        },
+
+        getUserInfo: async (userId) => {
+            return apiCall(`User/${userId}`, { method: 'GET' });
         },
 
         // Dashboard

@@ -8,10 +8,11 @@ export const useApiCall = () => {
 
     return async (endpoint, options = {}) => {
         const token = cookies.jwt_token;
+        const { responseType = 'json', ...fetchOptions } = options;
 
         const headers = {
             'Content-Type': 'application/json',
-            ...options.headers,
+            ...fetchOptions.headers,
         };
 
         if (token) {
@@ -20,7 +21,7 @@ export const useApiCall = () => {
 
         try {
             const response = await fetch(endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`, {
-                ...options,
+                ...fetchOptions,
                 headers,
             });
 
@@ -34,7 +35,9 @@ export const useApiCall = () => {
                     error: err?.error
                 });
             }
-            return await response.json();
+
+            // Retourner selon le type de réponse attendu
+            return responseType === 'text' ? await response.text() : await response.json();
         } catch (error) {
             throw error;
         }
