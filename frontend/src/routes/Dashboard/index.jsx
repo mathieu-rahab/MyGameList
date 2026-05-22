@@ -197,8 +197,10 @@ export default function Dashboard (){
     return (
         <main className="dashbord">
             <div className="greeting">
-                <div className="greeting-sub">Lundi 27 avril 2026</div>
-                <h1>{t('Dashboard.WelcomeBack')}<span>{user?.pseudo || 'Guest'}</span></h1>
+                <div className="greeting-sub">
+                    {new Date().toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                </div>
+                <h1>{t('Dashboard.WelcomeBack')}<span> {user?.pseudo || 'Guest'}</span></h1>
             </div>
             <div className="stats-row">
                 <div className="scard glass">
