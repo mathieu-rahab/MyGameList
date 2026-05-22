@@ -35,6 +35,18 @@
       "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères."
     }
   },
+  "Dashboard": {
+    "error": "Il y a eu une erreur lors du chargement",
+    "Friends": "Amis",
+    "loading": "Chargement en cours",
+    "Manage": "gérer",
+    "NoRecentAchievements": "Vous n'avez pas récemment gagné de trophée",
+    "NoRecentGames": "Vous n'avez pas récemment joué",
+    "RecentAchievements": "Trophés récents",
+    "RecentGames": "Jeux récents",
+    "ShowMore": "voir plus",
+    "WelcomeBack": "Bon retour,"
+  },
   "GameDetail": {
     "AboutTheGame": "À propos du jeu"
   },

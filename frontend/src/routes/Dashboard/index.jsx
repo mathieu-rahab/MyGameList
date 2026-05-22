@@ -37,7 +37,7 @@ export default function Dashboard (){
         const fetchRecentGames = async () => {
             try {
                 setLoadingRecentGames(true);
-                setLoadingRecentGames(true);
+                setLoadingloadingRecentAchiev(true);
                 const userId = user?.userId;
                 if (!userId) {
                     setError('User ID not found');
@@ -114,13 +114,13 @@ export default function Dashboard (){
 
     const renderGameRows = () => {
         if (loadingRecentGames) {
-            return <div className="message">t('Dashboard.loading')</div>;
+            return <div className="message">{t('Dashboard.loading')}</div>;
         }
         if (error) {
-            return <div className="message">t('Dashboard.error')</div>;
+            return <div className="message">{t('Dashboard.error')}</div>;
         }
         if(recentGames.length === 0) {
-            return <div className="message">t('Dashboard.NoRecentGames')</div>;
+            return <div className="message">{t('Dashboard.NoRecentGames')}</div>;
         }
 
         return recentGames.map((game) => (
@@ -165,13 +165,13 @@ export default function Dashboard (){
 
     const renderAchievementRows = () => {
         if (loadingRecentAchiev) {
-            return <div className="message">t('Dashboard.loading')</div>;
+            return <div className="message">{t('Dashboard.loading')}</div>;
         }
         if (error) {
-            return <div className="message">t('Dashboard.error')</div>;
+            return <div className="message">{t('Dashboard.error')}</div>;
         }
         if(recentAchievements.length === 0) {
-            return <div className="message">t('Dashboard.NoRecentAchievements')</div>;
+            return <div className="message">{t('Dashboard.NoRecentAchievements')}</div>;
         }
 
         return recentAchievements.map((achievement, index) => {
@@ -198,9 +198,8 @@ export default function Dashboard (){
         <main className="dashbord">
             <div className="greeting">
                 <div className="greeting-sub">Lundi 27 avril 2026</div>
-                <h1>Bon retour, <span>{user?.pseudo || 'Guest'}</span></h1>
+                <h1>{t('Dashboard.WelcomeBack')}<span>{user?.pseudo || 'Guest'}</span></h1>
             </div>
-
             <div className="stats-row">
                 <div className="scard glass">
                     <div className="scard-label">Jeux joués</div>
@@ -227,15 +226,15 @@ export default function Dashboard (){
             <div className="grid2">
                 <div className="section glass">
                     <div className="sec-head">
-                        <span className="sec-title">Jeux récents</span>
-                        <span className="sec-link">voir tout</span>
+                        <span className="sec-title">{t('Dashboard.RecentGames')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     {renderGameRows()}
                 </div>
 
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Trophées récents</span><span className="sec-link">voir
-                tout</span>
+                    <div className="sec-head"><span className="sec-title">{t('Dashboard.RecentAchievements')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     <div className="tlist">
                         {renderAchievementRows()}
@@ -246,7 +245,8 @@ export default function Dashboard (){
 
             <div className="grid3">
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Collections</span><span className="sec-link">gérer</span>
+                    <div className="sec-head"><span className="sec-title">Collections</span>
+                        <span className="sec-link">{t('Dashboard.Manage')}</span>
                     </div>
                     <div className="col-row">
                         <div className="ccard">
@@ -263,7 +263,8 @@ export default function Dashboard (){
                 </div>
 
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Amis</span><span className="sec-link">voir tout</span>
+                    <div className="sec-head"><span className="sec-title">{t('Dashboard.Friends')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     <div className="frow">
                         <div className="fav on" >MK</div>
