@@ -116,5 +116,8 @@ namespace Mygamelist.Business
         public async Task<List<AchievementSchemaDto>> GetUserRecentAchievements(int id, int count,
             bool includeRarity, string l) => await _steamService.GetRecentAchievements(GetSteamId(id), count, includeRarity, l);
 
+        public async Task<double> GetUserProgressionGame(int id, int appId, string? l) =>
+            await _steamService.GetAchievementProgressionPercentage(GetSteamId(id), appId, l);
+
     }
 }
