@@ -68,9 +68,8 @@ export default function Login(){
                   secure: true,         // HTTPS uniquement
                   sameSite: 'strict'    // Protection CSRF
                 });
-                setTimeout(() => {
-                    navigate('/');
-                }, 1000);
+                navigate('/');
+
 
             })
             .catch((err) => {
