@@ -37,6 +37,19 @@ public class CollectionController : ControllerBase
         return Ok(collections);
     }
     
+    // GET: api/user/{userId}/collection/{collectionId}
+    [HttpGet]
+    [Route("{id:int:min(1)}")]
+    [EndpointName("GetCollection")]
+    [ActionName("GetCollection")]
+    public async Task<IActionResult> GetCollection(int id)
+    {
+        //if (!Utiles.UserSystems.IsAdminOrSelf(User, id)) return Forbid();
+        var collection = _collectionService.RetrieveById(id);
+        AddHateosLinks(collection);
+        return Ok(collection);
+    }
+    
     
     // POST: api/user/{userId}/collection
     [HttpPost]
