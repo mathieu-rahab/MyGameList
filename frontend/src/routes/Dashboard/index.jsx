@@ -56,7 +56,6 @@ export default function Dashboard (){
                 // Récupérer les progressions en parallèle
                 const lang = i18n.language === 'fr' ? 'french' : 'english';
                 games.forEach(game => {
-                    console.log(game);
                     const progressionLink = game.links?.find(
                         link => link.rel === 'get-user-progression-game'
                     );
@@ -82,9 +81,17 @@ export default function Dashboard (){
                 console.error(err);
             } finally {
                 setLoadingRecentGames(false);
-                setLoadingloadingRecentAchiev(false);
             }
         };
+
+        if (!authLoading && user?.userId) {
+            fetchRecentGames()
+                .then();
+        }
+    }, [user?.userId, authLoading]);
+
+
+    useEffect(() => {
 
         const fetchRecentAchievements = async () => {
             try {
@@ -100,14 +107,14 @@ export default function Dashboard (){
                 setRecentAchievements(achievements);
             } catch (err) {
                 console.error('Erreur lors de la récupération des trophées:', err);
+            } finally {
+                setLoadingloadingRecentAchiev(false);
             }
         };
 
-        if (!authLoading && user?.userId) {
-            fetchRecentGames()
-                .then(fetchRecentAchievements);
-        }
-    }, [user?.userId, authLoading, i18n.language]);
+         fetchRecentAchievements().then();
+
+    }, [recentGames, i18n?.language]); // charge après les jeux récents
 
 
 
@@ -140,7 +147,7 @@ export default function Dashboard (){
                 <div className="ginfo">
                     <div className="gname">{game.name}</div>
                     <div className="gmeta">
-                        {Math.round(game.playtime2Weeks / 60)}h joué
+                        {Math.round(game.playtime2Weeks / 60)}h {t('Dashboard.HoursPlayed')}
                     </div>
                     <div className="prog">
                         <div
@@ -157,7 +164,7 @@ export default function Dashboard (){
                 </div>
                 <div className="gtime">
                     {Math.round(game.playtimeForever / 60)}h<br />
-                    total
+                    {t('Dashboard.HoursPlayedTotal')}
                 </div>
             </div>
         ));
@@ -259,7 +266,7 @@ export default function Dashboard (){
 
                         <div className="ccard cadd">
                             <div className="cplus">+</div>
-                            <div className="cname">Nouvelle</div>
+                            <div className="cname">{t('Dahsboard.NewCollection')}</div>
                         </div>
                     </div>
                 </div>
