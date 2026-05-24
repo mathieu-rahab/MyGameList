@@ -33,6 +33,28 @@ export default function Layout() {
       }
     }
 
+    const AccountSettingsButton = () => {
+      if (isAuthenticated) {
+        return(
+            <Link to={'/Settings'}> //TODO: GOTO user account settings
+                <div className="av">
+                        <i className="ti ti-user" aria-hidden="true"></i>
+                    </div>
+                    <div
+                        className="hamburger"
+                        aria-label="Menu"
+                        onClick={() => setMenuOpen(o => !o)}
+                    >
+                    <span></span><span></span><span></span>
+                </div>
+            </Link>
+        )
+        
+      }
+        
+      
+    } 
+
     const DashboardButton = () => {
       if (isAuthenticated) {
         return (
@@ -95,16 +117,8 @@ export default function Layout() {
                     </div>
                     <div className="notif">⊹</div>
                     {LoginButton()}
-                    <div className="av">
-                        <i className="ti ti-user" aria-hidden="true"></i>
-                    </div>
-                    <div
-                        className="hamburger"
-                        aria-label="Menu"
-                        onClick={() => setMenuOpen(o => !o)}
-                    >
-                        <span></span><span></span><span></span>
-                    </div>
+                    {AccountSettingsButton()}
+                    
                 </div>
             </header>
 

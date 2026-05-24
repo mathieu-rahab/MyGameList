@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useNavigate, useLocation } from 'react-router-dom';
+import {useNavigate, useLocation, useSearchParams} from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useContext, useState } from "react";
 import "./index.css"
@@ -7,11 +7,15 @@ import "../../auth.css"
 import { useTranslation } from "react-i18next";
 import { getServerErrorMessage, getHttpErrorMessage } from '../../api/errorHandler.js';
 import {useAuth} from "../../utils/useAuth.jsx";
+import { useUserService } from "../../api/userService.js";
+
 
 export default function Login(){
     const {t, i18n} = useTranslation();
     const { user: _, loading: __ } = useAuth();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const userService = useUserService();
     const [cookies, setCookie] = useCookies(['jwt_token']);
     const [inputs, setInputs] = useState({
         email: useLocation().state?.email || '', 
@@ -38,40 +42,17 @@ export default function Login(){
         // Marquer tout comme touché pour afficher toutes les erreurs
         setTouched({ email: true, password: true});
         setLoading(true);
-        fetch('/api/Identity/token', {
-            method: 'POST',
-            body: JSON.stringify({
-                userEmail: inputs.email,
-                password: inputs.password
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        })
-            .then(async (response) => {
-                if (!response.ok) {
-                    let err = null;
-                    try {
-                        err = await response.json();
-                    } catch {}
-                    return Promise.reject({
-                        status: response.status,
-                        error: err?.error
-                    });
-                }
-                setSuccess(true);
-                const token = await response.text();
-                // Définir le cookie
-                setCookie('jwt_token', token, { 
-                  path: '/',            // Rend le cookie accessible sur tout le site
-                  maxAge: 3600,         // Expire dans 1h (en secondes)
-                  secure: true,         // HTTPS uniquement
-                  sameSite: 'strict'    // Protection CSRF
-                });
-                setTimeout(() => {
-                    navigate('/');
-                }, 1000);
 
+        userService.login(inputs.email, inputs.password)
+            .then((token) => {
+                setSuccess(true);
+                const redirectUrl = searchParams.get('redirect');
+                // Après connexion réussie
+                if (redirectUrl) {
+                    navigate(decodeURIComponent(redirectUrl));
+                } else {
+                    navigate('/');
+                }
             })
             .catch((err) => {
                 setLoading(false);
@@ -85,6 +66,7 @@ export default function Login(){
                 setErrors(prev => ({ ...prev, server: getHttpErrorMessage(err.status, t) }));
             });
     }
+
 
     return (
         <div className="auth-page">

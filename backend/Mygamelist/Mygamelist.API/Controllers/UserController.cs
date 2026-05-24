@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Mygamelist.Contracts.DTOs.Steam;
 using Mygamelist.Contracts.DTOs.User;
 using Mygamelist.Entity;
 using Mygamelist.Core.Business;
@@ -48,6 +49,7 @@ public class UserController : ControllerBase
     {
         if (!Utiles.UserSystems.IsAdminOrSelf(User, id)) return Forbid();
         var user = _userService.RetrieveById(id);
+        AddHateosLinks(user);
         return Ok(user);
     }
 
@@ -136,10 +138,66 @@ public class UserController : ControllerBase
     [Route("{id:int:min(1)}/recent-games")]
     [EndpointName("GetUserRecentlyPlayedGames")]
     [ActionName("GetUserRecentlyPlayedGame")]
-    public async Task<IActionResult> GetUserRecentlyPlayedGame(int id, [FromQuery] int? count = null, [FromQuery] bool? includeAchievements = false)
+    public async Task<IActionResult> GetUserRecentlyPlayedGame(int id, [FromQuery] int? count , [FromQuery] bool? includeProgression, [FromQuery] string? l)
     {
-        var games = await _userService.GetUserRecentlyPlayedGames(id, count, includeAchievements);
+        if (count <= 0)
+            return BadRequest(new { error = "COUNT_MUST_BE_POSITIVE" });
+        
+        var games = await _userService.GetUserRecentlyPlayedGames(id, count ?? null, includeProgression ?? false, l ?? "french");
+        foreach (var game in games)
+            AddHateosGameLinks(game, id);
+        
         return Ok(games);    
+    }
+    
+    
+    // GET: api/user/{id}/progression-game/{appId}
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("{id:int:min(1)}/progression-game/{appId:int:min(1)}")]
+    [EndpointName("GetUserProgressionGame")]
+    [ActionName("GetUserProgressionGame")]
+    public async Task<IActionResult> GetUserProgressionGame(int id, int appId, [FromQuery] string? l)
+    {
+        
+        var progression = await _userService.GetUserProgressionGame(id, appId, l ?? "french");
+        return Ok( new
+        {
+            id,
+            appId,
+            progression
+        });    
+    }
+    
+    // GET: api/user/{id}/recent-achievements
+    [HttpGet]
+    [Route("{id:int:min(1)}/recent-achievements")]
+    [EndpointName("GetUserRecentAchievements")]
+    [ActionName("GetUserRecentAchievements")]
+    public async Task<IActionResult> GetUserRecentAchievements(int id, [FromQuery] int? count, [FromQuery] bool? includeRarity, [FromQuery] string? l)
+    {
+        if (count <= 0)
+            return BadRequest(new { error = "COUNT_MUST_BE_POSITIVE" });
+        
+        var achievements = await _userService.GetUserRecentAchievements(id, count ?? 10, includeRarity ?? false, l ?? "french");
+        return Ok(achievements);
+    }
+
+
+    private void AddHateosGameLinks(GameDto game, int userId)
+    {
+        game.Links = new List<Link> {
+            _hateosLinkGenerator.Generate(
+                "GetUserProgressionGame",
+                new
+                {
+                    id = userId,
+                    appId = game.Id
+                },
+                "get-user-progression-game",
+                "GET"),
+           
+        };
     }
     
     
@@ -158,10 +216,14 @@ public class UserController : ControllerBase
                 "PUT"),
             _hateosLinkGenerator.Generate(
                 "DeleteUser",
-                new {id = user.Id
-                },
+                new {id = user.Id },
                 "delete-user",
-                "DELETE")
+                "DELETE"),
+            _hateosLinkGenerator.Generate(
+                "GetUserRecentAchievements",
+                new { id = user.Id },
+                "recent-achievements",
+                "GET")
         });
     }
 }

@@ -20,6 +20,18 @@ EnvReader.Load(".env");
 
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevCors", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:5173",
+                "http://localhost:3173"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 // DI
 builder.Services.AddScoped<IUserService, UserService>();
@@ -107,6 +119,7 @@ using (var scope = app.Services.CreateScope())
 
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseCors("DevCors");
 
 if (app.Environment.IsDevelopment())
 {

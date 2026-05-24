@@ -9,6 +9,7 @@ import Settings from "./routes/Settings";
 
 //layout
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 
 export default function App(){
@@ -16,12 +17,21 @@ export default function App(){
     <BrowserRouter>
         <Routes>
             <Route element={<Layout/>}>
+                {/* Routes publiques */}
                 <Route path="/" element= {<Home />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/newUser" element={<NewUser />}/>
                 <Route path="/Game" element={<Game/>}/>
-                <Route path="/dashboard" element={<Dashboard/>}/>
-                <Route path="/settings" element={<Settings/>}/>
+
+                {/* Routes protégées */}
+                <Route
+                    path="/dashboard"
+                    element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
             </Route>
         </Routes>
     </BrowserRouter>

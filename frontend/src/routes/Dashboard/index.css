@@ -298,8 +298,8 @@ main {
 }
 
 .tico {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -342,7 +342,7 @@ main {
     margin-left: auto;
     font-size: 9px;
     padding: 2px 7px;
-    border-radius: 20px;
+    border-radius: 5px;
     font-family: 'DM Mono', monospace;
     letter-spacing: .5px;
     flex-shrink: 0
@@ -501,6 +501,11 @@ body.dark .b-br {
     transition: color .3s
 }
 
+.message {
+    padding: 1rem;
+    text-align: center;
+    color: #999;
+}
 
 /* ── TABLET ── */
 @media (max-width: 860px) {

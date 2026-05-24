@@ -1,4 +1,10 @@
 {
+  "achievements": {
+    "bronze": "Bronze",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "silver": "Silver"
+  },
   "CreateAccount": {
     "ExistingAccountQuestion": "Already have an account?",
     "Fields": {
@@ -29,11 +35,20 @@
       "PseudoTooShort": "Username must be at least 3 characters long."
     }
   },
+  "Dashboard": {
+    "error": "",
+    "Friends": "Friends",
+    "loading": "Loading in progress",
+    "Manage": "manage",
+    "NoRecentAchievements": "No recent achievements",
+    "NoRecentGames": "No recent games",
+    "RecentAchievements": "Recent achievements",
+    "RecentGames": "Recent games",
+    "ShowMore": "show more",
+    "WelcomeBack": "Welcome back,"
+  },
   "GameDetail": {
     "AboutTheGame": "About the game"
-  },
-  "Greetings": {
-    "Hello": "Hello"
   },
   "Layout": {
     "Dark": "Dark",

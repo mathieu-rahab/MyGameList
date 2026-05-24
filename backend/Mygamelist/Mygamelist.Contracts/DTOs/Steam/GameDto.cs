@@ -1,3 +1,5 @@
+using Mygamelist.Contracts.Hateos;
+
 namespace Mygamelist.Contracts.DTOs.Steam;
 
 public class GameDto
@@ -8,5 +10,7 @@ public class GameDto
     public int? PlaytimeForever { get; set; }
     public int? Playtime2Weeks { get; set; }
     public double? AchievementProgression { get; set; }
+    public List<Link> Links { get; set; } = new();
+
     
 }

@@ -8,10 +8,14 @@ import {useAuth} from "../../utils/useAuth.jsx";
 
 export default function Dashboard (){
     const {t, i18n} = useTranslation();
-    const { getRecentGames } = useUserService();
+    const { getRecentGames, getRecentAchievements, getProgressionGame } = useUserService();
     const { user, loading: authLoading } = useAuth();
     const [recentGames, setRecentGames] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [recentAchievements, setRecentAchievements] = useState([]);
+    const [progressions, setProgressions] = useState({}); // clé: gameId, valeur: progression
+    const [loadingRecentGames, setLoadingRecentGames] = useState(true);
+    const [loadingRecentAchiev, setLoadingloadingRecentAchiev] = useState(true);
+
     const [error, setError] = useState(null);
     const [imageErrors, setImageErrors] = useState({});
 
@@ -19,44 +23,112 @@ export default function Dashboard (){
         setImageErrors(prev => ({ ...prev, [gameId]: true }));
     };
 
+    const getAchievementRarity = (percent) => {
+        if (percent <= 10) return { rarity: 'platinum', label: t('achievements.platinum'), class: 'b-pl' };
+        if (percent <= 30) return { rarity: 'silver', label: t('achievements.silver'), class: 'b-si' };
+        if (percent <= 60) return { rarity: 'gold', label: t('achievements.gold'), class: 'b-go' };
+
+        return { rarity: 'bronze', label: t('achievements.bronze'), class: 'b-br' };
+    };
+
+    // ... existing code ...
+
     useEffect(() => {
         const fetchRecentGames = async () => {
             try {
-                setLoading(true);
-                // Récupérer l'ID depuis user
+                setLoadingRecentGames(true);
+                setLoadingloadingRecentAchiev(true);
                 const userId = user?.userId;
                 if (!userId) {
                     setError('User ID not found');
-                    setLoading(false);
+                    setLoadingRecentGames(false);
                     return;
                 }
-                const games = await getRecentGames(userId, 6);
+                const games = await getRecentGames(
+                    userId,
+                    6,
+                    false,
+                    i18n.language === 'fr' ? 'french' : 'english'
+                );
                 setRecentGames(games);
                 setError(null);
+
+                // Récupérer les progressions en parallèle
+                const lang = i18n.language === 'fr' ? 'french' : 'english';
+                games.forEach(game => {
+                    const progressionLink = game.links?.find(
+                        link => link.rel === 'get-user-progression-game'
+                    );
+                    if (progressionLink) {
+                        getProgressionGame(progressionLink.href, lang)
+                            .then(progressionData => {
+                                setProgressions(prev => ({
+                                    ...prev,
+                                    [game.id]: progressionData.progression
+                                }));
+                            })
+                            .catch(err => {
+                                console.error(`Erreur progression pour ${game.name}:`, err);
+                            });
+                    }
+                });
             } catch (err) {
                 if (err.error) {
                     setError(err.error);
-                }
-                else {
+                } else {
                     setError(err.status);
                 }
                 console.error(err);
             } finally {
-                setLoading(false);
+                setLoadingRecentGames(false);
             }
         };
 
-        // Attendre que l'user soit chargé avant de récupérer les jeux
         if (!authLoading && user?.userId) {
-            fetchRecentGames();
+            fetchRecentGames()
+                .then();
         }
     }, [user?.userId, authLoading]);
 
 
+    useEffect(() => {
+
+        const fetchRecentAchievements = async () => {
+            try {
+                const userId = user?.userId;
+                if (!userId) return;
+
+                const achievements = await getRecentAchievements(
+                    userId,
+                    7,
+                    true,
+                    i18n.language === 'fr' ? 'french' : 'english'
+                );
+                setRecentAchievements(achievements);
+            } catch (err) {
+                console.error('Erreur lors de la récupération des trophées:', err);
+            } finally {
+                setLoadingloadingRecentAchiev(false);
+            }
+        };
+
+         fetchRecentAchievements().then();
+
+    }, [recentGames, i18n?.language]); // charge après les jeux récents
+
+
+
 
     const renderGameRows = () => {
-        if (loading) return <div>Chargement...</div>;
-        if (error) return <div>Erreur: {error}</div>;
+        if (loadingRecentGames) {
+            return <div className="message">{t('Dashboard.loading')}</div>;
+        }
+        if (error) {
+            return <div className="message">{t('Dashboard.error')}</div>;
+        }
+        if(recentGames.length === 0) {
+            return <div className="message">{t('Dashboard.NoRecentGames')}</div>;
+        }
 
         return recentGames.map((game) => (
             <div key={game.id} className="game-row">
@@ -75,31 +147,68 @@ export default function Dashboard (){
                 <div className="ginfo">
                     <div className="gname">{game.name}</div>
                     <div className="gmeta">
-                        {Math.round(game.playtime2Weeks / 60)}h joué
+                        {Math.round(game.playtime2Weeks / 60)}h {t('Dashboard.HoursPlayed')}
                     </div>
                     <div className="prog">
                         <div
                             className="prog-b"
-                            style={{'--progress-width': game.achievementProgression ? `${game.achievementProgression}%` : '0%', background: '#a78bfa'}}
+                            style={{
+                                '--progress-width': progressions[game.id] !== undefined
+                                    ? `${progressions[game.id]}%`
+                                    : '0%',
+                                background: '#a78bfa'
+                            }}
                         >
                         </div>
                     </div>
                 </div>
                 <div className="gtime">
                     {Math.round(game.playtimeForever / 60)}h<br />
-                    total
+                    {t('Dashboard.HoursPlayedTotal')}
                 </div>
             </div>
         ));
     };
 
+    const renderAchievementRows = () => {
+        if (loadingRecentAchiev) {
+            return <div className="message">{t('Dashboard.loading')}</div>;
+        }
+        if (error) {
+            return <div className="message">{t('Dashboard.error')}</div>;
+        }
+        if(recentAchievements.length === 0) {
+            return <div className="message">{t('Dashboard.NoRecentAchievements')}</div>;
+        }
+
+        return recentAchievements.map((achievement, index) => {
+            const rarityInfo = getAchievementRarity(achievement.rarity);
+            return (
+                <div key={index} className="trow">
+                    <div>
+                        <img className="tico achievementIcon" src={achievement.icon} alt={achievement.displayName}></img>
+                    </div>
+                    <div>
+                        <div className="tname">{achievement.displayName}</div>
+                        <div className="tgame">{achievement.gameName}</div>
+                    </div>
+                    <span className={`tbadge ${rarityInfo.class}`}>
+                        {rarityInfo.label.toUpperCase()}
+                    </span>
+                </div>
+            );
+        });
+    };
+
+
     return (
         <main className="dashbord">
             <div className="greeting">
-                <div className="greeting-sub">Lundi 27 avril 2026</div>
-                <h1>Bon retour, <span>{user?.pseudo || 'Guest'}</span></h1>
+                <div className="greeting-sub">
+                    {new Date().toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                </div>
+                <h1>{t('Dashboard.WelcomeBack')}<span> {user?.pseudo || 'Guest'}</span></h1>
             </div>
-
             <div className="stats-row">
                 <div className="scard glass">
                     <div className="scard-label">Jeux joués</div>
@@ -126,56 +235,27 @@ export default function Dashboard (){
             <div className="grid2">
                 <div className="section glass">
                     <div className="sec-head">
-                        <span className="sec-title">Jeux récents</span>
-                        <span className="sec-link">voir tout</span>
+                        <span className="sec-title">{t('Dashboard.RecentGames')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     {renderGameRows()}
                 </div>
 
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Trophées récents</span><span className="sec-link">voir
-                tout</span>
+                    <div className="sec-head"><span className="sec-title">{t('Dashboard.RecentAchievements')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     <div className="tlist">
-                        <div className="trow">
-                            <div className="tico ti-pl">◆</div>
-                            <div>
-                                <div className="tname">Maître de l'univers</div>
-                                <div className="tgame">Stellar Odyssey</div>
-                            </div>
-                            <span className="tbadge b-pl">PLATINE</span>
-                        </div>
-                        <div className="trow">
-                            <div className="tico ti-go">◇</div>
-                            <div>
-                                <div className="tname">Survivant</div>
-                                <div className="tgame">Crimson Arena</div>
-                            </div>
-                            <span className="tbadge b-go">OR</span>
-                        </div>
-                        <div className="trow">
-                            <div className="tico ti-si">○</div>
-                            <div>
-                                <div className="tname">Gardien de forêt</div>
-                                <div className="tgame">Verdant Realm</div>
-                            </div>
-                            <span className="tbadge b-si">ARGENT</span>
-                        </div>
-                        <div className="trow">
-                            <div className="tico ti-br">◌</div>
-                            <div>
-                                <div className="tname">Navigateur</div>
-                                <div className="tgame">Deep Protocol</div>
-                            </div>
-                            <span className="tbadge b-br">BRONZE</span>
-                        </div>
+                        {renderAchievementRows()}
+
                     </div>
                 </div>
             </div>
 
             <div className="grid3">
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Collections</span><span className="sec-link">gérer</span>
+                    <div className="sec-head"><span className="sec-title">Collections</span>
+                        <span className="sec-link">{t('Dashboard.Manage')}</span>
                     </div>
                     <div className="col-row">
                         <div className="ccard">
@@ -186,13 +266,14 @@ export default function Dashboard (){
 
                         <div className="ccard cadd">
                             <div className="cplus">+</div>
-                            <div className="cname">Nouvelle</div>
+                            <div className="cname">{t('Dahsboard.NewCollection')}</div>
                         </div>
                     </div>
                 </div>
 
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Amis</span><span className="sec-link">voir tout</span>
+                    <div className="sec-head"><span className="sec-title">{t('Dashboard.Friends')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     <div className="frow">
                         <div className="fav on" >MK</div>
