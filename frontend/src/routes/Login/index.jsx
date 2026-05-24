@@ -46,13 +46,6 @@ export default function Login(){
         userService.login(inputs.email, inputs.password)
             .then((token) => {
                 setSuccess(true);
-                // Définir le cookie
-                setCookie('jwt_token', token, {
-                    path: '/',            // Rend le cookie accessible sur tout le site
-                    maxAge: 3600,         // Expire dans 1h (en secondes)
-                    secure: true,         // HTTPS uniquement
-                    sameSite: 'strict'    // Protection CSRF
-                });
                 const redirectUrl = searchParams.get('redirect');
                 // Après connexion réussie
                 if (redirectUrl) {

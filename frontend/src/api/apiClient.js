@@ -1,45 +1,52 @@
 import { useCookies } from 'react-cookie';
+import {shouldRenew, storeToken} from '../utils/tokenUtils.js';
 
 const API_BASE = 'http://localhost:5131/api/';
 
-// Hook pour récupérer le token
 export const useApiCall = () => {
-    const [cookies] = useCookies(['jwt_token']);
+    const [cookies, setCookie] = useCookies(['jwt_token']);
 
-    return async (endpoint, options = {}) => {
-        const token = cookies.jwt_token;
+    // Pour renouveler le token
+    const rawFetch = async (endpoint, options = {}) => {
         const { responseType = 'json', ...fetchOptions } = options;
 
-        const headers = {
-            'Content-Type': 'application/json',
-            ...fetchOptions.headers,
-        };
+        const response = await fetch(
+            endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`,
+            { ...fetchOptions, headers: { 'Content-Type': 'application/json', ...fetchOptions.headers } }
+        );
 
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
+        if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            return Promise.reject({ status: response.status, error: err?.error });
         }
 
-        try {
-            const response = await fetch(endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`, {
-                ...fetchOptions,
-                headers,
-            });
+        return responseType === 'text' ? response.text() : response.json();
+    };
 
-            if (!response.ok) {
-                let err = null;
-                try {
-                    err = await response.json();
-                } catch {}
-                return Promise.reject({
-                    status: response.status,
-                    error: err?.error
+    // Fonction principal
+    return async (endpoint, options = {}) => {
+        let token = cookies.jwt_token;
+
+        if (token && shouldRenew(token)) {
+            try {
+                const newToken = await rawFetch('Identity/renew', {
+                    method: 'POST',
+                    responseType: 'text',
+                    headers: { Authorization: `Bearer ${token}` },
                 });
+                storeToken(setCookie, newToken);
+                token = newToken;
+            } catch {
+                // on continue avec le token actuel
             }
-
-            // Retourner selon le type de réponse attendu
-            return responseType === 'text' ? await response.text() : await response.json();
-        } catch (error) {
-            throw error;
         }
+
+        return rawFetch(endpoint, {
+            ...options,
+            headers: {
+                ...options.headers,
+                ...(token && { Authorization: `Bearer ${token}` }),
+            },
+        });
     };
 };

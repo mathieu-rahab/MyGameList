@@ -1,12 +1,18 @@
 import { useApiCall } from './apiClient';
+import {useCookies} from "react-cookie";
+import {storeToken} from "../utils/tokenUtils.js";
 
 export const useUserService = () => {
     const apiCall = useApiCall();
+    const [, setCookie] = useCookies(['jwt_token']);
+
+
 
     return {
+
         // Login
         login: async (email, password) => {
-            return apiCall('Identity/token', {
+            const token = await apiCall('Identity/token', {
                 method: 'POST',
                 body: JSON.stringify({
                     userEmail: email,
@@ -14,6 +20,8 @@ export const useUserService = () => {
                 }),
                 responseType: 'text'
             });
+            storeToken(setCookie, token);
+            return token;
         },
 
         // Créer un nouvel utilisateur
