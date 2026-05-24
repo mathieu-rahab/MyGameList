@@ -1,28 +1,25 @@
 import { useCookies } from 'react-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { useState, useEffect, useCallback } from 'react';
+import { useUserService } from '../api/userService';
+
 
 export const useAuth = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['jwt_token']);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const token = cookies.jwt_token;
+    const userService = useUserService();
+
 
     // Récupérer les détails utilisateur depuis l'API
     const fetchUserDetails = useCallback(async (userId) => {
         if (!userId) return;
 
         try {
-            const response = await fetch(`/api/User/${userId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.ok) {
-                const userData = await response.json();
-                setUser(prev => ({ ...prev, ...userData }));
-                localStorage.setItem('user', JSON.stringify(userData));
-            }
+            const userData = await userService.getUserInfo(userId);
+            setUser(prev => ({ ...prev, ...userData }));
+            localStorage.setItem('user', JSON.stringify(userData));
         } catch (error) {
             console.error('Erreur récupération user:', error);
         }

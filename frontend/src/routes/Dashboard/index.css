@@ -501,6 +501,11 @@ body.dark .b-br {
     transition: color .3s
 }
 
+.message {
+    padding: 1rem;
+    text-align: center;
+    color: #999;
+}
 
 /* ── TABLET ── */
 @media (max-width: 860px) {

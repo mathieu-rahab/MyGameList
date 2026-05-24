@@ -17,5 +17,6 @@ namespace Mygamelist.Core.Business
         Task<List<AchievementSchemaDto>> GetUserRecentAchievements(int id, int count,
             bool includeRarity, string l);
 
+        Task<double> GetUserProgressionGame(int id, int appId, string? l);
     }
 }

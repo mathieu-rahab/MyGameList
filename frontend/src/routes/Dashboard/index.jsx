@@ -8,11 +8,14 @@ import {useAuth} from "../../utils/useAuth.jsx";
 
 export default function Dashboard (){
     const {t, i18n} = useTranslation();
-    const { getRecentGames, getRecentAchievements } = useUserService();
+    const { getRecentGames, getRecentAchievements, getProgressionGame } = useUserService();
     const { user, loading: authLoading } = useAuth();
     const [recentGames, setRecentGames] = useState([]);
     const [recentAchievements, setRecentAchievements] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [progressions, setProgressions] = useState({}); // clé: gameId, valeur: progression
+    const [loadingRecentGames, setLoadingRecentGames] = useState(true);
+    const [loadingRecentAchiev, setLoadingloadingRecentAchiev] = useState(true);
+
     const [error, setError] = useState(null);
     const [imageErrors, setImageErrors] = useState({});
 
@@ -28,35 +31,58 @@ export default function Dashboard (){
         return { rarity: 'bronze', label: t('achievements.bronze'), class: 'b-br' };
     };
 
+    // ... existing code ...
+
     useEffect(() => {
         const fetchRecentGames = async () => {
             try {
-                setLoading(true);
-                // Récupérer l'ID depuis user
+                setLoadingRecentGames(true);
+                setLoadingloadingRecentAchiev(true);
                 const userId = user?.userId;
                 if (!userId) {
                     setError('User ID not found');
-                    setLoading(false);
+                    setLoadingRecentGames(false);
                     return;
                 }
                 const games = await getRecentGames(
                     userId,
                     6,
-                    true,
+                    false,
                     i18n.language === 'fr' ? 'french' : 'english'
                 );
                 setRecentGames(games);
                 setError(null);
+
+                // Récupérer les progressions en parallèle
+                const lang = i18n.language === 'fr' ? 'french' : 'english';
+                games.forEach(game => {
+                    console.log(game);
+                    const progressionLink = game.links?.find(
+                        link => link.rel === 'get-user-progression-game'
+                    );
+                    if (progressionLink) {
+                        getProgressionGame(progressionLink.href, lang)
+                            .then(progressionData => {
+                                setProgressions(prev => ({
+                                    ...prev,
+                                    [game.id]: progressionData.progression
+                                }));
+                            })
+                            .catch(err => {
+                                console.error(`Erreur progression pour ${game.name}:`, err);
+                            });
+                    }
+                });
             } catch (err) {
                 if (err.error) {
                     setError(err.error);
-                }
-                else {
+                } else {
                     setError(err.status);
                 }
                 console.error(err);
             } finally {
-                setLoading(false);
+                setLoadingRecentGames(false);
+                setLoadingloadingRecentAchiev(false);
             }
         };
 
@@ -87,8 +113,15 @@ export default function Dashboard (){
 
 
     const renderGameRows = () => {
-        if (loading) return <div>Chargement...</div>;
-        if (error) return <div>Erreur: {error}</div>;
+        if (loadingRecentGames) {
+            return <div className="message">{t('Dashboard.loading')}</div>;
+        }
+        if (error) {
+            return <div className="message">{t('Dashboard.error')}</div>;
+        }
+        if(recentGames.length === 0) {
+            return <div className="message">{t('Dashboard.NoRecentGames')}</div>;
+        }
 
         return recentGames.map((game) => (
             <div key={game.id} className="game-row">
@@ -112,7 +145,12 @@ export default function Dashboard (){
                     <div className="prog">
                         <div
                             className="prog-b"
-                            style={{'--progress-width': game.achievementProgression ? `${game.achievementProgression}%` : '0%', background: '#a78bfa'}}
+                            style={{
+                                '--progress-width': progressions[game.id] !== undefined
+                                    ? `${progressions[game.id]}%`
+                                    : '0%',
+                                background: '#a78bfa'
+                            }}
                         >
                         </div>
                     </div>
@@ -126,8 +164,14 @@ export default function Dashboard (){
     };
 
     const renderAchievementRows = () => {
-        if (recentAchievements.length === 0) {
-            return <div style={{ padding: '1rem', textAlign: 'center', color: '#999' }}>Aucun trophée récent</div>;
+        if (loadingRecentAchiev) {
+            return <div className="message">{t('Dashboard.loading')}</div>;
+        }
+        if (error) {
+            return <div className="message">{t('Dashboard.error')}</div>;
+        }
+        if(recentAchievements.length === 0) {
+            return <div className="message">{t('Dashboard.NoRecentAchievements')}</div>;
         }
 
         return recentAchievements.map((achievement, index) => {
@@ -153,10 +197,11 @@ export default function Dashboard (){
     return (
         <main className="dashbord">
             <div className="greeting">
-                <div className="greeting-sub">Lundi 27 avril 2026</div>
-                <h1>Bon retour, <span>{user?.pseudo || 'Guest'}</span></h1>
+                <div className="greeting-sub">
+                    {new Date().toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                </div>
+                <h1>{t('Dashboard.WelcomeBack')}<span> {user?.pseudo || 'Guest'}</span></h1>
             </div>
-
             <div className="stats-row">
                 <div className="scard glass">
                     <div className="scard-label">Jeux joués</div>
@@ -183,15 +228,15 @@ export default function Dashboard (){
             <div className="grid2">
                 <div className="section glass">
                     <div className="sec-head">
-                        <span className="sec-title">Jeux récents</span>
-                        <span className="sec-link">voir tout</span>
+                        <span className="sec-title">{t('Dashboard.RecentGames')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     {renderGameRows()}
                 </div>
 
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Trophées récents</span><span className="sec-link">voir
-                tout</span>
+                    <div className="sec-head"><span className="sec-title">{t('Dashboard.RecentAchievements')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     <div className="tlist">
                         {renderAchievementRows()}
@@ -202,7 +247,8 @@ export default function Dashboard (){
 
             <div className="grid3">
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Collections</span><span className="sec-link">gérer</span>
+                    <div className="sec-head"><span className="sec-title">Collections</span>
+                        <span className="sec-link">{t('Dashboard.Manage')}</span>
                     </div>
                     <div className="col-row">
                         <div className="ccard">
@@ -219,7 +265,8 @@ export default function Dashboard (){
                 </div>
 
                 <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Amis</span><span className="sec-link">voir tout</span>
+                    <div className="sec-head"><span className="sec-title">{t('Dashboard.Friends')}</span>
+                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                     </div>
                     <div className="frow">
                         <div className="fav on" >MK</div>
