@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useNavigate, useLocation } from 'react-router-dom';
+import {useNavigate, useLocation, useSearchParams} from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useContext, useState } from "react";
 import "./index.css"
@@ -14,6 +14,7 @@ export default function Login(){
     const {t, i18n} = useTranslation();
     const { user: _, loading: __ } = useAuth();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const userService = useUserService();
     const [cookies, setCookie] = useCookies(['jwt_token']);
     const [inputs, setInputs] = useState({
@@ -52,7 +53,13 @@ export default function Login(){
                     secure: true,         // HTTPS uniquement
                     sameSite: 'strict'    // Protection CSRF
                 });
-                navigate('/');
+                const redirectUrl = searchParams.get('redirect');
+                // Après connexion réussie
+                if (redirectUrl) {
+                    navigate(decodeURIComponent(redirectUrl));
+                } else {
+                    navigate('/');
+                }
             })
             .catch((err) => {
                 setLoading(false);

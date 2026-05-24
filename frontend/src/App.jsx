@@ -8,17 +8,28 @@ import Dashboard from "./routes/Dashboard";
 
 //layout
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App(){
   return (
     <BrowserRouter>
         <Routes>
             <Route element={<Layout/>}>
+                {/* Routes publiques */}
                 <Route path="/" element= {<Home />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/newUser" element={<NewUser />}/>
                 <Route path="/Game" element={<Game/>}/>
-                <Route path="/dashboard" element={<Dashboard/>}/>
+
+                {/* Routes protégées */}
+                <Route
+                    path="/dashboard"
+                    element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
             </Route>
         </Routes>
     </BrowserRouter>
