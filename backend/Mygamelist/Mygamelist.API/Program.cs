@@ -25,6 +25,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
+builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddHttpClient<ISteamService, SteamService>();
