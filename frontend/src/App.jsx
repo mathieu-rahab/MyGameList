@@ -32,6 +32,14 @@ export default function App(){
                         </ProtectedRoute>
                     }
                 />
+                <Route
+                    path="/settings"
+                    element={
+                        <ProtectedRoute>
+                            <Settings />
+                        </ProtectedRoute>
+                    }
+                />
             </Route>
         </Routes>
     </BrowserRouter>

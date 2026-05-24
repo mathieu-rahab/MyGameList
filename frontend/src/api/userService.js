@@ -52,27 +52,23 @@ export const useUserService = () => {
             return apiCall(`${href}/?l=${l}`, {method:'GET'});
         },
 
-        getRecentGames: async (userId, count = 4, includeAchievements = true) => {
-            return apiCall(`/User/${userId}/recent-games/?count=${count}&includeAchievements=${includeAchievements}`,{method:'GET'});
-        },
-
         // Settings
         changePseudo: async (userId, pseudo) => {
-            return apiCall(`/User/${userId}`, {
+            return apiCall(`User/${userId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({ pseudo })
             });
         },
 
         changeEmail: async (userId, email) => {
-            return apiCall(`/User/${userId}`, {
+            return apiCall(`User/${userId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({ email })
             });
         },
 
         changePassword: async (userId, oldPassword, newPassword) => {
-            return apiCall(`/User/${userId}`, {
+            return apiCall(`User/${userId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     oldPassword,
