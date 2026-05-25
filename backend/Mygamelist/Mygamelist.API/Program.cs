@@ -26,6 +26,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICollectionService, CollectionService>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
+builder.Services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddHttpClient<ISteamService, SteamService>();
@@ -68,6 +69,8 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("isAdmin", p =>
         p.RequireClaim("userRole", "admin"));
+    options.AddPolicy("isUser", p =>
+        p.RequireClaim("userRole", "user"));
 });
 
 builder.Services.AddSwaggerGen(option =>
