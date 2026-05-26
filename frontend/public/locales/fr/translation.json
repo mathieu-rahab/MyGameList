@@ -16,8 +16,8 @@
     "ServerErrors": {
       "EMAIL_ALREADY_EXISTS": "Cette adresse e-mail est déjà associée à un compte.",
       "INVALID_PSEUDO": "Le pseudo fourni n'est pas valide.",
-      "PSEUDO_ALREADY_EXIST": "CreateAccount.ServerErrors.PSEUDO_ALREADY_EXIST",
-      "UNKNOWN": "Une erreur inattendue est survenue. Veuillez réessayer."
+      "UNKNOWN": "Une erreur inattendue est survenue. Veuillez réessayer.",
+      "USERNAME_ALREADY_EXISTS": "Ce pseudo est déjà pris par un autre utilisateur."
     },
     "Submit": "Confirmer",
     "Success": {
@@ -35,9 +35,14 @@
       "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères."
     }
   },
+  "Dahsboard": {
+    "NewCollection": "Dahsboard.NewCollection"
+  },
   "Dashboard": {
     "error": "Il y a eu une erreur lors du chargement",
     "Friends": "Amis",
+    "HoursPlayed": "Dashboard.HoursPlayed",
+    "HoursPlayedTotal": "Dashboard.HoursPlayedTotal",
     "loading": "Chargement en cours",
     "Manage": "gérer",
     "NoRecentAchievements": "Vous n'avez pas récemment gagné de trophée",
@@ -73,5 +78,16 @@
     "BAD_GATEWAY": "Le serveur est temporairement indisponible. Réessayez dans quelques instants.",
     "INTERNAL_SERVER_ERROR": "Une erreur interne est survenue. Veuillez réessayer.",
     "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion."
+  },
+  "Settings": {
+    "Validation": {
+      "EmailInvalid": "L'adresse e-mail n'est pas valide.",
+      "EmailNotChanged": "Vous utilisez déjà cette adresse mail.",
+      "PasswordInvalid": "Le mot de passe doit contenir au moins 7 caractères.",
+      "PseudoInvalidCharacter": "Le pseudo ne peut contenir que des lettres, des chiffres et les caractères - _ .",
+      "PseudoNotChanged": "Vous utilisez déjà ce pseudo.",
+      "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",
+      "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères."
+    }
   }
 }

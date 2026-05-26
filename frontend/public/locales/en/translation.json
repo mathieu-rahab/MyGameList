@@ -16,8 +16,8 @@
     "ServerErrors": {
       "EMAIL_ALREADY_EXISTS": "This email address is already associated with an account.",
       "INVALID_PSEUDO": "The provided username is not valid.",
-      "PSEUDO_ALREADY_EXIST": "",
-      "UNKNOWN": "An unexpected error occurred. Please try again."
+      "UNKNOWN": "An unexpected error occurred. Please try again.",
+      "USERNAME_ALREADY_EXISTS": "This username is already taken by another user."
     },
     "Submit": "Create my account",
     "Success": {
@@ -35,9 +35,14 @@
       "PseudoTooShort": "Username must be at least 3 characters long."
     }
   },
+  "Dahsboard": {
+    "NewCollection": ""
+  },
   "Dashboard": {
     "error": "",
     "Friends": "Friends",
+    "HoursPlayed": "",
+    "HoursPlayedTotal": "",
     "loading": "Loading in progress",
     "Manage": "manage",
     "NoRecentAchievements": "No recent achievements",
@@ -73,5 +78,16 @@
     "BAD_GATEWAY": "The server is temporarily unavailable. Please try again in a few moments.",
     "INTERNAL_SERVER_ERROR": "An internal error occurred. Please try again.",
     "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection."
+  },
+  "Settings": {
+    "Validation": {
+      "EmailInvalid": "",
+      "EmailNotChanged": "",
+      "PasswordInvalid": "",
+      "PseudoInvalidCharacter": "",
+      "PseudoNotChanged": "",
+      "PseudoTooLong": "",
+      "PseudoTooShort": ""
+    }
   }
 }

@@ -11,6 +11,12 @@ export const useAuth = () => {
     const token = cookies.jwt_token;
     const userService = useUserService();
 
+    //Mettre à jour l'affichage du user après modification des settings
+    const refreshUser = useCallback(async (userId) => {
+        const updatedUser = await userService.getUserInfo(userId);
+        setUser(prev => ({ ...prev, ...updatedUser }));
+    });
+
 
     // Récupérer les détails utilisateur depuis l'API
     const fetchUserDetails = useCallback(async (userId) => {
@@ -62,6 +68,7 @@ export const useAuth = () => {
         user,
         loading,
         isAuthenticated: !!token,
-        logout
+        logout,
+        refreshUser
     };
 };

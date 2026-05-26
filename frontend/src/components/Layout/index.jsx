@@ -36,7 +36,7 @@ export default function Layout() {
     const AccountSettingsButton = () => {
       if (isAuthenticated) {
         return(
-            <Link to={'/Settings'}> //TODO: GOTO user account settings
+            <Link to={'/Settings'}>
                 <div className="av">
                         <i className="ti ti-user" aria-hidden="true"></i>
                     </div>

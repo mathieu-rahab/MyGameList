@@ -5,10 +5,12 @@ import Login from "./routes/Login";
 import NewUser from "./routes/NewUser";
 import Game from "./routes/Game";
 import Dashboard from "./routes/Dashboard";
+import Settings from "./routes/Settings";
 
 //layout
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+
 
 export default function App(){
   return (
@@ -27,6 +29,14 @@ export default function App(){
                     element={
                         <ProtectedRoute>
                             <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/settings"
+                    element={
+                        <ProtectedRoute>
+                            <Settings />
                         </ProtectedRoute>
                     }
                 />
