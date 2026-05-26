@@ -72,8 +72,6 @@ export default function Settings() {
 
         await userService.changePseudo(userId, newPseudo);
 
-        setSuccess(true);
-
         await refreshUser(userId);
 
     } catch (err) {
