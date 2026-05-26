@@ -191,13 +191,10 @@ export default function Settings() {
     return (
         
         <div className="set-page">
-            <div className="profil">
-                <span>Bonjour {user?.pseudo}</span>
-            </div>
 
             <div className="changing_pseudo">
-                <span>GESTION PSEUDO</span>
-                    <input type = "text" placeholder='New username' value={newPseudo} onChange={(e) => setNewPseudo(e.target.value)}/>
+                <span>{t('Settings.Validation.setPseudo')}</span>
+                    <input type = "text" placeholder={t('Settings.Validation.newPseudo')} value={newPseudo} onChange={(e) => setNewPseudo(e.target.value)}/>
                     
                     {errors.pseudo && (<label htmlFor="pseudo" className="error">{errors.pseudo}</label>)}
 
@@ -210,9 +207,9 @@ export default function Settings() {
 
 
             <div className="changing_email">
-                <span>GESTION EMAIL</span>
+                <span>{t('Settings.Validation.setEmail')}</span>
 
-                <input type = "text" placeholder='New email' value={newEmail} onChange={(e) => setNewEmail(e.target.value)}/>
+                <input type = "text" placeholder={t('Settings.Validation.newEmail')} value={newEmail} onChange={(e) => setNewEmail(e.target.value)}/>
                 
                 {errors.email && (<label htmlFor="email" className="error">{errors.email}</label>)}
                 
@@ -224,17 +221,17 @@ export default function Settings() {
             </div>
 
             <div className="changing_password">
-                <span>GESTION MOT DE PASSE</span>
+                <span>{t('Settings.Validation.setPassword')}</span>
 
-                <input type = "password" placeholder='Old password' value={oldPassword} onChange={(e) => setOldPassword(e.target.value)}/>
+                <input type = "password" placeholder={t('Settings.Validation.oldPassword')} value={oldPassword} onChange={(e) => setOldPassword(e.target.value)}/>
 
-                <input type = "password" placeholder='New password' value={newPassword} onChange={(e) => setNewPassword(e.target.value)}/>
+                <input type = "password" placeholder={t('Settings.Validation.newPassword')} value={newPassword} onChange={(e) => setNewPassword(e.target.value)}/>
                 
                 {errors.password && (<label htmlFor="password" className="error">{errors.password}</label>)}
                 
                 <input
                     type="button"
-                    value= "Valider"
+                    value= {t('Settings.Validation.button')}
                     onClick={() => changePassword()}
                 />
             </div>
