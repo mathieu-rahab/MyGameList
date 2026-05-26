@@ -35,16 +35,24 @@
       "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères."
     }
   },
-  "Dahsboard": {
-    "NewCollection": "Dahsboard.NewCollection"
+  "CreateCollectionModal": {
+    "Cancel": "Annuler",
+    "Create": "Créer",
+    "Error": "Création...",
+    "Label": "Nom de la collection",
+    "LabelRequired": "Le nom de la collection est requis",
+    "Placeholder": "Entrez le nom de votre collection",
+    "Title": "Créer une nouvelle collection"
   },
   "Dashboard": {
     "error": "Il y a eu une erreur lors du chargement",
     "Friends": "Amis",
+    "GamesInCollection": "jeux",
     "HoursPlayed": "Dashboard.HoursPlayed",
     "HoursPlayedTotal": "Dashboard.HoursPlayedTotal",
     "loading": "Chargement en cours",
     "Manage": "gérer",
+    "NewCollection": "Nouvelle collection",
     "NoRecentAchievements": "Vous n'avez pas récemment gagné de trophée",
     "NoRecentGames": "Vous n'avez pas récemment joué",
     "RecentAchievements": "Trophés récents",

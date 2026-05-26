@@ -4,17 +4,22 @@ import "./index.css"
 import {useUserService} from "../../api/userService.js";
 import {useEffect, useState} from "react";
 import {useAuth} from "../../utils/useAuth.jsx";
+import CreateCollectionModal from "../../components/CreateCollection/CreateCollectionModal.jsx";
 
 
 export default function Dashboard (){
     const {t, i18n} = useTranslation();
-    const { getRecentGames, getRecentAchievements, getProgressionGame } = useUserService();
+    const { getRecentGames, getRecentAchievements, getProgressionGame, getCollections, createCollection } = useUserService();
     const { user, loading: authLoading } = useAuth();
     const [recentGames, setRecentGames] = useState([]);
     const [recentAchievements, setRecentAchievements] = useState([]);
+    const [collections, setCollections] = useState([]);
     const [progressions, setProgressions] = useState({}); // clé: gameId, valeur: progression
     const [loadingRecentGames, setLoadingRecentGames] = useState(true);
-    const [loadingRecentAchiev, setLoadingloadingRecentAchiev] = useState(true);
+    const [loadingRecentAchiev, setloadingRecentAchiev] = useState(true);
+    const [loadingCollections, setLoadingCollections] = useState(true);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+
 
     const [error, setError] = useState(null);
     const [imageErrors, setImageErrors] = useState({});
@@ -31,13 +36,11 @@ export default function Dashboard (){
         return { rarity: 'bronze', label: t('achievements.bronze'), class: 'b-br' };
     };
 
-    // ... existing code ...
-
     useEffect(() => {
         const fetchRecentGames = async () => {
             try {
                 setLoadingRecentGames(true);
-                setLoadingloadingRecentAchiev(true);
+                setloadingRecentAchiev(true);
                 const userId = user?.userId;
                 if (!userId) {
                     setError('User ID not found');
@@ -108,14 +111,64 @@ export default function Dashboard (){
             } catch (err) {
                 console.error('Erreur lors de la récupération des trophées:', err);
             } finally {
-                setLoadingloadingRecentAchiev(false);
+                setloadingRecentAchiev(false);
             }
         };
 
-         fetchRecentAchievements().then();
+        fetchRecentAchievements().then();
 
     }, [recentGames, i18n?.language]); // charge après les jeux récents
 
+
+    useEffect(() => {
+
+        const fetchCollections = async () => {
+            try {
+                const userId = user?.userId;
+                console.log(user.links);
+                if (!userId) return;
+                const collectionsLink = user.links?.find(
+                    link => link.rel === 'collections'
+                );
+                if (!collectionsLink) {
+                    console.warn('Collections link not found');
+                    return;
+                }
+                const collections = await getCollections(collectionsLink.href);
+                setCollections(collections);
+            } catch (err) {
+                console.error('Erreur lors de la récupération des collections:', err);
+            } finally {
+                setLoadingCollections(false);
+            }
+        };
+
+        if (!authLoading && user?.userId) {
+            fetchCollections()
+                .then();
+        }
+
+    }, [user]);
+
+
+
+    const handleCreateCollection = async (label) => {
+        try {
+            const createCollectionLink = user.links?.find(
+                link => link.rel === 'create-collection'
+            );
+            if (!createCollectionLink) {
+                throw new Error('create-collection link not found');
+            }
+
+            const newCollection = await createCollection(createCollectionLink.href, label);
+
+            // Ajouter la nouvelle collection à la liste
+            setCollections(prev => [...prev, newCollection]);
+        } catch (err) {
+            throw err;
+        }
+    };
 
 
 
@@ -201,6 +254,25 @@ export default function Dashboard (){
     };
 
 
+    const renderCollectionRows = () => {
+        if (loadingCollections) {
+            return <div className="message">{t('Dashboard.loading')}</div>;
+        }
+
+        return collections.map((collection, index) => {
+            return (
+                <Link to={`/collection/${user.userId}/${collection.id}`}  target="_blank" class="link">
+                    <div className="ccard">
+                        <div className="cico"><i className="ti ti-album"></i></div>
+                        <div className="cname">{collection.label}</div>
+                        <div className="ccnt">{(collection.gamesId).length} {t('Dashboard.GamesInCollection')}</div>
+                    </div>
+                </Link>
+            );
+        });
+    }
+
+
     return (
         <main className="dashbord">
             <div className="greeting">
@@ -258,16 +330,16 @@ export default function Dashboard (){
                         <span className="sec-link">{t('Dashboard.Manage')}</span>
                     </div>
                     <div className="col-row">
-                        <div className="ccard">
-                            <div className="cico">◈</div>
-                            <div className="cname">SF & Espace</div>
-                            <div className="ccnt">12 jeux</div>
-                        </div>
-
-                        <div className="ccard cadd">
-                            <div className="cplus">+</div>
-                            <div className="cname">{t('Dahsboard.NewCollection')}</div>
-                        </div>
+                        {renderCollectionRows()}
+                        <button
+                            className="ccard cadd"
+                            onClick={() => setShowCreateModal(true)}
+                            type="button"
+                            aria-label={t('Dashboard.NewCollection')}
+                        >
+                            <div className="cplus"><i className="ti ti-library-plus"></i></div>
+                            <div className="cname">{t('Dashboard.NewCollection')}</div>
+                        </button>
                     </div>
                 </div>
 
@@ -285,6 +357,12 @@ export default function Dashboard (){
                     </div>
                 </div>
             </div>
+            <CreateCollectionModal
+                isOpen={showCreateModal}
+                onClose={() => setShowCreateModal(false)}
+                onSubmit={handleCreateCollection}
+                t={t}
+            />
         </main>
     );
 }

@@ -409,7 +409,8 @@ body.dark .b-br {
 }
 
 .cico {
-    font-size: 20px
+    font-size: 20px;
+    color: var(--muted)
 }
 
 .cname {
@@ -430,7 +431,7 @@ body.dark .b-br {
 
 .cadd {
     border-style: dashed;
-    opacity: .55
+    opacity: .65
 }
 
 .cadd:hover {
@@ -505,6 +506,14 @@ body.dark .b-br {
     padding: 1rem;
     text-align: center;
     color: #999;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+    font-family: inherit;
+    padding: 0;
+    margin: 0;
 }
 
 /* ── TABLET ── */
