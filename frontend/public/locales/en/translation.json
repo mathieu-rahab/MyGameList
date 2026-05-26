@@ -95,6 +95,7 @@
       "newEmail": "New Email",
       "newPassword": "New Password",
       "newPseudo": "New Username",
+      "newSteamId": "New SteamID",
       "oldPassword": "Old Password",
       "PasswordInvalid": "Password must be at least 7 characters long.",
       "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
@@ -103,7 +104,10 @@
       "PseudoTooShort": "Username must be at least 3 characters long.",
       "setEmail": "Email Setting",
       "setPassword": "Password Setting",
-      "setPseudo": "Username Setting"
+      "setPseudo": "Username Setting",
+      "setSteamId": "Steam Setting",
+      "SteamIdInvalid": "This SteamID is incorrect",
+      "SteamIdNotChanged": "Already linked to this SteamID"
     }
   }
 }

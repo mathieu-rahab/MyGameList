@@ -14,6 +14,7 @@ export default function Settings() {
 
     const PSEUDO_REGEX = /^[a-zA-Z0-9_\-.]+$/;
     const EMAIL_REGEX  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const STEAMID_REGEX = /^\d{17}$/;
 
     const {t, i18n} = useTranslation();
     const [errors, setErrors] = useState({});
@@ -185,6 +186,56 @@ export default function Settings() {
     }
 
     /*
+    /// STEAMID SECTION
+    */
+
+    const [newSteamId, setNewSteamId] = useState("");
+
+    const validateSteamId = (values) => {
+        const errs = {};
+        if(!STEAMID_REGEX.test(values))
+            errs.steamId = t('Settings.Validation.SteamIdInvalid');
+        else if (values === user?.steamId) {
+            errs.steamId = t("Settings.Validation.SteamIdNotChanged");
+}
+
+        return errs;
+    };
+
+    async function changeSteamId() {
+        const errors = validateSteamId(newSteamId);
+
+        if (Object.keys(errors).length > 0) {
+            setErrors(errors);
+            return;
+        }
+
+        try {
+            const userId = user?.userId;
+            if (!userId) {
+                setErrors('User ID not found');
+                return;
+            }
+
+            await userService.changeSteamId(userId, newSteamId);
+            
+            await refreshUser(userId);
+        
+        } catch (err) {
+            console.log(err);
+
+            // erreur backend connue
+            if (err.error) {
+                setErrors(prev => ({ ...prev, SteamId: getServerErrorMessage(err.error, t, i18n, 'CreateAccount') }));
+                return;
+            }
+
+            // erreur HTTP/réseau
+            setErrors(prev => ({...prev, SteamId: getHttpErrorMessage(err.status, t)}));
+        }
+    }
+
+    /*
     /// RETURN
     */
 
@@ -205,7 +256,6 @@ export default function Settings() {
                     />
             </div>
 
-
             <div className="changing_email">
                 <span>{t('Settings.Validation.setEmail')}</span>
 
@@ -215,7 +265,7 @@ export default function Settings() {
                 
                 <input
                     type="button"
-                    value= "Valider"
+                    value= {t('Settings.Validation.button')}
                     onClick={() => changeEmail()}
                 />
             </div>
@@ -233,6 +283,20 @@ export default function Settings() {
                     type="button"
                     value= {t('Settings.Validation.button')}
                     onClick={() => changePassword()}
+                />
+            </div>
+
+            <div className="changing_steamid">
+                <span>{t('Settings.Validation.setSteamId')}</span>
+
+                <input type = "text" placeholder={t('Settings.Validation.newSteamId')} value={newSteamId} onChange={(e) => setNewSteamId(e.target.value)}/>
+                
+                {errors.steamId && (<label htmlFor="steamId" className="error">{errors.steamId}</label>)}
+                
+                <input
+                    type="button"
+                    value= {t('Settings.Validation.button')}
+                    onClick={() => changeSteamId()}
                 />
             </div>
 

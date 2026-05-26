@@ -87,6 +87,13 @@ export const useUserService = () => {
                     newPassword
                 })
             });
-        }
+        },
+
+        changeEmail: async (userId, steamId) => {
+            return apiCall(`User/${userId}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ steamId })
+            });
+        },
     };
 };
