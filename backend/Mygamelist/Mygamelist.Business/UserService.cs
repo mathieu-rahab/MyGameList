@@ -72,7 +72,12 @@ namespace Mygamelist.Business
         {
             var user = _userRepository.SelectById(id);
 
+            var steamCheck = _steamService.VerifySteamId(dto.SteamId);
+
             if (user is null)
+                throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
+            
+            if (steamCheck is null)
                 throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
 
             if (dto.Email is not null && dto.Email != user.Email && _userRepository.EmailExists(dto.Email))
