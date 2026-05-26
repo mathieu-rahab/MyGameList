@@ -13,6 +13,8 @@ namespace Mygamelist.Core.Business
         Task<JsonElement> VerifySteamId(string steamId);
 
         Task<string> VanityResolve(string specialId);
+        Task<List<SearchGameDto>> SearchGames(string term, string language, string countryCode);
+
         
         
         // Méthodes pour les trophés
@@ -20,8 +22,7 @@ namespace Mygamelist.Core.Business
         Task<List<UserAchievementDto>> GetUserAchievements(string steamId, int appId);
         Task<double> GetAchievementProgressionPercentage(string steamId, int appId, string? l);
         Task<List<AchievementSchemaDto>> GetRecentAchievements(string steamId, int count, bool includeRarity, string l);
-
-
+        
 
 
     }
