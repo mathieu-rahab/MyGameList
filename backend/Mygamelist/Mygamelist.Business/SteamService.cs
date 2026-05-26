@@ -89,6 +89,89 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="steamId">The Steam user ID for which achievements are queried.</param>
+    /// </param>
+    public async Task<JsonElement> VerifySteamId(string steamId)
+    {
+        string apiUrl =
+            $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={steamKey}&steamids={steamId}";
+
+        JsonElement json = await FetchApi(apiUrl);
+        
+        if (!json.TryGetProperty("response", out JsonElement responseElement))
+        {
+            throw new BusinessException(
+                HttpStatusCode.BadGateway,
+                "STEAM_INVALID_RESPONSE"
+            );
+        }
+        
+        if (!responseElement.TryGetProperty("players", out JsonElement playersElement))
+        {
+            throw new BusinessException(
+                HttpStatusCode.BadGateway,
+                "STEAM_INVALID_RESPONSE"
+            );
+        }
+        
+        if (playersElement.GetArrayLength() == 0)
+        {
+            throw new BusinessException(
+                HttpStatusCode.NotFound,
+                "USER_NOT_FOUND"
+            );
+        }
+        
+        return playersElement[0];
+    }
+
+    public async Task<string> VanityResolve(string specialId)
+    {
+        string apiUrl =
+            $"https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key={steamKey}&vanityurl={specialId}";
+
+        JsonElement json = await FetchApi(apiUrl);
+        
+        if (!json.TryGetProperty("response", out JsonElement responseElement))
+        {
+            throw new BusinessException(
+                HttpStatusCode.BadGateway,
+                "STEAM_INVALID_RESPONSE"
+            );
+        }
+        
+        if (!responseElement.TryGetProperty("success", out JsonElement successElement))
+        {
+            throw new BusinessException(
+                HttpStatusCode.BadGateway,
+                "STEAM_INVALID_RESPONSE"
+            );
+        }
+
+        int successCode = successElement.GetInt32();
+        
+        if (successCode != 1)
+        {
+            throw new BusinessException(
+                HttpStatusCode.NotFound,
+                "USER_NOT_FOUND"
+            );
+        }
+        
+        if (!responseElement.TryGetProperty("steamid", out JsonElement steamIdElement))
+        {
+            throw new BusinessException(
+                HttpStatusCode.BadGateway,
+                "STEAM_INVALID_RESPONSE"
+            );
+        }
+
+        return steamIdElement.GetString();
+    }
+
+    /// <summary>
     /// Retrieves the schema of all achievements for a specified Steam game application.
     /// </summary>
     /// <param name="appId">The Steam application ID of the game for which to fetch the achievement schema.</param>
