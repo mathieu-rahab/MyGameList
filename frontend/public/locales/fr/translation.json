@@ -38,8 +38,8 @@
   "CreateCollectionModal": {
     "Cancel": "Annuler",
     "Create": "Créer",
+    "Creating": "CreateCollectionModal.Creating",
     "Error": "Création...",
-    "Label": "Nom de la collection",
     "LabelRequired": "Le nom de la collection est requis",
     "Placeholder": "Entrez le nom de votre collection",
     "Title": "Créer une nouvelle collection"
@@ -89,13 +89,21 @@
   },
   "Settings": {
     "Validation": {
+      "button": "Valider",
       "EmailInvalid": "L'adresse e-mail n'est pas valide.",
       "EmailNotChanged": "Vous utilisez déjà cette adresse mail.",
+      "newEmail": "Nouvel email",
+      "newPassword": "Nouveau mot de passe",
+      "newPseudo": "Nouveau Pseudo",
+      "oldPassword": "Ancien mot de passe",
       "PasswordInvalid": "Le mot de passe doit contenir au moins 7 caractères.",
       "PseudoInvalidCharacter": "Le pseudo ne peut contenir que des lettres, des chiffres et les caractères - _ .",
       "PseudoNotChanged": "Vous utilisez déjà ce pseudo.",
       "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",
-      "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères."
+      "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères.",
+      "setEmail": "Paramètre de l'email",
+      "setPassword": "Paramètre de Mot de Passe",
+      "setPseudo": "Paramètre de Pseudo"
     }
   }
 }

@@ -38,13 +38,12 @@
   "CreateCollectionModal": {
     "Cancel": "Cancel",
     "Create": "Create",
+    "Creating": "",
     "Error": "Error creating...",
-    "Label": "Collection name",
     "LabelRequired": "Collection name is required",
     "Placeholder": "Enter your collection name",
     "Title": "Create a new collection"
   },
-
   "Dashboard": {
     "error": "An error occurred during loading",
     "Friends": "Friends",
@@ -90,13 +89,21 @@
   },
   "Settings": {
     "Validation": {
-      "EmailInvalid": "",
-      "EmailNotChanged": "",
-      "PasswordInvalid": "",
-      "PseudoInvalidCharacter": "",
-      "PseudoNotChanged": "",
-      "PseudoTooLong": "",
-      "PseudoTooShort": ""
+      "button": "Validate",
+      "EmailInvalid": "Please enter a valid email address.",
+      "EmailNotChanged": "This email address is already associated with your account.",
+      "newEmail": "New Email",
+      "newPassword": "New Password",
+      "newPseudo": "New Username",
+      "oldPassword": "Old Password",
+      "PasswordInvalid": "Password must be at least 7 characters long.",
+      "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
+      "PseudoNotChanged": "You are already using this username.",
+      "PseudoTooLong": "Username cannot exceed 20 characters.",
+      "PseudoTooShort": "Username must be at least 3 characters long.",
+      "setEmail": "Email Setting",
+      "setPassword": "Password Setting",
+      "setPseudo": "Username Setting"
     }
   }
 }
