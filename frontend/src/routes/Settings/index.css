@@ -1,10 +1,168 @@
-span {
-    color: aliceblue;
+.set-page {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
-.set-page {
+/* ───────── PROFIL ───────── */
+
+.profil {
+    padding: 22px 24px;
+    border-radius: 20px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+}
+
+.profil span {
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -.3px;
+}
+
+/* ───────── BLOCS SETTINGS ───────── */
+
+.changing_pseudo,
+.changing_email,
+.changing_password {
+    padding: 22px;
+    border-radius: 20px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 16px 0;
+    flex-direction: column;
+    gap: 14px;
+
+    transition: all .25s ease;
+}
+
+.changing_pseudo:hover,
+.changing_email:hover,
+.changing_password:hover {
+    background: var(--glass-hover);
+    transform: translateY(-2px);
+}
+
+/* ───────── TITRES ───────── */
+
+.changing_pseudo span,
+.changing_email span,
+.changing_password span {
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted2);
+    font-weight: 500;
+}
+
+/* ───────── INPUTS ───────── */
+
+.changing_pseudo input[type="text"],
+.changing_email input[type="text"],
+.changing_password input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+
+    border-radius: 14px;
+    border: 1px solid var(--glass-border);
+
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+
+    font-size: 13px;
+    outline: none;
+
+    transition: all .25s ease;
+}
+
+.changing_pseudo input[type="text"]:focus,
+.changing_email input[type="text"]:focus,
+.changing_password input[type="password"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.changing_pseudo input::placeholder,
+.changing_email input::placeholder,
+.changing_password input::placeholder {
+    color: var(--muted);
+}
+
+/* ───────── BUTTONS ───────── */
+
+.changing_pseudo input[type="button"],
+.changing_email input[type="button"],
+.changing_password input[type="button"] {
+    width: fit-content;
+
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(124, 58, 237, .95),
+        rgba(16, 185, 129, .85)
+    );
+
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .5px;
+
+    cursor: pointer;
+
+    transition: all .25s ease;
+}
+
+.changing_pseudo input[type="button"]:hover,
+.changing_email input[type="button"]:hover,
+.changing_password input[type="button"]:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(124, 58, 237, .18);
+}
+
+.changing_pseudo input[type="button"]:active,
+.changing_email input[type="button"]:active,
+.changing_password input[type="button"]:active {
+    transform: scale(.98);
+}
+
+/* ───────── RESPONSIVE ───────── */
+
+@media (max-width: 860px) {
+    .set-page {
+        padding: 22px 20px;
+    }
+}
+
+@media (max-width: 520px) {
+    .set-page {
+        padding: 18px 16px;
+        gap: 14px;
+    }
+
+    .profil {
+        padding: 18px;
+    }
+
+    .profil span {
+        font-size: 20px;
+    }
+
+    .changing_pseudo,
+    .changing_email,
+    .changing_password {
+        padding: 18px 16px;
+    }
+
+    .changing_pseudo input[type="button"],
+    .changing_email input[type="button"],
+    .changing_password input[type="button"] {
+        width: 100%;
+    }
 }
