@@ -625,7 +625,75 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
             memoryCache.Set(cacheKey, result, TimeSpan.FromMinutes(10));
             return result;
         }
-    
-  
+
+
+        /// <summary>
+        /// Searches for Steam games matching the provided search term using the Steam Store API.
+        /// </summary>
+        /// <param name="term">
+        /// The search term to match against game names. Must be a non-empty string.
+        /// </param>
+        /// <param name="language">
+        /// The language code for game names (e.g., "english", "french"). Used to filter results by localized names.
+        /// </param>
+        /// <param name="countryCode">
+        /// The country code (e.g., "US", "FR") to filter games by region-specific availability or pricing.
+        /// </param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains a list of <see cref="SearchGameDto"/>
+        /// objects representing the matched games. Returns an empty list if no games are found or if the search fails.
+        /// </returns>
+        /// <exception cref="BusinessException">
+        /// Thrown when the Steam API request fails (e.g., invalid response, no results, or server error).
+        /// </exception>
+        public async Task<List<SearchGameDto>> SearchGames(string term, string language, string countryCode)
+        {
+            string cacheKey = $"search_games_{term}_{language}_{countryCode}";
+            if (memoryCache.TryGetValue(cacheKey, out List<SearchGameDto>? cachedGames) && cachedGames != null)
+            return cachedGames;
+
+        string apiUrl = $"https://store.steampowered.com/api/storesearch/?term={term}&l={language}&cc={countryCode}";
+        JsonElement json = await FetchApi(apiUrl);
+
+        if (!json.TryGetProperty("total", out var totalElement) || !json.TryGetProperty("items", out var itemsElement))
+            throw new BusinessException(HttpStatusCode.NotFound, "NO_GAMES_FOUND");
+
+        int total = totalElement.GetInt32();
+        if (total == 0)
+            return new List<SearchGameDto>();
+
+        List<SearchGameDto> games = new List<SearchGameDto>();
+
+        foreach (var gameElement in itemsElement.EnumerateArray())
+        {
+            try
+            {
+                if (!gameElement.TryGetProperty("type", out var typeElement) || (!typeElement.GetString()?.Equals("app", StringComparison.OrdinalIgnoreCase) ?? true))
+                    continue;
+
+                if (!gameElement.TryGetProperty("id", out var idElement) || !gameElement.TryGetProperty("name", out var nameElement) || !gameElement.TryGetProperty("tiny_image", out var tinyImageElement))
+                    continue;
+
+                int appId = idElement.GetInt32();
+                string name = nameElement.GetString() ?? "";
+                string tinyImage = tinyImageElement.GetString() ?? "";
+
+                games.Add(new SearchGameDto
+                {
+                    AppId = appId,
+                    Name = name,
+                    TinyImage = tinyImage
+                });
+            }
+            catch (Exception)
+            {
+                continue;
+            }
+        }
+
+        memoryCache.Set(cacheKey, games, TimeSpan.FromHours(1));
+        return games;
+    }
+      
 
 }

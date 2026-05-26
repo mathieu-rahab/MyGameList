@@ -41,5 +41,17 @@ public class SteamController : ControllerBase
         return Ok(result);
     }
     */
-    
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("search")]
+    [EndpointName("SearchGames")]
+    [ActionName("SearchGames")]
+    public async Task<ActionResult<List<SearchGameDto>>> SearchGames(
+        [FromQuery(Name = "term")] string term,
+        [FromQuery(Name = "l")] string l = "french",
+        [FromQuery(Name = "cc")] string cc = "fr")
+    {
+        var result = await _steamService.SearchGames(term, l, cc);
+        return Ok(result);
+    }
 }
