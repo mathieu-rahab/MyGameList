@@ -25,8 +25,8 @@ public class CollectionController : ControllerBase
     // GET: api/user/{userId}/collection
     [HttpGet]
     [Route("")]
-    [EndpointName("GetAll")]
-    [ActionName("GetAll")]
+    [EndpointName("GetAllCollections")]
+    [ActionName("GetAllCollections")]
     public IActionResult GetAll(int userId)
     {
         var collections = _collectionService.RetrieveAll(userId);
