@@ -223,7 +223,19 @@ public class UserController : ControllerBase
                 "GetUserRecentAchievements",
                 new { id = user.Id },
                 "recent-achievements",
-                "GET")
+                "GET"),
+            
+            // Collections
+            _hateosLinkGenerator.Generate(
+                "GetAllCollections",
+                new { userId = user.Id },
+                "collections",
+                "GET"),
+            _hateosLinkGenerator.Generate(
+                "CreateCollection",
+                new { userId = user.Id },
+                "create-collection",
+                "POST"),
         });
     }
 }
