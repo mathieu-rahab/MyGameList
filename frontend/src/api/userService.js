@@ -52,6 +52,18 @@ export const useUserService = () => {
             return apiCall(`${href}/?l=${l}`, {method:'GET'});
         },
 
+        getCollections: async (href) => {
+            return apiCall(href, {method:'GET'});
+        },
+        createCollection: async (href, label) => {
+            return apiCall(href, {
+                method: 'POST',
+                body: JSON.stringify({
+                    label: label
+                })
+            });
+        },
+
         // Settings
         changePseudo: async (userId, pseudo) => {
             return apiCall(`User/${userId}`, {

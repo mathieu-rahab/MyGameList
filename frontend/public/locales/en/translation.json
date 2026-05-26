@@ -35,16 +35,25 @@
       "PseudoTooShort": "Username must be at least 3 characters long."
     }
   },
-  "Dahsboard": {
-    "NewCollection": ""
+  "CreateCollectionModal": {
+    "Cancel": "Cancel",
+    "Create": "Create",
+    "Error": "Error creating...",
+    "Label": "Collection name",
+    "LabelRequired": "Collection name is required",
+    "Placeholder": "Enter your collection name",
+    "Title": "Create a new collection"
   },
+
   "Dashboard": {
-    "error": "",
+    "error": "An error occurred during loading",
     "Friends": "Friends",
-    "HoursPlayed": "",
-    "HoursPlayedTotal": "",
+    "GamesInCollection": "games",
+    "HoursPlayed": "played",
+    "HoursPlayedTotal": "total",
     "loading": "Loading in progress",
     "Manage": "manage",
+    "NewCollection": "New collection",
     "NoRecentAchievements": "No recent achievements",
     "NoRecentGames": "No recent games",
     "RecentAchievements": "Recent achievements",
