@@ -23,6 +23,7 @@ export default function Settings() {
         if (user) {
             setNewPseudo(user.pseudo || "");
             setNewEmail(user.email || "");
+            setNewSteamId(user.steamId || "");
         }
     }, [user]);
 
@@ -69,9 +70,9 @@ export default function Settings() {
             return;
         }
 
-        setErrors({});
-
         await userService.changePseudo(userId, newPseudo);
+
+        setErrors({});
 
         await refreshUser(userId);
 
@@ -102,7 +103,7 @@ export default function Settings() {
             errs.email = t('Settings.Validation.EmailInvalid');
         else if (values === user?.email) {
             errs.email = t("Settings.Validation.EmailNotChanged");
-}
+        }
 
         return errs;
     };
@@ -123,6 +124,8 @@ export default function Settings() {
             }
 
             await userService.changeEmail(userId, newEmail);
+
+            setErrors({});
             
             await refreshUser(userId);
         
@@ -175,6 +178,8 @@ export default function Settings() {
 
             await userService.changePassword(userId, oldPassword, newPassword);
 
+            setErrors({});
+
             await refreshUser(userId);
 
             setNewPassword("")
@@ -187,6 +192,7 @@ export default function Settings() {
 
     /*
     /// STEAMID SECTION
+    /// 76561198000000000
     */
 
     const [newSteamId, setNewSteamId] = useState("");
@@ -197,7 +203,7 @@ export default function Settings() {
             errs.steamId = t('Settings.Validation.SteamIdInvalid');
         else if (values === user?.steamId) {
             errs.steamId = t("Settings.Validation.SteamIdNotChanged");
-}
+        }
 
         return errs;
     };
@@ -218,6 +224,8 @@ export default function Settings() {
             }
 
             await userService.changeSteamId(userId, newSteamId);
+
+            setErrors({});
             
             await refreshUser(userId);
         
@@ -226,12 +234,13 @@ export default function Settings() {
 
             // erreur backend connue
             if (err.error) {
-                setErrors(prev => ({ ...prev, SteamId: getServerErrorMessage(err.error, t, i18n, 'CreateAccount') }));
+                setErrors(prev => ({ ...prev, steamId: getServerErrorMessage(err.error, t, i18n, 'Settings') }));
+                
                 return;
             }
 
             // erreur HTTP/réseau
-            setErrors(prev => ({...prev, SteamId: getHttpErrorMessage(err.status, t)}));
+            setErrors(prev => ({...prev, steamId: getHttpErrorMessage(err.status, t)}));
         }
     }
 
@@ -288,6 +297,8 @@ export default function Settings() {
 
             <div className="changing_steamid">
                 <span>{t('Settings.Validation.setSteamId')}</span>
+
+                <span>{t('Settings.Steam.Texte1')} <a href="https://store.steampowered.com/account/" target="_blank">{t('Settings.Steam.Texte2')}</a></span>
 
                 <input type = "text" placeholder={t('Settings.Validation.newSteamId')} value={newSteamId} onChange={(e) => setNewSteamId(e.target.value)}/>
                 

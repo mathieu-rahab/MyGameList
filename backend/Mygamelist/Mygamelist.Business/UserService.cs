@@ -68,17 +68,18 @@ namespace Mygamelist.Business
         }
 
 
-        public UserResponseDto Update(int id, UpdateUserDto dto)
+        public async Task<UserResponseDto> Update(int id, UpdateUserDto dto)
         {
             var user = _userRepository.SelectById(id);
 
-            var steamCheck = _steamService.VerifySteamId(dto.SteamId);
-
             if (user is null)
                 throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
-            
-            if (steamCheck is null)
-                throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
+
+            if (dto.SteamId is not null)
+            {
+                Console.WriteLine(dto.SteamId);
+                await _steamService.VerifySteamId(dto.SteamId);
+            }
 
             if (dto.Email is not null && dto.Email != user.Email && _userRepository.EmailExists(dto.Email))
                 throw new BusinessException(HttpStatusCode.Conflict, "EMAIL_ALREADY_EXISTS");
@@ -92,9 +93,13 @@ namespace Mygamelist.Business
             if (dto.Email is not null)
                 user.Email = dto.Email;
 
+            Console.WriteLine(user.SteamId);
+            
             if (dto.SteamId is not null)
                 user.SteamId = dto.SteamId;
-
+            
+            Console.WriteLine(user.SteamId);
+            
             if (dto.ProfilePicturePath is not null)
                 user.ProfilePicturePath = dto.ProfilePicturePath;
 

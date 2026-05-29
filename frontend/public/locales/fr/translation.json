@@ -88,6 +88,13 @@
     "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion."
   },
   "Settings": {
+    "ServerErrors": {
+      "STEAM_ACCOUNT_NOT_FOUND": "Aucun compte Steam valide trouvé."
+    },
+    "Steam": {
+      "Texte1": "Vous pouvez trouver votre SteamID sur votre ",
+      "Texte2": "compte Steam"
+    },
     "Validation": {
       "button": "Valider",
       "EmailInvalid": "L'adresse e-mail n'est pas valide.",

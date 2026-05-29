@@ -11,8 +11,8 @@ namespace Mygamelist.Core.Business
         Task<List<GameDto>> UserRecentlyPlayedGames(string steamId, int? count, bool? includeProgression, string? l);
 
         Task<JsonElement> VerifySteamId(string steamId);
-
         Task<string> VanityResolve(string specialId);
+        
         Task<List<SearchGameDto>> SearchGames(string term, string language, string countryCode);
 
         

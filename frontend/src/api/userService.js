@@ -89,11 +89,11 @@ export const useUserService = () => {
             });
         },
 
-        changeEmail: async (userId, steamId) => {
+        changeSteamId: async (userId, steamId) => {
             return apiCall(`User/${userId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({ steamId })
             });
-        },
+        }
     };
 };

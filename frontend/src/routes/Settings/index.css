@@ -23,7 +23,7 @@
 }
 
 .profil span::after {
-    content: "👋";
+    content: "";
     margin-left: 8px;
 }
 

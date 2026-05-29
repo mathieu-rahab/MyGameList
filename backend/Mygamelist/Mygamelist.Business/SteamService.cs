@@ -120,7 +120,7 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
         {
             throw new BusinessException(
                 HttpStatusCode.NotFound,
-                "USER_NOT_FOUND"
+                "STEAM_ACCOUNT_NOT_FOUND"
             );
         }
         
