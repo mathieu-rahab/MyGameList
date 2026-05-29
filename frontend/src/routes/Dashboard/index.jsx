@@ -261,7 +261,7 @@ export default function Dashboard (){
 
         return collections.map((collection, index) => {
             return (
-                <Link to={`/collection/${user.userId}/${collection.id}`}  target="_blank" class="link">
+                <Link to={`/collection/?id=${collection.id}`}  target="_blank" class="link">
                     <div className="ccard">
                         <div className="cico"><i className="ti ti-album"></i></div>
                         <div className="cname">{collection.label}</div>

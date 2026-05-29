@@ -99,7 +99,8 @@
 }
 
 .btn-cancel,
-.btn-primary {
+.btn-primary,
+.btn-delete{
     padding: 10px 20px;
     border: none;
     border-radius: 6px;
@@ -111,6 +112,10 @@
 .btn-cancel {
     background: rgba(255, 255, 255, 0.1);
     color: inherit;
+}
+.btn-delete {
+    background: #ff6b6b;
+    color: white;
 }
 
 .btn-cancel:hover:not(:disabled) {
