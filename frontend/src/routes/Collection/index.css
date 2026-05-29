@@ -29,51 +29,6 @@
     margin-top: 20px;
 }
 
-.game-row {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid var(--border);
-    transition: background-color 0.2s;
-}
-
-.game-row:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.gthumb {
-    width: 60px;
-    height: 60px;
-    margin-right: 15px;
-    border-radius: 4px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.gthumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.ginfo {
-    flex: 1;
-}
-
-.gname {
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-
-.gmeta {
-    font-size: 0.85rem;
-    color: var(--muted);
-}
-
-.gactions {
-    margin-left: 15px;
-}
-
 .search-box {
     display: flex;
     gap: 10px;

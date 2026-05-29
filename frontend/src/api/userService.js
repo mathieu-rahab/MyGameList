@@ -89,7 +89,6 @@ export const useUserService = () => {
             });
         },
 
-<<<<<<< HEAD
         // Page collection
         searchGames: async (term) => {
             return apiCall(`Steam/search?term=${term}`, {method:'GET'});
@@ -107,16 +106,20 @@ export const useUserService = () => {
         },
 
         removeGameCollection: async (href, game) => {
-            return apiCall(`${href}/${game}`, {
-                method:'DELETE',
-=======
+            return apiCall(href, {
+                method: 'DELETE',
+                body: JSON.stringify({gameId :game})
+
+            })
+        },
+
         changeSteamId: async (userId, steamId) => {
             return apiCall(`User/${userId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({ steamId })
->>>>>>> origin/dev
             });
         }
+
 
     };
 };

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -7,10 +6,10 @@ import { useUserService } from "../../api/userService.js";
 import { useAuth } from "../../utils/useAuth.jsx";
 
 export default function Collection() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [searchParams] = useSearchParams();
     const { user } = useAuth();
-    const { getOneCollection, searchGames, addGameCollection, removeGameCollection } = useUserService();
+    const { getOneCollection, searchGames, addGameCollection, removeGameCollection, getGameInfo } = useUserService();
 
     const [collection, setCollection] = useState(null);
     const [games, setGames] = useState([]);
@@ -58,14 +57,31 @@ export default function Collection() {
 
                 setCollection(collection);
 
-                // For now, simulate game data since we don't have the actual API
-                // In a real implementation, you would fetch game details for each game in the collection
-                const mockGames = collection.gamesId.map(id => ({
-                    appId: id,
-                    name: `Game ${id}`,
-                    tinyImage: `test ...`
-                }));
-                setGames(mockGames);
+                if (collection.gamesId && collection.gamesId.length > 0) {
+                    const gameDetails = await Promise.all(
+                        collection.gamesId.map(async (gameId) => {
+                            try {
+                                const gameInfo = await getGameInfo(gameId, i18n.language);
+                                return {
+                                    appId: gameInfo.id,
+                                    name: gameInfo.name,
+                                    tinyImage: gameInfo.image
+                                };
+                            } catch (err) {
+                                console.error(`Error fetching game info for ${gameId}:`, err);
+                                // Fallback to minimal data if API fails
+                                return {
+                                    appId: gameId,
+                                    name: `Game ${gameId}`,
+                                    tinyImage: '/covers/placeholder.png'
+                                };
+                            }
+                        })
+                    );
+                    setGames(gameDetails);
+                } else {
+                    setGames([]);
+                }
             } catch (err) {
                 console.error("Error fetching collection:", err);
                 setError(err.message || "Failed to fetch collection");
@@ -77,9 +93,9 @@ export default function Collection() {
         if (user?.userId) {
             fetchCollection();
         }
-    }, [searchParams, user]);
+    }, [searchParams, user, i18n.language]);
 
-    // Handle search with debounce
+    // Recherche
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             if (searchTerm.trim()) {
@@ -87,12 +103,11 @@ export default function Collection() {
             } else {
                 setSearchResults([]);
             }
-        }, 500);
+        }, 400);
 
         return () => clearTimeout(timeoutId);
     }, [searchTerm]);
 
-    // Handle search with real API call
     const handleSearch = async (term) => {
         if (!term.trim()) {
             setSearchResults([]);
@@ -108,10 +123,9 @@ export default function Collection() {
         }
     };
 
-    // Handle adding a game to the collection
+    // Gérer l'ajout d'un jeu à la collection
     const handleAddGame = async (game) => {
         try {
-            // Get the add-game link from collection
             const addGameCollectionLink = collection.links?.find(
                 link => link.rel === 'add-game'
             );
@@ -121,18 +135,40 @@ export default function Collection() {
                 return;
             }
 
-            // Call the API to add the game
             await addGameCollection(addGameCollectionLink.href, game.appId);
-
-            // Update the local state to include the new game
             setGames(prevGames => [...prevGames, game]);
 
-            // Remove the game from search results
+            // Supprimer le jeu des résultats de recherche
             setSearchResults(prevResults =>
                 prevResults.filter(result => result.appId !== game.appId)
             );
         } catch (err) {
             console.error("Error adding game to collection:", err);
+        }
+    };
+
+    // Gérer la suppression d'un jeu de la collection
+    const handleRemoveGame = async (game) => {
+        try {
+            // Get the remove-game link from collection
+            const removeGameCollectionLink = collection.links?.find(
+                link => link.rel === 'remove-game'
+            );
+
+            if (!removeGameCollectionLink) {
+                console.error("Remove game link not found");
+                return;
+            }
+
+            // Appelez l'API pour supprimer le jeu
+            await removeGameCollection(removeGameCollectionLink.href, game.appId);
+
+            setGames(prevGames => prevGames.filter(g => g.appId !== game.appId));
+
+            // Réafficher le jeu dans les résultats de recherche
+            setSearchResults(prevResults => [...prevResults, game]);
+        } catch (err) {
+            console.error("Error removing game from collection:", err);
         }
     };
 
@@ -147,7 +183,7 @@ export default function Collection() {
             </div>
             <div className="gactions">
                 {showRemoveButton ? (
-                    <button className="btn btn-secondary">
+                    <button className="btn btn-delete" onClick={() => handleRemoveGame(game)}>
                         <i className="ti ti-trash"></i>
                     </button>
                 ) : (
@@ -155,7 +191,6 @@ export default function Collection() {
                         <i className="ti ti-plus"></i>
                     </button>
                 )
-
                 }
             </div>
         </div>
@@ -212,17 +247,15 @@ export default function Collection() {
                         <span className="sec-title">{t('Collection.AddGame')}</span>
                     </div>
 
-                    <div className="search-box">
+                    <div className="input-wrap">
+                        <i className="ti ti-search" aria-hidden="true"></i>
+
                         <input
                             type="text"
                             placeholder={t('Collection.SearchPlaceholder')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="form-control"
                         />
-                        <button className="btn btn-primary" onClick={() => handleSearch(searchTerm)}>
-                            <i className="ti ti-search"></i>
-                        </button>
                     </div>
 
                     {searchResults.length > 0 && (
