@@ -74,7 +74,14 @@ export default function Settings() {
 
         setErrors({});
 
-        await refreshUser(userId);
+        try {
+            await refreshUser(userId);
+
+            alert(t('Settings.Validation.PopUpOk'));
+
+        } catch (error) {
+            alert(t('Settings.Validation.PopUpFailed'));
+        }
 
     } catch (err) {
 
@@ -127,7 +134,14 @@ export default function Settings() {
 
             setErrors({});
             
-            await refreshUser(userId);
+            try {
+                await refreshUser(userId);
+
+                alert(t('Settings.Validation.PopUpOk'));
+
+            } catch (error) {
+                alert(t('Settings.Validation.PopUpFailed'));
+            }
         
         } catch (err) {
             console.log(err);
@@ -180,7 +194,14 @@ export default function Settings() {
 
             setErrors({});
 
-            await refreshUser(userId);
+            try {
+                await refreshUser(userId);
+
+                alert(t('Settings.Validation.PopUpOk'));
+
+            } catch (error) {
+                alert(t('Settings.Validation.PopUpFailed'));
+            }
 
             setNewPassword("")
             setOldPassword("")
@@ -227,7 +248,14 @@ export default function Settings() {
 
             setErrors({});
             
-            await refreshUser(userId);
+            try {
+                await refreshUser(userId);
+
+                alert(t('Settings.Validation.PopUpOk'));
+
+            } catch (error) {
+                alert(t('Settings.Validation.PopUpFailed'));
+            }
         
         } catch (err) {
             console.log(err);
