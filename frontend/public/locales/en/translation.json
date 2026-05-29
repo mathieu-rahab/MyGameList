@@ -60,6 +60,10 @@
     "ShowMore": "show more",
     "WelcomeBack": "Welcome back,"
   },
+  "Game": {
+    "GameRetrieveError": "Impossible to retrieve game data",
+    "LoadingGame": "Loading Game..."
+  },
   "GameDetail": {
     "AboutTheGame": "About the game"
   },
