@@ -48,10 +48,12 @@
     "error": "An error occurred during loading",
     "Friends": "Friends",
     "GamesInCollection": "games",
-    "HoursPlayed": "played",
+    "HoursPlayed": "recently",
     "HoursPlayedTotal": "total",
+    "LinkSettings": "Settings",
     "loading": "Loading in progress",
     "Manage": "manage",
+    "MessageSetting": "To see your dashboard, please link your Steam ID in the ",
     "NewCollection": "New collection",
     "NoRecentAchievements": "No recent achievements",
     "NoRecentGames": "No recent games",
@@ -59,6 +61,10 @@
     "RecentGames": "Recent games",
     "ShowMore": "show more",
     "WelcomeBack": "Welcome back,"
+  },
+  "Game": {
+    "GameRetrieveError": "Impossible to retrieve game data",
+    "LoadingGame": "Loading Game..."
   },
   "GameDetail": {
     "AboutTheGame": "About the game"
@@ -105,6 +111,8 @@
       "newSteamId": "New SteamID",
       "oldPassword": "Old Password",
       "PasswordInvalid": "Password must be at least 7 characters long.",
+      "PopUpFailed": "Your data update failed.",
+      "PopUpOk": "Your data has been successfully updated.",
       "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
       "PseudoNotChanged": "You are already using this username.",
       "PseudoTooLong": "Username cannot exceed 20 characters.",

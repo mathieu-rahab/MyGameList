@@ -48,10 +48,12 @@
     "error": "Il y a eu une erreur lors du chargement",
     "Friends": "Amis",
     "GamesInCollection": "jeux",
-    "HoursPlayed": "Dashboard.HoursPlayed",
-    "HoursPlayedTotal": "Dashboard.HoursPlayedTotal",
+    "HoursPlayed": "récemment",
+    "HoursPlayedTotal": "au total",
+    "LinkSettings": "Paramètres",
     "loading": "Chargement en cours",
     "Manage": "gérer",
+    "MessageSetting": "Pour voir votre tableau de bord, veuillez lier votre Steam ID dans les ",
     "NewCollection": "Nouvelle collection",
     "NoRecentAchievements": "Vous n'avez pas récemment gagné de trophée",
     "NoRecentGames": "Vous n'avez pas récemment joué",
@@ -59,6 +61,10 @@
     "RecentGames": "Jeux récents",
     "ShowMore": "voir plus",
     "WelcomeBack": "Bon retour,"
+  },
+  "Game": {
+    "GameRetrieveError": "Impossible de récuperer les données du jeu",
+    "LoadingGame": "Chargement du jeu en cours..."
   },
   "GameDetail": {
     "AboutTheGame": "À propos du jeu"
@@ -105,6 +111,8 @@
       "newSteamId": "Nouveau SteamID",
       "oldPassword": "Ancien mot de passe",
       "PasswordInvalid": "Le mot de passe doit contenir au moins 7 caractères.",
+      "PopUpFailed": "La mise à jour de vos données a échoué.",
+      "PopUpOk": "La mise à jour de vos données a réussi.",
       "PseudoInvalidCharacter": "Le pseudo ne peut contenir que des lettres, des chiffres et les caractères - _ .",
       "PseudoNotChanged": "Vous utilisez déjà ce pseudo.",
       "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",

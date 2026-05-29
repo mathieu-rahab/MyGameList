@@ -272,97 +272,121 @@ export default function Dashboard (){
         });
     }
 
+    const VerifySteamId = () => {
+        const reponse = window.localStorage.getItem('user');
+
+        if (reponse) {
+            const u = JSON.parse(reponse);
+            console.log(u.steamId);
+
+            if(u.steamId == null){
+                return (
+                    <main className="dashbord">
+                        <div className="glass">
+                            <div className="redirect-settings">
+                                {t('Dashboard.MessageSetting')}<Link to="/Settings">{t('Dashboard.LinkSettings')}</Link>
+                            </div>
+                        </div>
+                    </main>
+                );
+            } else {
+                return (
+                    <main className="dashbord">
+                        <div className="greeting">
+                            <div className="greeting-sub">
+                                {new Date().toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                            </div>
+                            <h1>{t('Dashboard.WelcomeBack')}<span> {user?.pseudo || 'Guest'}</span></h1>
+                        </div>
+                        <div className="stats-row">
+                            <div className="scard glass">
+                                <div className="scard-label">Jeux joués</div>
+                                <div className="scard-val">47</div>
+                                <div className="scard-sub">+3 ce mois</div>
+                            </div>
+                            <div className="scard glass">
+                                <div className="scard-label">Trophées</div>
+                                <div className="scard-val">312</div>
+                                <div className="scard-sub">8 platines</div>
+                            </div>
+                            <div className="scard glass">
+                                <div className="scard-label">Collections</div>
+                                <div className="scard-val">5</div>
+                                <div className="scard-sub">124 éléments</div>
+                            </div>
+                            <div className="scard glass">
+                                <div className="scard-label">Amis en ligne</div>
+                                <div className="scard-val">6</div>
+                                <div className="scard-sub">sur 28 amis</div>
+                            </div>
+                        </div>
+
+                        <div className="grid2">
+                            <div className="section glass">
+                                <div className="sec-head">
+                                    <span className="sec-title">{t('Dashboard.RecentGames')}</span>
+                                    <span className="sec-link">{t('Dashboard.ShowMore')}</span>
+                                </div>
+                                {renderGameRows()}
+                            </div>
+
+                            <div className="section glass">
+                                <div className="sec-head"><span className="sec-title">{t('Dashboard.RecentAchievements')}</span>
+                                    <span className="sec-link">{t('Dashboard.ShowMore')}</span>
+                                </div>
+                                <div className="tlist">
+                                    {renderAchievementRows()}
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid3">
+                            <div className="section glass">
+                                <div className="sec-head"><span className="sec-title">Collections</span>
+                                    <span className="sec-link">{t('Dashboard.Manage')}</span>
+                                </div>
+                                <div className="col-row">
+                                    {renderCollectionRows()}
+                                    <button
+                                        className="ccard cadd"
+                                        onClick={() => setShowCreateModal(true)}
+                                        type="button"
+                                        aria-label={t('Dashboard.NewCollection')}
+                                    >
+                                        <div className="cplus"><i className="ti ti-library-plus"></i></div>
+                                        <div className="cname">{t('Dashboard.NewCollection')}</div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="section glass">
+                                <div className="sec-head"><span className="sec-title">{t('Dashboard.Friends')}</span>
+                                    <span className="sec-link">{t('Dashboard.ShowMore')}</span>
+                                </div>
+                                <div className="frow">
+                                    <div className="fav on" >MK</div>
+                                    <div>
+                                        <div className="fname">MaxKnight</div>
+                                        <div className="fst">Stellar Odyssey</div>
+                                    </div>
+                                    <div className="flvl">lv.72</div>
+                                </div>
+                            </div>
+                        </div>
+                        <CreateCollectionModal
+                            isOpen={showCreateModal}
+                            onClose={() => setShowCreateModal(false)}
+                            onSubmit={handleCreateCollection}
+                            t={t}
+                        />
+                    </main>
+                );
+            }
+        }
+    }
 
     return (
-        <main className="dashbord">
-            <div className="greeting">
-                <div className="greeting-sub">
-                    {new Date().toLocaleDateString(i18n.language, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-                </div>
-                <h1>{t('Dashboard.WelcomeBack')}<span> {user?.pseudo || 'Guest'}</span></h1>
-            </div>
-            <div className="stats-row">
-                <div className="scard glass">
-                    <div className="scard-label">Jeux joués</div>
-                    <div className="scard-val">47</div>
-                    <div className="scard-sub">+3 ce mois</div>
-                </div>
-                <div className="scard glass">
-                    <div className="scard-label">Trophées</div>
-                    <div className="scard-val">312</div>
-                    <div className="scard-sub">8 platines</div>
-                </div>
-                <div className="scard glass">
-                    <div className="scard-label">Collections</div>
-                    <div className="scard-val">5</div>
-                    <div className="scard-sub">124 éléments</div>
-                </div>
-                <div className="scard glass">
-                    <div className="scard-label">Amis en ligne</div>
-                    <div className="scard-val">6</div>
-                    <div className="scard-sub">sur 28 amis</div>
-                </div>
-            </div>
-
-            <div className="grid2">
-                <div className="section glass">
-                    <div className="sec-head">
-                        <span className="sec-title">{t('Dashboard.RecentGames')}</span>
-                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
-                    </div>
-                    {renderGameRows()}
-                </div>
-
-                <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">{t('Dashboard.RecentAchievements')}</span>
-                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
-                    </div>
-                    <div className="tlist">
-                        {renderAchievementRows()}
-
-                    </div>
-                </div>
-            </div>
-
-            <div className="grid3">
-                <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">Collections</span>
-                        <span className="sec-link">{t('Dashboard.Manage')}</span>
-                    </div>
-                    <div className="col-row">
-                        {renderCollectionRows()}
-                        <button
-                            className="ccard cadd"
-                            onClick={() => setShowCreateModal(true)}
-                            type="button"
-                            aria-label={t('Dashboard.NewCollection')}
-                        >
-                            <div className="cplus"><i className="ti ti-library-plus"></i></div>
-                            <div className="cname">{t('Dashboard.NewCollection')}</div>
-                        </button>
-                    </div>
-                </div>
-
-                <div className="section glass">
-                    <div className="sec-head"><span className="sec-title">{t('Dashboard.Friends')}</span>
-                        <span className="sec-link">{t('Dashboard.ShowMore')}</span>
-                    </div>
-                    <div className="frow">
-                        <div className="fav on" >MK</div>
-                        <div>
-                            <div className="fname">MaxKnight</div>
-                            <div className="fst">Stellar Odyssey</div>
-                        </div>
-                        <div className="flvl">lv.72</div>
-                    </div>
-                </div>
-            </div>
-            <CreateCollectionModal
-                isOpen={showCreateModal}
-                onClose={() => setShowCreateModal(false)}
-                onSubmit={handleCreateCollection}
-                t={t}
-            />
-        </main>
+        VerifySteamId()
     );
 }

@@ -545,3 +545,6 @@ body.dark .b-br {
 
 }
 
+.redirect-settings {
+    color : var(--text)
+}
