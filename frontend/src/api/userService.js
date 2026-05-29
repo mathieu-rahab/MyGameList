@@ -52,6 +52,10 @@ export const useUserService = () => {
             return apiCall(`${href}/?l=${l}`, {method:'GET'});
         },
 
+        getGameInfo: async (gameId,l) =>{
+            return apiCall(`Steam/game/${gameId}?l=${l}`,{method:'GET'});
+        },
+
         getCollections: async (href) => {
             return apiCall(href, {method:'GET'});
         },
@@ -86,6 +90,13 @@ export const useUserService = () => {
                     oldPassword,
                     newPassword
                 })
+            });
+        },
+
+        changeSteamId: async (userId, steamId) => {
+            return apiCall(`User/${userId}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ steamId })
             });
         }
     };

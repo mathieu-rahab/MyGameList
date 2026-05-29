@@ -107,9 +107,10 @@ public class UserController : ControllerBase
     [Route("{id:int:min(1)}")]
     [EndpointName("UpdateUser")]
     [ActionName("UpdateUser")]
-    public IActionResult UpdateUser(int id, [FromBody] UpdateUserDto dto)
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto dto)
     {
-        if (!Utiles.UserSystems.IsAdminOrSelf(User, id)) return Forbid();
+        if (!Utiles.UserSystems.IsAdminOrSelf(User, id))
+            return Forbid();
 
         if (dto.Pseudo is not null && !Utiles.UserSystems.IsValidPseudo(dto.Pseudo))
             return BadRequest(new { error = "INVALID_PSEUDO" });
@@ -117,7 +118,10 @@ public class UserController : ControllerBase
         if (dto.Email is not null && !Utiles.UserSystems.IsValidEmail(dto.Email))
             return BadRequest(new { error = "INVALID_EMAIL" });
 
-        var updatedUser = _userService.Update(id, dto);
+        var updatedUser = await _userService.Update(id, dto);
+        
+        Console.WriteLine($"SteamId reçu : {dto.SteamId}");
+        
         return Ok(new { Id = id, Message = "Utilisateur mis à jour" });
     }
     
