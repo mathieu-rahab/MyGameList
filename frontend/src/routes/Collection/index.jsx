@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./index.css";
 import { useUserService } from "../../api/userService.js";
@@ -175,7 +175,10 @@ export default function Collection() {
     const GameRow = ({ game, showRemoveButton = false }) => (
         <div className="game-row">
             <div className="gthumb">
-                <img src={game.tinyImage} alt={game.name} />
+                <Link to={`/Game/${game.appId}`}>
+                    <img src={game.tinyImage} alt={game.name} />
+                </Link>
+                
             </div>
             <div className="ginfo">
                 <div className="gname">{game.name}</div>

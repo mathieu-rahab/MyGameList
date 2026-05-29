@@ -189,12 +189,14 @@ export default function Dashboard (){
                     {imageErrors[game.id] ? (
                         <i className="ti ti-device-gamepad-2"></i>
                     ) : (
-                        <img
-                            src={game.image}
-                            alt={game.name}
-                            onError={() => handleImageError(game.id)}
-                            style={{width: '100%', height: '100%', objectFit: 'cover'}}
-                        />
+                        <Link to={`/Game/${game.id}`}>
+                            <img
+                                src={game.image}
+                                alt={game.name}
+                                onError={() => handleImageError(game.id)}
+                                style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
+                        </Link>
                     )}
                 </div>
                 <div className="ginfo">
