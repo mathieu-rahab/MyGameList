@@ -10,6 +10,7 @@ namespace Mygamelist.Core.Business
         UserResponseDto RetrieveById(int id);
 
         UserResponseDto Add(CreateUserDto dto);
+        UserResponseDto Reset(int id, ResetUserDto dto);
         UserResponseDto Update(int id, UpdateUserDto user);
         bool Remove(int id);
         Task<List<GameDto>> GetUserGames(int id);
