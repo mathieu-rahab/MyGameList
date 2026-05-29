@@ -22,11 +22,17 @@
     letter-spacing: -.3px;
 }
 
+.profil span::after {
+    content: "";
+    margin-left: 8px;
+}
+
 /* ───────── BLOCS SETTINGS ───────── */
 
 .changing_pseudo,
 .changing_email,
-.changing_password {
+.changing_password,
+.changing_steamid {
     padding: 22px;
     border-radius: 20px;
     background: var(--glass);
@@ -42,7 +48,8 @@
 
 .changing_pseudo:hover,
 .changing_email:hover,
-.changing_password:hover {
+.changing_password:hover,
+.changing_steamid:hover {
     background: var(--glass-hover);
     transform: translateY(-2px);
 }
@@ -51,7 +58,8 @@
 
 .changing_pseudo span,
 .changing_email span,
-.changing_password span {
+.changing_password span,
+.changing_steamid span {
     font-size: 11px;
     letter-spacing: 1.6px;
     text-transform: uppercase;
@@ -63,6 +71,7 @@
 
 .changing_pseudo input[type="text"],
 .changing_email input[type="text"],
+.changing_steamid input[type="text"],
 .changing_password input[type="password"] {
     width: 100%;
     padding: 14px 16px;
@@ -81,6 +90,7 @@
 
 .changing_pseudo input[type="text"]:focus,
 .changing_email input[type="text"]:focus,
+.changing_steamid input[type="text"]:focus,
 .changing_password input[type="password"]:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
@@ -88,6 +98,7 @@
 
 .changing_pseudo input::placeholder,
 .changing_email input::placeholder,
+.changing_steamid input::placeholder,
 .changing_password input::placeholder {
     color: var(--muted);
 }
@@ -96,6 +107,7 @@
 
 .changing_pseudo input[type="button"],
 .changing_email input[type="button"],
+.changing_steamid input[type="button"],
 .changing_password input[type="button"] {
     width: fit-content;
 
@@ -121,6 +133,7 @@
 
 .changing_pseudo input[type="button"]:hover,
 .changing_email input[type="button"]:hover,
+.changing_ input[type="button"]:hover,
 .changing_password input[type="button"]:hover {
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 10px 20px rgba(124, 58, 237, .18);
@@ -128,6 +141,7 @@
 
 .changing_pseudo input[type="button"]:active,
 .changing_email input[type="button"]:active,
+.changing_steamid input[type="button"]:active,
 .changing_password input[type="button"]:active {
     transform: scale(.98);
 }
@@ -156,13 +170,15 @@
 
     .changing_pseudo,
     .changing_email,
-    .changing_password {
+    .changing_password,
+    .changing_steamid {
         padding: 18px 16px;
     }
 
     .changing_pseudo input[type="button"],
     .changing_email input[type="button"],
-    .changing_password input[type="button"] {
+    .changing_password input[type="button"],
+    .changing_steamid input[type="button"] {
         width: 100%;
     }
 }

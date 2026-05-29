@@ -88,6 +88,13 @@
     "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion."
   },
   "Settings": {
+    "ServerErrors": {
+      "STEAM_ACCOUNT_NOT_FOUND": "Aucun compte Steam valide trouvé."
+    },
+    "Steam": {
+      "Texte1": "Vous pouvez trouver votre SteamID sur votre ",
+      "Texte2": "compte Steam"
+    },
     "Validation": {
       "button": "Valider",
       "EmailInvalid": "L'adresse e-mail n'est pas valide.",
@@ -95,6 +102,7 @@
       "newEmail": "Nouvel email",
       "newPassword": "Nouveau mot de passe",
       "newPseudo": "Nouveau Pseudo",
+      "newSteamId": "Nouveau SteamID",
       "oldPassword": "Ancien mot de passe",
       "PasswordInvalid": "Le mot de passe doit contenir au moins 7 caractères.",
       "PseudoInvalidCharacter": "Le pseudo ne peut contenir que des lettres, des chiffres et les caractères - _ .",
@@ -103,7 +111,10 @@
       "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères.",
       "setEmail": "Paramètre de l'email",
       "setPassword": "Paramètre de Mot de Passe",
-      "setPseudo": "Paramètre de Pseudo"
+      "setPseudo": "Paramètre de Pseudo",
+      "setSteamId": "Paramètre de Steam",
+      "SteamIdInvalid": "Ce SteamID est incorrecte",
+      "SteamIdNotChanged": "Déjà lié à ce SteamID"
     }
   }
 }

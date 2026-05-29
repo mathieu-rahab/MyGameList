@@ -41,6 +41,14 @@ namespace Mygamelist.DatabaseRepository
         public User? SelectById(int id) => _dbContext.Users.FirstOrDefault(u => u.Id == id);
         public User? SelectByEmail(string email) => _dbContext.Users.FirstOrDefault(u => u.Email == email);
 
+        public User Reset(int id, User user)
+        {
+            _dbContext.Users.Update(user);
+            _dbContext.SaveChanges();
+
+            return user;
+        }
+        
         public User Update(int id, User user)
         {
             _dbContext.Users.Update(user);
@@ -58,8 +66,6 @@ namespace Mygamelist.DatabaseRepository
         {
             return _dbContext.Users.Any(u => u.Pseudo == pseudo);
         }
-        
-        
 
     }
 }
