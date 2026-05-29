@@ -48,8 +48,8 @@
     "error": "Il y a eu une erreur lors du chargement",
     "Friends": "Amis",
     "GamesInCollection": "jeux",
-    "HoursPlayed": "Dashboard.HoursPlayed",
-    "HoursPlayedTotal": "Dashboard.HoursPlayedTotal",
+    "HoursPlayed": "récemment",
+    "HoursPlayedTotal": "au total",
     "LinkSettings": "Paramètres",
     "loading": "Chargement en cours",
     "Manage": "gérer",
@@ -61,6 +61,10 @@
     "RecentGames": "Jeux récents",
     "ShowMore": "voir plus",
     "WelcomeBack": "Bon retour,"
+  },
+  "Game": {
+    "GameRetrieveError": "Impossible de récuperer les données du jeu",
+    "LoadingGame": "Chargement du jeu en cours..."
   },
   "GameDetail": {
     "AboutTheGame": "À propos du jeu"

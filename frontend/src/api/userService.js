@@ -52,6 +52,10 @@ export const useUserService = () => {
             return apiCall(`${href}/?l=${l}`, {method:'GET'});
         },
 
+        getGameInfo: async (gameId,l) =>{
+            return apiCall(`Steam/game/${gameId}?l=${l}`,{method:'GET'});
+        },
+
         getCollections: async (href) => {
             return apiCall(href, {method:'GET'});
         },

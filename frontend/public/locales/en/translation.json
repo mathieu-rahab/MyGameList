@@ -48,7 +48,7 @@
     "error": "An error occurred during loading",
     "Friends": "Friends",
     "GamesInCollection": "games",
-    "HoursPlayed": "played",
+    "HoursPlayed": "recently",
     "HoursPlayedTotal": "total",
     "LinkSettings": "Settings",
     "loading": "Loading in progress",
@@ -61,6 +61,10 @@
     "RecentGames": "Recent games",
     "ShowMore": "show more",
     "WelcomeBack": "Welcome back,"
+  },
+  "Game": {
+    "GameRetrieveError": "Impossible to retrieve game data",
+    "LoadingGame": "Loading Game..."
   },
   "GameDetail": {
     "AboutTheGame": "About the game"
