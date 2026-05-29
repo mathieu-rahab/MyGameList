@@ -107,6 +107,8 @@
       "newSteamId": "Nouveau SteamID",
       "oldPassword": "Ancien mot de passe",
       "PasswordInvalid": "Le mot de passe doit contenir au moins 7 caractères.",
+      "PopUpFailed": "La mise à jour de vos données a échoué.",
+      "PopUpOk": "La mise à jour de vos données a réussi.",
       "PseudoInvalidCharacter": "Le pseudo ne peut contenir que des lettres, des chiffres et les caractères - _ .",
       "PseudoNotChanged": "Vous utilisez déjà ce pseudo.",
       "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",
