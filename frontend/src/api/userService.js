@@ -87,6 +87,29 @@ export const useUserService = () => {
                     newPassword
                 })
             });
+        },
+
+        // Page collection
+        searchGames: async (term) => {
+            return apiCall(`Steam/search?term=${term}`, {method:'GET'});
+        },
+
+        getOneCollection: async (href, id) => {
+            return apiCall(`${href}/${id}`, {method:'GET'});
+        },
+
+        addGameCollection: async (href, game) => {
+            return apiCall(href, {
+                method:'POST',
+                body: JSON.stringify({gameId : game})
+            });
+        },
+
+        removeGameCollection: async (href, game) => {
+            return apiCall(`${href}/${game}`, {
+                method:'DELETE',
+            });
         }
+
     };
 };

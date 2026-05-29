@@ -6,6 +6,7 @@ import NewUser from "./routes/NewUser";
 import Game from "./routes/Game";
 import Dashboard from "./routes/Dashboard";
 import Settings from "./routes/Settings";
+import Collection from "./routes/Collection";
 
 //layout
 import Layout from "./components/Layout";
@@ -37,6 +38,14 @@ export default function App(){
                     element={
                         <ProtectedRoute>
                             <Settings />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/collection"
+                    element={
+                        <ProtectedRoute>
+                            <Collection />
                         </ProtectedRoute>
                     }
                 />
