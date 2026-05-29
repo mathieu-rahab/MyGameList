@@ -11,7 +11,7 @@ namespace Mygamelist.Core.Business
 
         UserResponseDto Add(CreateUserDto dto);
         UserResponseDto Reset(int id, ResetUserDto dto);
-        UserResponseDto Update(int id, UpdateUserDto user);
+        Task<UserResponseDto> Update(int id, UpdateUserDto user);
         bool Remove(int id);
         Task<List<GameDto>> GetUserGames(int id);
         Task<List<GameDto>> GetUserRecentlyPlayedGames(int id, int? count, bool? includeProgression, string? l);
