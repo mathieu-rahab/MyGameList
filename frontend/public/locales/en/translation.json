@@ -88,6 +88,13 @@
     "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection."
   },
   "Settings": {
+    "ServerErrors": {
+      "STEAM_ACCOUNT_NOT_FOUND": "No valid Steam account found."
+    },
+    "Steam": {
+      "Texte1": "You can find your SteamID on your",
+      "Texte2": "Steam account"
+    },
     "Validation": {
       "button": "Validate",
       "EmailInvalid": "Please enter a valid email address.",
@@ -95,6 +102,7 @@
       "newEmail": "New Email",
       "newPassword": "New Password",
       "newPseudo": "New Username",
+      "newSteamId": "New SteamID",
       "oldPassword": "Old Password",
       "PasswordInvalid": "Password must be at least 7 characters long.",
       "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
@@ -103,7 +111,10 @@
       "PseudoTooShort": "Username must be at least 3 characters long.",
       "setEmail": "Email Setting",
       "setPassword": "Password Setting",
-      "setPseudo": "Username Setting"
+      "setPseudo": "Username Setting",
+      "setSteamId": "Steam Setting",
+      "SteamIdInvalid": "This SteamID is incorrect",
+      "SteamIdNotChanged": "Already linked to this SteamID"
     }
   }
 }

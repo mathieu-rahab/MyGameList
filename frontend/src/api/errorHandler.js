@@ -13,6 +13,7 @@ const dummyForExtractor = (t) => {
     t('CreateAccount.ServerErrors.USERNAME_ALREADY_EXISTS');
     t('CreateAccount.ServerErrors.UNKNOWN');
     t('Login.ServerErrors.EMAIL_OR_PASSWORD_INCORRECT');
+    t('Settings.ServerErrors.STEAM_ACCOUNT_NOT_FOUND');
 };
 
 
