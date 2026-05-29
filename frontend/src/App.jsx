@@ -21,7 +21,7 @@ export default function App(){
                 <Route path="/" element= {<Home />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/newUser" element={<NewUser />}/>
-                <Route path="/Game" element={<Game/>}/>
+                <Route path="/Game/:gameId" element={<Game/>}/>
 
                 {/* Routes protégées */}
                 <Route

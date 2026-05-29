@@ -62,6 +62,10 @@
     "ShowMore": "voir plus",
     "WelcomeBack": "Bon retour,"
   },
+  "Game": {
+    "GameRetrieveError": "Impossible de récuperer les données du jeu",
+    "LoadingGame": "Chargement du jeu en cours..."
+  },
   "GameDetail": {
     "AboutTheGame": "À propos du jeu"
   },
