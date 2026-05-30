@@ -44,6 +44,9 @@
     gap: 14px;
 
     transition: all .25s ease;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .changing_pseudo:hover,
@@ -63,7 +66,7 @@
     font-size: 11px;
     letter-spacing: 1.6px;
     text-transform: uppercase;
-    color: var(--muted2);
+    color: var(--text);
     font-weight: 500;
 }
 
@@ -181,4 +184,14 @@
     .changing_steamid input[type="button"] {
         width: 100%;
     }
+}
+#steam_account  {
+    color: var(--muted);
+    letter-spacing: normal;
+    text-transform: none !important;
+    font-size: 12px !important;
+
+}
+#steam_account a {
+    color: var(--accent);
 }

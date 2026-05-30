@@ -177,13 +177,21 @@ main {
     transition: color .3s
 }
 
+
+
 .game-row {
     display: flex;
     align-items: center;
     gap: 13px;
     padding: 9px 0;
     border-bottom: 1px solid var(--glass-border);
-    transition: border .3s
+    transition: scale .3s;
+    border-radius: 7px;
+
+}
+
+.game-row:hover {
+    scale: 1.04;
 }
 
 .game-row:last-child {
@@ -546,5 +554,24 @@ body.dark .b-br {
 }
 
 .redirect-settings {
-    color : var(--text)
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    color: var(--text);
+}
+
+.redirect-settings > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.redirect-settings > div > span  > a{
+    color: var(--accent) !important;
 }
