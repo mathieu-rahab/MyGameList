@@ -42,7 +42,7 @@ export default function App(){
                     }
                 />
                 <Route
-                    path="/collection"
+                    path="/collection/:collectionId"
                     element={
                         <ProtectedRoute>
                             <Collection />

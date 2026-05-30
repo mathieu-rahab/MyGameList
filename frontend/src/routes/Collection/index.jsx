@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./index.css";
 import { useUserService } from "../../api/userService.js";
@@ -7,7 +7,8 @@ import { useAuth } from "../../utils/useAuth.jsx";
 
 export default function Collection() {
     const { t, i18n } = useTranslation();
-    const [searchParams] = useSearchParams();
+    const { collectionId } = useParams();
+
     const { user } = useAuth();
     const { getOneCollection, searchGames, addGameCollection, removeGameCollection, getGameInfo } = useUserService();
 
@@ -31,7 +32,6 @@ export default function Collection() {
                     return;
                 }
 
-                const collectionId = searchParams.get('id');
                 if (!collectionId) {
                     setError("Collection ID not found");
                     return;
@@ -93,7 +93,7 @@ export default function Collection() {
         if (user?.userId) {
             fetchCollection();
         }
-    }, [searchParams, user, i18n.language]);
+    }, [collectionId, user, i18n.language]);
 
     // Recherche
     useEffect(() => {
@@ -250,7 +250,7 @@ export default function Collection() {
                         <span className="sec-title">{t('Collection.AddGame')}</span>
                     </div>
 
-                    <div className="input-wrap">
+                    <div className="input-wrap input-collection-search">
                         <i className="ti ti-search" aria-hidden="true"></i>
 
                         <input
@@ -261,12 +261,21 @@ export default function Collection() {
                         />
                     </div>
 
-                    {searchResults.length > 0 && (
+                    {searchTerm.length > 0 && (
                         <div className="search-results">
                             <h3>{t('Collection.SearchResults')}</h3>
-                            {searchResults.map(game => (
-                                <GameRow key={game.appId} game={game} />
-                            ))}
+                            {(searchResults.length < 1) ? (
+                                <span className="no-results">
+                                    {t('Collection.NoSearchResults')}
+                                </span>
+                            ) : (
+
+                            searchResults
+                                // si un jeux est déjà dans la collection, alors il ne s'affiche pas dans les resultats
+                                .filter(game => !games.some(g => g.appId === game.appId))
+                                .map(game => (
+                                    <GameRow key={game.appId} game={game} />
+                                )))}
                         </div>
                     )}
                 </div>
