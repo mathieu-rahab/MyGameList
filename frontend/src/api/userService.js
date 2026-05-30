@@ -124,6 +124,13 @@ export const useUserService = () => {
             });
         },
 
+        deleteAccount: async (userId) => {
+            return apiCall(`User/${userId}`, {
+                method: 'DELETE'
+            });
+        }
+        },
+
         deleteCollection: async (href) => {
             return apiCall(href, {method:'DELETE'});
         },

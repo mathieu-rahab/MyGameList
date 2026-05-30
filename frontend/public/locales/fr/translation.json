@@ -109,6 +109,11 @@
     "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion."
   },
   "Settings": {
+    "Delete": {
+      "button": "Supprimer votre compte",
+      "PopUpOk": "Votre compte a été supprimé avec succès.",
+      "Warning": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+    },
     "ServerErrors": {
       "STEAM_ACCOUNT_NOT_FOUND": "Aucun compte Steam valide trouvé."
     },

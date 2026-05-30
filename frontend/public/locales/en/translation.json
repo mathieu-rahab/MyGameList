@@ -107,6 +107,11 @@
     "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection."
   },
   "Settings": {
+    "Delete": {
+      "button": "Delete your account",
+      "PopUpOk": "Your account has been successfully deleted.",
+      "Warning": "Are you sure you want to delete your account? This action cannot be undone."
+    },
     "ServerErrors": {
       "STEAM_ACCOUNT_NOT_FOUND": "No valid Steam account found."
     },
