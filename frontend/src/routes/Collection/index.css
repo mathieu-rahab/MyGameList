@@ -23,7 +23,15 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 20px;
+    align-items: start;
 }
+
+.collection-content .section:last-child {
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
 
 .games-list, .search-results {
     margin-top: 20px;
@@ -44,22 +52,31 @@
     font-size: 1.1rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .collection-content {
         grid-template-columns: 1fr;
     }
 
-    .game-row {
-        flex-direction: column;
-        text-align: center;
+    /* Déplace la section "Ajouter" avant la liste sur mobile */
+    .collection-content .section:last-child {
+        order: -1;
     }
 
-    .gthumb {
-        margin-right: 0;
-        margin-bottom: 10px;
+    .input-collection-search {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--glass, rgba(255,255,255,1));
+        backdrop-filter: blur(8px);
+        padding: 10px 0;
+        margin: -4px 0 12px;
     }
+}
 
-    .ginfo {
-        margin-bottom: 10px;
-    }
+.search-results > h3{
+    color: var(--text);
+}
+
+.search-results > .no-results{
+    color: var(--muted);
 }

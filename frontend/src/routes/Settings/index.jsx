@@ -326,7 +326,7 @@ export default function Settings() {
             <div className="changing_steamid">
                 <span>{t('Settings.Validation.setSteamId')}</span>
 
-                <span>{t('Settings.Steam.Texte1')} <a href="https://store.steampowered.com/account/" target="_blank">{t('Settings.Steam.Texte2')}</a></span>
+                <span id="steam_account">{t('Settings.Steam.Texte1')} <a href="https://store.steampowered.com/account/" target="_blank">{t('Settings.Steam.Texte2')}</a>.</span>
 
                 <input type = "text" placeholder={t('Settings.Validation.newSteamId')} value={newSteamId} onChange={(e) => setNewSteamId(e.target.value)}/>
                 

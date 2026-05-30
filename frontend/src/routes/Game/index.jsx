@@ -5,16 +5,6 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {useUserService} from "../../api/userService.js";
 
-const placeholder = {
-    title: "UnSuperJeu",
-    coverUrl: "/covers/placeholder.png",
-    bgUrl: "/covers/placeholderBackground.jpg",
-    category: "FriendSlop",
-    version: "V 0.Trust WIP",
-    year: 2077,
-    size: "420.69 MB",
-    description: "The DarkSouls of its genra, as no journalist has completed the tutorial yet.\nThe GOTY of this year. Better than everything Riot Games did since the last decade.\nSurprisingly, Capcom did not release it, yet they wish they did."
-};
 
 const languageMap = {
     fr: 'french',
@@ -75,9 +65,7 @@ export default function Game() {
 
     return (
         <div className='main'>
-            <div className="scard glass">
-                <GameDetail game={game || placeholder} className="GameDetail"/>
-            </div> 
+            <GameDetail game={game} className="GameDetail"/>
         </div>
     );
 }
