@@ -5,12 +5,13 @@ import { useTranslation } from "react-i18next";
 import { useUserService } from "../../api/userService";
 import { useAuth } from "../../utils/useAuth";
 import { getServerErrorMessage, getHttpErrorMessage } from '../../api/errorHandler.js';
-
+import {useNavigate} from 'react-router-dom';
 
 export default function Settings() {
 
     const userService = useUserService();
-    const { user, refreshUser } = useAuth();
+    const navigate = useNavigate();
+    const { user, refreshUser, logout } = useAuth();
 
     const PSEUDO_REGEX = /^[a-zA-Z0-9_\-.]+$/;
     const EMAIL_REGEX  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -271,6 +272,48 @@ export default function Settings() {
             setErrors(prev => ({...prev, steamId: getHttpErrorMessage(err.status, t)}));
         }
     }
+    
+    /*
+    ///DELETE
+    */
+
+    async function deleteAccount() {
+        const confirmed = window.confirm(
+            t('Settings.Delete.Warning')
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            const userId = user?.id;
+
+            if (!userId) {
+                setErrors("User ID not found");
+                return;
+            }
+
+            await userService.deleteAccount(userId);
+
+            alert(t('Settings.Delete.PopUpOk'));
+
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+
+            logout();
+            navigate("/");
+
+
+        } catch (err) {
+            console.error(err);
+
+            setErrors(
+                err?.response?.data?.message ||
+                "Une erreur est survenue lors de la suppression du compte"
+            );
+        }
+    }
 
     /*
     /// RETURN
@@ -336,6 +379,14 @@ export default function Settings() {
                     type="button"
                     value= {t('Settings.Validation.button')}
                     onClick={() => changeSteamId()}
+                />
+            </div>
+
+            <div className="delete-account">
+                <input
+                    type="button"
+                    value= {t('Settings.Delete.button')}
+                    onClick={() => deleteAccount()}
                 />
             </div>
 

@@ -49,7 +49,6 @@
     "Cancel": "Annuler",
     "Create": "Créer",
     "Creating": "CreateCollectionModal.Creating",
-    "Error": "Création...",
     "LabelRequired": "Le nom de la collection est requis",
     "Placeholder": "Entrez le nom de votre collection",
     "Title": "Créer une nouvelle collection"
@@ -88,7 +87,6 @@
     "Logout": "Se déconnecter"
   },
   "Login": {
-    "Alternative": "Ou continuer avec",
     "CreateAccount": "En créer un",
     "NoAccountYetQuestion": "Pas encore de compte ?",
     "Password": "Mot de passe",
@@ -104,6 +102,11 @@
     "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion."
   },
   "Settings": {
+    "Delete": {
+      "button": "Supprimer votre compte",
+      "PopUpOk": "Votre compte a été supprimé avec succès.",
+      "Warning": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+    },
     "ServerErrors": {
       "STEAM_ACCOUNT_NOT_FOUND": "Aucun compte Steam valide trouvé."
     },
