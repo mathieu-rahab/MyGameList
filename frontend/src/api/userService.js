@@ -122,6 +122,12 @@ export const useUserService = () => {
                 method: 'PATCH',
                 body: JSON.stringify({ steamId })
             });
+        },
+
+        deleteAccount: async (userId) => {
+            return apiCall(`User/${userId}`, {
+                method: 'DELETE'
+            });
         }
 
 

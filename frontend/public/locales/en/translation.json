@@ -49,7 +49,6 @@
     "Cancel": "Cancel",
     "Create": "Create",
     "Creating": "",
-    "Error": "Error creating...",
     "LabelRequired": "Collection name is required",
     "Placeholder": "Enter your collection name",
     "Title": "Create a new collection"
@@ -88,7 +87,6 @@
     "Logout": "Logout"
   },
   "Login": {
-    "Alternative": "Or continue with",
     "CreateAccount": "Create one",
     "NoAccountYetQuestion": "Don't have an account yet ?",
     "Password": "Password",
@@ -104,6 +102,11 @@
     "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection."
   },
   "Settings": {
+    "Delete": {
+      "button": "Delete your account",
+      "PopUpOk": "Your account has been successfully deleted.",
+      "Warning": "Are you sure you want to delete your account? This action cannot be undone."
+    },
     "ServerErrors": {
       "STEAM_ACCOUNT_NOT_FOUND": "No valid Steam account found."
     },
