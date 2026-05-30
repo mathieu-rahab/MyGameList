@@ -10,7 +10,7 @@ import { getServerErrorMessage, getHttpErrorMessage } from '../../api/errorHandl
 export default function Settings() {
 
     const userService = useUserService();
-    const { user, loadingloading: authLoading, refreshUser } = useAuth();
+    const { user, refreshUser } = useAuth();
 
     const PSEUDO_REGEX = /^[a-zA-Z0-9_\-.]+$/;
     const EMAIL_REGEX  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -79,7 +79,7 @@ export default function Settings() {
 
             alert(t('Settings.Validation.PopUpOk'));
 
-        } catch (error) {
+        } catch {
             alert(t('Settings.Validation.PopUpFailed'));
         }
 
@@ -139,7 +139,7 @@ export default function Settings() {
 
                 alert(t('Settings.Validation.PopUpOk'));
 
-            } catch (error) {
+            } catch {
                 alert(t('Settings.Validation.PopUpFailed'));
             }
         
@@ -199,7 +199,7 @@ export default function Settings() {
 
                 alert(t('Settings.Validation.PopUpOk'));
 
-            } catch (error) {
+            } catch {
                 alert(t('Settings.Validation.PopUpFailed'));
             }
 
@@ -253,7 +253,7 @@ export default function Settings() {
 
                 alert(t('Settings.Validation.PopUpOk'));
 
-            } catch (error) {
+            } catch {
                 alert(t('Settings.Validation.PopUpFailed'));
             }
         

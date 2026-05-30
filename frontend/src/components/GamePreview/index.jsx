@@ -1,5 +1,4 @@
 import './index.css';
-import {useUserService} from "../../api/userService.js";
 
 export default function GamePreview({ game }) {
   return (

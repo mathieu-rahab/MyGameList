@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import './CreateCollectionModal.css';
+import {getHttpErrorMessage, getServerErrorMessage} from "../../api/errorHandler.js";
+import i18n from "i18next";
 
 export default function CreateCollectionModal({ isOpen, onClose, onSubmit, t }) {
     const [label, setLabel] = useState('');
@@ -21,8 +23,13 @@ export default function CreateCollectionModal({ isOpen, onClose, onSubmit, t }) 
             setLabel('');
             onClose();
         } catch (err) {
-            setError(err.error || err.message || t('CreateCollectionModal.Error') || 'Erreur lors de la création');
-            console.error('Erreur création collection:', err);
+            if (err.error) {
+                setError(getServerErrorMessage(err.error, t, i18n, 'CreateCollectionModal'));
+                return;
+            }
+            // erreur HTTP/réseau
+            setError(getHttpErrorMessage(err.status, t));
+
         } finally {
             setLoading(false);
         }

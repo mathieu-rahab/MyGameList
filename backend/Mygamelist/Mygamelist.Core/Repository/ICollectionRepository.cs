@@ -10,8 +10,8 @@ namespace Mygamelist.Core.Repository
         Collection Update(int id, Collection collection);
         public bool Delete(int id);
         
-        Collection InsertGame(int collectionId, int gameId);
-        Collection DeleteGame(int collectionId, int gameId);
+        Collection? InsertGame(int collectionId, int gameId);
+        Collection? DeleteGame(int collectionId, int gameId);
 
     }
 }

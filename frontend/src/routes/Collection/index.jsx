@@ -93,35 +93,25 @@ export default function Collection() {
         if (user?.userId) {
             fetchCollection();
         }
-    }, [collectionId, user, i18n.language]);
+    }, [collectionId, user, i18n.language]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    // Recherche
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (searchTerm.trim()) {
-                handleSearch(searchTerm);
-            } else {
+        const timeoutId = setTimeout(async () => {
+            if (!searchTerm.trim()) {
+                setSearchResults([]);
+                return;
+            }
+            try {
+                const results = await searchGames(searchTerm);
+                setSearchResults(results);
+            } catch (err) {
+                console.error("Search error:", err);
                 setSearchResults([]);
             }
         }, 400);
 
         return () => clearTimeout(timeoutId);
-    }, [searchTerm]);
-
-    const handleSearch = async (term) => {
-        if (!term.trim()) {
-            setSearchResults([]);
-            return;
-        }
-
-        try {
-            const results = await searchGames(term);
-            setSearchResults(results);
-        } catch (err) {
-            console.error("Search error:", err);
-            setSearchResults([]);
-        }
-    };
+    }, [searchTerm]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Gérer l'ajout d'un jeu à la collection
     const handleAddGame = async (game) => {

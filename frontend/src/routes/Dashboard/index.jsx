@@ -91,7 +91,7 @@ export default function Dashboard (){
             fetchRecentGames()
                 .then();
         }
-    }, [user?.userId, authLoading]);
+    }, [user?.userId, authLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
     useEffect(() => {
@@ -117,7 +117,8 @@ export default function Dashboard (){
 
         fetchRecentAchievements().then();
 
-    }, [recentGames, i18n?.language]); // charge après les jeux récents
+        // charge après les jeux récents
+    }, [recentGames, i18n?.language]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
     useEffect(() => {
@@ -148,26 +149,24 @@ export default function Dashboard (){
                 .then();
         }
 
-    }, [user]);
+    }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
     const handleCreateCollection = async (label) => {
-        try {
-            const createCollectionLink = user.links?.find(
-                link => link.rel === 'create-collection'
-            );
-            if (!createCollectionLink) {
-                throw new Error('create-collection link not found');
-            }
 
-            const newCollection = await createCollection(createCollectionLink.href, label);
-
-            // Ajouter la nouvelle collection à la liste
-            setCollections(prev => [...prev, newCollection]);
-        } catch (err) {
-            throw err;
+        const createCollectionLink = user.links?.find(
+            link => link.rel === 'create-collection'
+        );
+        if (!createCollectionLink) {
+            throw new Error('create-collection link not found');
         }
+
+        const newCollection = await createCollection(createCollectionLink.href, label);
+
+        // Ajouter la nouvelle collection à la liste
+        setCollections(prev => [...prev, newCollection]);
+
     };
 
 
@@ -184,8 +183,8 @@ export default function Dashboard (){
         }
 
         return recentGames.map((game) => (
-            <Link to={`/Game/${game.id}`} className="button-no-style link-game-row">
-                <div key={game.id} className="game-row">
+            <Link to={`/Game/${game.id}`} className="button-no-style">
+                <div key={game.id} className="game-row link-game-row">
                     <div className="gthumb gt1">
                         {imageErrors[game.id] ? (
                             <i className="ti ti-device-gamepad-2"></i>
@@ -261,7 +260,7 @@ export default function Dashboard (){
             return <div className="message">{t('Dashboard.loading')}</div>;
         }
 
-        return collections.map((collection, index) => {
+        return collections.map((collection) => {
             return (
                 <Link to={`/collection/${collection.id}`}  target="_blank" class="link">
                     <div className="ccard">
