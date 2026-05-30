@@ -6,7 +6,7 @@
  * @param {string} namespace - Namespace i18n de la page (ex: "CreateAccount")
  */
 
-const dummyForExtractor = (t) => {
+const dummyForExtractor = (t) => { // eslint-disable-line no-unused-vars
     // Erreurs de création de compte
     t('CreateAccount.ServerErrors.EMAIL_ALREADY_EXISTS');
     t('CreateAccount.ServerErrors.INVALID_PSEUDO');

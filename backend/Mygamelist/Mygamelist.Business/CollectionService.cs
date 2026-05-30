@@ -48,17 +48,16 @@ namespace Mygamelist.Business
         public CollectionResponseDto Update(int id, UpdateCollectionDto dto)
         {
             var collection = _collectionRepository.SelectById(id);
-            
-            if (collection.UserId != dto.UserId)
-                throw new BusinessException(HttpStatusCode.Unauthorized, "NOT_YOUR_COLLECTION");
-            
             if (collection == null)
                 throw new BusinessException(HttpStatusCode.NotFound, "COLLECTION_NOT_FOUND");
 
+            if (collection.UserId != dto.UserId)
+                throw new BusinessException(HttpStatusCode.Unauthorized, "NOT_YOUR_COLLECTION");
+            
             if (dto.GamesId is not null && dto.GamesId.Count != dto.GamesId.Distinct().Count())
                 throw new BusinessException(HttpStatusCode.BadRequest, "ALREADY_IN_COLLECTION");
             
-            if (dto.Label is not null)
+            if (dto.Label.Length > 0)
                 collection.Label = dto.Label;
             
             if (dto.GamesId is not null)
@@ -91,7 +90,7 @@ namespace Mygamelist.Business
                 :  _collectionRepository.InsertGame(collectionId, gameId);
         }
 
-        public Collection RemoveGame(int userId, int collectionId, int gameId)
+        public Collection? RemoveGame(int userId, int collectionId, int gameId)
         {
             var collection = _collectionRepository.SelectById(collectionId);
             if (collection == null)

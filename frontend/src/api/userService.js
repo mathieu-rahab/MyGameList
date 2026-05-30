@@ -93,6 +93,30 @@ export const useUserService = () => {
             });
         },
 
+        // Page collection
+        searchGames: async (term) => {
+            return apiCall(`Steam/search?term=${term}`, {method:'GET'});
+        },
+
+        getOneCollection: async (href, id) => {
+            return apiCall(`${href}/${id}`, {method:'GET'});
+        },
+
+        addGameCollection: async (href, game) => {
+            return apiCall(href, {
+                method:'POST',
+                body: JSON.stringify({gameId : game})
+            });
+        },
+
+        removeGameCollection: async (href, game) => {
+            return apiCall(href, {
+                method: 'DELETE',
+                body: JSON.stringify({gameId :game})
+
+            })
+        },
+
         changeSteamId: async (userId, steamId) => {
             return apiCall(`User/${userId}`, {
                 method: 'PATCH',
@@ -105,5 +129,7 @@ export const useUserService = () => {
                 method: 'DELETE'
             });
         }
+
+
     };
 };

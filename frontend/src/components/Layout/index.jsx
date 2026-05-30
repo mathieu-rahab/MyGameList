@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import {Link, NavLink, Outlet} from "react-router";
+import {Link, Outlet} from "react-router";
 import "./index.css";
 import { useTranslation } from "react-i18next";
-import { useCookies } from 'react-cookie';
 import { useAuth } from '../../utils/useAuth'
+import {Navigate} from "react-router-dom";
 
 
 
@@ -14,7 +14,7 @@ export default function Layout() {
 
     const handleLogout = () => {
         logout();
-        navigate('/'); 
+        Navigate('/');
     };
 
     const LoginButton = () => {
@@ -36,7 +36,7 @@ export default function Layout() {
     const AccountSettingsButton = () => {
       if (isAuthenticated) {
         return(
-            <Link to={'/Settings'}>
+            <Link to={'/Settings'} className="button-no-style">
                 <div className="av">
                         <i className="ti ti-user" aria-hidden="true"></i>
                     </div>
@@ -74,7 +74,7 @@ export default function Layout() {
         const root = document.documentElement;
         root.classList.remove('dark', 'light');
         root.classList.add(theme);
-        try { localStorage.setItem('nx-theme', theme); } catch {}
+        try { localStorage.setItem('nx-theme', theme); } catch { /* */ }
     }, [theme]);
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -115,7 +115,7 @@ export default function Layout() {
                             {t('Layout.Light')}
                         </div>
                     </div>
-                    <div className="notif">⊹</div>
+                    <div className="notif" style={{display : 'none'}}>⊹</div>
                     {LoginButton()}
                     {AccountSettingsButton()}
                     

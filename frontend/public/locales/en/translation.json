@@ -5,6 +5,16 @@
     "platinum": "Platinum",
     "silver": "Silver"
   },
+  "Collection": {
+    "AddGame": "Add Game",
+    "Games": "Games",
+    "GamesCount": "games",
+    "NoGames": "No Games",
+    "NoSearchResults": "No games found",
+    "SearchPlaceholder": "Search games...",
+    "SearchResults": "Search Results",
+    "Untitled": "Untitled"
+  },
   "CreateAccount": {
     "ExistingAccountQuestion": "Already have an account?",
     "Fields": {
@@ -67,7 +77,7 @@
     "LoadingGame": "Loading Game..."
   },
   "GameDetail": {
-    "AboutTheGame": "About the game"
+    "AboutTheGame": "Description"
   },
   "Layout": {
     "Dark": "Dark",
@@ -111,6 +121,8 @@
       "newSteamId": "New SteamID",
       "oldPassword": "Old Password",
       "PasswordInvalid": "Password must be at least 7 characters long.",
+      "PopUpFailed": "Your data update failed.",
+      "PopUpOk": "Your data has been successfully updated.",
       "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
       "PseudoNotChanged": "You are already using this username.",
       "PseudoTooLong": "Username cannot exceed 20 characters.",

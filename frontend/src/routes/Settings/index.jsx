@@ -10,7 +10,7 @@ import { getServerErrorMessage, getHttpErrorMessage } from '../../api/errorHandl
 export default function Settings() {
 
     const userService = useUserService();
-    const { user, loadingloading: authLoading, refreshUser } = useAuth();
+    const { user, refreshUser } = useAuth();
 
     const PSEUDO_REGEX = /^[a-zA-Z0-9_\-.]+$/;
     const EMAIL_REGEX  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -74,7 +74,14 @@ export default function Settings() {
 
         setErrors({});
 
-        await refreshUser(userId);
+        try {
+            await refreshUser(userId);
+
+            alert(t('Settings.Validation.PopUpOk'));
+
+        } catch {
+            alert(t('Settings.Validation.PopUpFailed'));
+        }
 
     } catch (err) {
 
@@ -127,7 +134,14 @@ export default function Settings() {
 
             setErrors({});
             
-            await refreshUser(userId);
+            try {
+                await refreshUser(userId);
+
+                alert(t('Settings.Validation.PopUpOk'));
+
+            } catch {
+                alert(t('Settings.Validation.PopUpFailed'));
+            }
         
         } catch (err) {
             console.log(err);
@@ -180,7 +194,14 @@ export default function Settings() {
 
             setErrors({});
 
-            await refreshUser(userId);
+            try {
+                await refreshUser(userId);
+
+                alert(t('Settings.Validation.PopUpOk'));
+
+            } catch {
+                alert(t('Settings.Validation.PopUpFailed'));
+            }
 
             setNewPassword("")
             setOldPassword("")
@@ -227,7 +248,14 @@ export default function Settings() {
 
             setErrors({});
             
-            await refreshUser(userId);
+            try {
+                await refreshUser(userId);
+
+                alert(t('Settings.Validation.PopUpOk'));
+
+            } catch {
+                alert(t('Settings.Validation.PopUpFailed'));
+            }
         
         } catch (err) {
             console.log(err);
@@ -298,7 +326,7 @@ export default function Settings() {
             <div className="changing_steamid">
                 <span>{t('Settings.Validation.setSteamId')}</span>
 
-                <span>{t('Settings.Steam.Texte1')} <a href="https://store.steampowered.com/account/" target="_blank">{t('Settings.Steam.Texte2')}</a></span>
+                <span id="steam_account">{t('Settings.Steam.Texte1')} <a href="https://store.steampowered.com/account/" target="_blank">{t('Settings.Steam.Texte2')}</a>.</span>
 
                 <input type = "text" placeholder={t('Settings.Validation.newSteamId')} value={newSteamId} onChange={(e) => setNewSteamId(e.target.value)}/>
                 

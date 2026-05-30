@@ -46,17 +46,19 @@ public class CollectionRepository : ICollectionRepository
         return true;
     }
 
-    public Collection InsertGame(int collectionId, int gameId)
+    public Collection? InsertGame(int collectionId, int gameId)
     {
         var collection = SelectById(collectionId);
+        if (collection == null) return null;
         collection.GamesId.Add(gameId);
         _dbContext.SaveChanges();
         return collection;
     }
     
-    public Collection DeleteGame(int collectionId, int gameId)
+    public Collection? DeleteGame(int collectionId, int gameId)
     {
         var collection = SelectById(collectionId);
+        if (collection == null) return null;
         collection.GamesId.Remove(gameId);
         _dbContext.SaveChanges();
         return collection;

@@ -14,12 +14,25 @@ public class HateosLinkGenerator : IHateosLinkGenerator
 
     public Link Generate(string endpointName, object? routeValues, string rel, string method)
     {
+        var httpContext = _httpContextAccessor.HttpContext;
+        if (httpContext == null)
+        {
+            throw new InvalidOperationException("HttpContext is not available. Ensure this method is called within a request context.");
+        }
+    
+        var href = _linkGenerator.GetUriByName(
+            httpContext,
+            endpointName,
+            routeValues);
+    
+        if (string.IsNullOrEmpty(href))
+        {
+            throw new InvalidOperationException($"Could not generate URI for endpoint '{endpointName}'");
+        }
+    
         return new Link
         {
-            Href = _linkGenerator.GetUriByName(
-                _httpContextAccessor.HttpContext,
-                endpointName,
-                routeValues),
+            Href = href,
             Method = method,
             Rel = rel
         };

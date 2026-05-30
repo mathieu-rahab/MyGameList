@@ -73,3 +73,9 @@ label {
 #Outlet {
     min-height: 87vh !important;
 }
+
+.button-no-style {
+    /* Suppression des styles par défaut des liens */
+    all: unset;
+    cursor: pointer;
+   }
