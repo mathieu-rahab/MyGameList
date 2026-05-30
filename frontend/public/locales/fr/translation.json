@@ -7,6 +7,8 @@
   },
   "Collection": {
     "AddGame": "Ajouter un jeu",
+    "ConfirmDeleteCollection": "Êtes-vous sûr de vouloir supprimer cette collection ? Cette action est irréversible.",
+    "DeleteCollection": "Supprimer la collection",
     "Games": "Jeux",
     "GamesCount": "jeux",
     "NoGames": "Aucun jeu",
@@ -15,6 +17,19 @@
     "SearchResults": "Résultats de recherche",
     "Untitled": "Sans titre"
   },
+
+  "CollectionModal": {
+    "Title": "Nouvelle Collection",
+    "EditTitle": "Modifier la Collection",
+    "Placeholder": "Nom de la collection",
+    "LabelRequired": "Le nom de la collection est obligatoire",
+    "Cancel": "Annuler",
+    "Create": "Créer",
+    "Save": "Enregistrer",
+    "Creating": "Création en cours...",
+    "Saving": "Enregistrement en cours..."
+  },
+
   "CreateAccount": {
     "ExistingAccountQuestion": "Déjà un compte ?",
     "Fields": {
@@ -44,15 +59,6 @@
       "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",
       "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères."
     }
-  },
-  "CreateCollectionModal": {
-    "Cancel": "Annuler",
-    "Create": "Créer",
-    "Creating": "CreateCollectionModal.Creating",
-    "Error": "Création...",
-    "LabelRequired": "Le nom de la collection est requis",
-    "Placeholder": "Entrez le nom de votre collection",
-    "Title": "Créer une nouvelle collection"
   },
   "Dashboard": {
     "error": "Il y a eu une erreur lors du chargement",
@@ -88,7 +94,6 @@
     "Logout": "Se déconnecter"
   },
   "Login": {
-    "Alternative": "Ou continuer avec",
     "CreateAccount": "En créer un",
     "NoAccountYetQuestion": "Pas encore de compte ?",
     "Password": "Mot de passe",

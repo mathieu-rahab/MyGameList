@@ -7,6 +7,8 @@
   },
   "Collection": {
     "AddGame": "Add Game",
+    "ConfirmDeleteCollection": "Are you sure you want to delete this collection? This action cannot be undone.",
+    "DeleteCollection": "Delete the collection",
     "Games": "Games",
     "GamesCount": "games",
     "NoGames": "No Games",
@@ -14,6 +16,17 @@
     "SearchPlaceholder": "Search games...",
     "SearchResults": "Search Results",
     "Untitled": "Untitled"
+  },
+  "CollectionModal": {
+    "Title": "New Collection",
+    "EditTitle": "Edit Collection",
+    "Placeholder": "Collection name",
+    "LabelRequired": "Collection name is required",
+    "Cancel": "Cancel",
+    "Create": "Create",
+    "Save": "Save",
+    "Creating": "Creating...",
+    "Saving": "Saving..."
   },
   "CreateAccount": {
     "ExistingAccountQuestion": "Already have an account?",
@@ -44,15 +57,6 @@
       "PseudoTooLong": "Username cannot exceed 20 characters.",
       "PseudoTooShort": "Username must be at least 3 characters long."
     }
-  },
-  "CreateCollectionModal": {
-    "Cancel": "Cancel",
-    "Create": "Create",
-    "Creating": "",
-    "Error": "Error creating...",
-    "LabelRequired": "Collection name is required",
-    "Placeholder": "Enter your collection name",
-    "Title": "Create a new collection"
   },
   "Dashboard": {
     "error": "An error occurred during loading",
@@ -88,7 +92,6 @@
     "Logout": "Logout"
   },
   "Login": {
-    "Alternative": "Or continue with",
     "CreateAccount": "Create one",
     "NoAccountYetQuestion": "Don't have an account yet ?",
     "Password": "Password",
