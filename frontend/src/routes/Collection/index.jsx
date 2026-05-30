@@ -179,30 +179,31 @@ export default function Collection() {
     };
 
     const GameRow = ({ game, showRemoveButton = false }) => (
-        <div className="game-row">
-            <div className="gthumb">
-                <Link to={`/Game/${game.appId}`}>
-                    <img src={game.tinyImage} alt={game.name} />
-                </Link>
-                
-            </div>
-            <div className="ginfo">
-                <div className="gname">{game.name}</div>
-                <div className="gmeta">App ID: {game.appId}</div>
-            </div>
-            <div className="gactions">
-                {showRemoveButton ? (
-                    <button className="btn btn-delete" onClick={() => handleRemoveGame(game)}>
-                        <i className="ti ti-trash"></i>
-                    </button>
-                ) : (
-                    <button className="btn btn-primary" onClick={() => handleAddGame(game)}>
+        <Link to={`/Game/${game.appId}`} className="button-no-style" target="_blank">
+            <div className="game-row">
+                <div className="gthumb">
+                        <img src={game.tinyImage} alt={game.name} />
+
+                </div>
+                <div className="ginfo">
+                    <div className="gname">{game.name}</div>
+                    <div className="gmeta">App ID: {game.appId}</div>
+                </div>
+                <div className="gactions">
+                    {showRemoveButton ? (
+                        <button className="btn btn-delete" onClick={(event) => {event.preventDefault(); handleRemoveGame(game);}}>
+                            <i className="ti ti-trash"></i>
+                        </button>
+                    ) : (
+                        <button className="btn btn-primary" onClick={(event) => {event.preventDefault(); handleAddGame(game);}}>
                         <i className="ti ti-plus"></i>
-                    </button>
-                )
-                }
+                        </button>
+                    )
+                    }
+                </div>
             </div>
-        </div>
+        </Link>
+
     );
 
     if (loading) {
@@ -291,11 +292,11 @@ export default function Collection() {
                     {games.length > 0 ? (
                         <div className="games-list">
                             {games.map(game => (
-                                <GameRow
-                                    key={game.appId}
-                                    game={game}
-                                    showRemoveButton={true}
-                                />
+                                    <GameRow
+                                        key={game.appId}
+                                        game={game}
+                                        showRemoveButton={true}
+                                    />
                             ))}
                         </div>
                     ) : (
@@ -332,7 +333,7 @@ export default function Collection() {
                                 // si un jeux est déjà dans la collection, alors il ne s'affiche pas dans les resultats
                                 .filter(game => !games.some(g => g.appId === game.appId))
                                 .map(game => (
-                                    <GameRow key={game.appId} game={game} />
+                                        <GameRow key={game.appId} game={game} />
                                 )))}
                         </div>
                     )}

@@ -93,6 +93,12 @@ export const useUserService = () => {
             });
         },
 
+        deleteAccount: async (userId) => {
+            return apiCall(`User/${userId}`, {
+                method: 'DELETE'
+            });
+        },
+
         // Page collection
         searchGames: async (term) => {
             return apiCall(`Steam/search?term=${term}`, {method:'GET'});
@@ -124,12 +130,7 @@ export const useUserService = () => {
             });
         },
 
-        deleteAccount: async (userId) => {
-            return apiCall(`User/${userId}`, {
-                method: 'DELETE'
-            });
-        }
-        },
+
 
         deleteCollection: async (href) => {
             return apiCall(href, {method:'DELETE'});
