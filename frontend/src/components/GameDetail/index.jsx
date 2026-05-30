@@ -7,13 +7,13 @@ export default function GameDetail({game}) {
   const {t} = useTranslation();
 
   return (
-    <div className="scard glass">
-        <GamePreview game={game} className='GamePreview'/>
-        <div className='GameDescription'>
-            <h2>{t('GameDetail.AboutTheGame')}</h2>
-            <span dangerouslySetInnerHTML={{__html:game.description}}/>
-             
-        </div>
-    </div>
+      <div className='game-detail-container'>
+          <GamePreview game={game} className='GamePreview'/>
+          <div className="scard glass game-description">
+              <h2>{t('GameDetail.AboutTheGame')}</h2>
+              <hr className="line"/>
+              <span dangerouslySetInnerHTML={{__html:game.description}} className="description"/>
+          </div>
+      </div>
   );
 }
