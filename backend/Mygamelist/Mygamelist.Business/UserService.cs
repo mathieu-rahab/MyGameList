@@ -52,8 +52,8 @@ namespace Mygamelist.Business
         public UserResponseDto Reset(int id, ResetUserDto dto)
         {
             var user = _userRepository.SelectById(id);
-            
-            var steamCheck = _steamService.VerifySteamId(dto.SteamId);
+
+            var steamCheck = (dto.SteamId?.Length > 0) ? _steamService.VerifySteamId(dto.SteamId) : null;
 
             if (user is null)
                 throw new BusinessException(HttpStatusCode.NotFound, "USER_NOT_FOUND");
