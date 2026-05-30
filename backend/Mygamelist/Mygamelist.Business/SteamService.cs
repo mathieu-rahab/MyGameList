@@ -30,7 +30,9 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
         return l?.ToLowerInvariant() switch
         {
             "french" => "french",
+            "fr" => "french",
             "english" => "english",
+            "en" => "english",
             _ => "french"
         };
     }

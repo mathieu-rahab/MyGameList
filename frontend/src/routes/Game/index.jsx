@@ -6,10 +6,7 @@ import { useTranslation } from 'react-i18next';
 import {useUserService} from "../../api/userService.js";
 
 
-const languageMap = {
-    fr: 'french',
-    en: 'english',
-};
+
 
 
 export default function Game() {
@@ -19,7 +16,7 @@ export default function Game() {
     const { getGameInfo } = useUserService();
     const { gameId } = useParams();
 
-    const apiLanguage = languageMap[currentLangCode] || 'french';
+    const apiLanguage = currentLangCode || 'french';
 
     const [game, setGame] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
