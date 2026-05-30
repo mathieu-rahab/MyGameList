@@ -5,6 +5,16 @@
     "platinum": "Platine",
     "silver": "Argent"
   },
+  "Collection": {
+    "AddGame": "Ajouter un jeu",
+    "Games": "Jeux",
+    "GamesCount": "jeux",
+    "NoGames": "Aucun jeu",
+    "NoSearchResults": "Aucun jeu trouvé",
+    "SearchPlaceholder": "Rechercher un jeu...",
+    "SearchResults": "Résultats de recherche",
+    "Untitled": "Sans titre"
+  },
   "CreateAccount": {
     "ExistingAccountQuestion": "Déjà un compte ?",
     "Fields": {
@@ -67,7 +77,7 @@
     "LoadingGame": "Chargement du jeu en cours..."
   },
   "GameDetail": {
-    "AboutTheGame": "À propos du jeu"
+    "AboutTheGame": "Description"
   },
   "Layout": {
     "Dark": "Sombre",

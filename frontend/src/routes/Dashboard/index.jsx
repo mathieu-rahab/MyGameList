@@ -184,44 +184,44 @@ export default function Dashboard (){
         }
 
         return recentGames.map((game) => (
-            <div key={game.id} className="game-row">
-                <div className="gthumb gt1">
-                    {imageErrors[game.id] ? (
-                        <i className="ti ti-device-gamepad-2"></i>
-                    ) : (
-                        <Link to={`/Game/${game.id}`}>
-                            <img
-                                src={game.image}
-                                alt={game.name}
-                                onError={() => handleImageError(game.id)}
-                                style={{width: '100%', height: '100%', objectFit: 'cover'}}
-                            />
-                        </Link>
-                    )}
-                </div>
-                <div className="ginfo">
-                    <div className="gname">{game.name}</div>
-                    <div className="gmeta">
-                        {Math.round(game.playtime2Weeks / 60)}h {t('Dashboard.HoursPlayed')}
+            <Link to={`/Game/${game.id}`} className="button-no-style link-game-row">
+                <div key={game.id} className="game-row">
+                    <div className="gthumb gt1">
+                        {imageErrors[game.id] ? (
+                            <i className="ti ti-device-gamepad-2"></i>
+                        ) : (
+                                <img
+                                    src={game.image}
+                                    alt={game.name}
+                                    onError={() => handleImageError(game.id)}
+                                    style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                                />
+                        )}
                     </div>
-                    <div className="prog">
-                        <div
-                            className="prog-b"
-                            style={{
-                                '--progress-width': progressions[game.id] !== undefined
-                                    ? `${progressions[game.id]}%`
-                                    : '0%',
-                                background: '#a78bfa'
-                            }}
-                        >
+                    <div className="ginfo">
+                        <div className="gname">{game.name}</div>
+                        <div className="gmeta">
+                            {Math.round(game.playtime2Weeks / 60)}h {t('Dashboard.HoursPlayed')}
+                        </div>
+                        <div className="prog">
+                            <div
+                                className="prog-b"
+                                style={{
+                                    '--progress-width': progressions[game.id] !== undefined
+                                        ? `${progressions[game.id]}%`
+                                        : '0%',
+                                    background: '#a78bfa'
+                                }}
+                            >
+                            </div>
                         </div>
                     </div>
+                    <div className="gtime">
+                        {Math.round(game.playtimeForever / 60)}h<br />
+                        {t('Dashboard.HoursPlayedTotal')}
+                    </div>
                 </div>
-                <div className="gtime">
-                    {Math.round(game.playtimeForever / 60)}h<br />
-                    {t('Dashboard.HoursPlayedTotal')}
-                </div>
-            </div>
+            </Link>
         ));
     };
 
@@ -263,7 +263,7 @@ export default function Dashboard (){
 
         return collections.map((collection, index) => {
             return (
-                <Link to={`/collection/?id=${collection.id}`}  target="_blank" class="link">
+                <Link to={`/collection/${collection.id}`}  target="_blank" class="link">
                     <div className="ccard">
                         <div className="cico"><i className="ti ti-album"></i></div>
                         <div className="cname">{collection.label}</div>
@@ -283,10 +283,13 @@ export default function Dashboard (){
 
             if(u.steamId == null){
                 return (
-                    <main className="dashbord">
-                        <div className="glass">
-                            <div className="redirect-settings">
-                                {t('Dashboard.MessageSetting')}<Link to="/Settings">{t('Dashboard.LinkSettings')}</Link>
+                    <main className="dashboard-no-steamid">
+                        <div className="redirect-settings">
+                        <div className="glass scard">
+                            <span>
+                                {t('Dashboard.MessageSetting')}
+                                <Link to="/Settings">{t('Dashboard.LinkSettings')}</Link>.
+                            </span>
                             </div>
                         </div>
                     </main>
@@ -300,7 +303,8 @@ export default function Dashboard (){
                             </div>
                             <h1>{t('Dashboard.WelcomeBack')}<span> {user?.pseudo || 'Guest'}</span></h1>
                         </div>
-                        <div className="stats-row">
+                        {/*Partie non fonctionnel*/}
+                        <div className="stats-row" style={{display: 'none'}}>
                             <div className="scard glass">
                                 <div className="scard-label">Jeux joués</div>
                                 <div className="scard-val">47</div>
@@ -362,7 +366,8 @@ export default function Dashboard (){
                                 </div>
                             </div>
 
-                            <div className="section glass">
+                            {/*Partie non fonctionnel*/}
+                            <div className="section glass" style={{display: 'none'}}>
                                 <div className="sec-head"><span className="sec-title">{t('Dashboard.Friends')}</span>
                                     <span className="sec-link">{t('Dashboard.ShowMore')}</span>
                                 </div>

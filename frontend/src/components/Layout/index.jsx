@@ -36,7 +36,7 @@ export default function Layout() {
     const AccountSettingsButton = () => {
       if (isAuthenticated) {
         return(
-            <Link to={'/Settings'}>
+            <Link to={'/Settings'} className="button-no-style">
                 <div className="av">
                         <i className="ti ti-user" aria-hidden="true"></i>
                     </div>
@@ -115,7 +115,7 @@ export default function Layout() {
                             {t('Layout.Light')}
                         </div>
                     </div>
-                    <div className="notif">⊹</div>
+                    <div className="notif" style={{display : 'none'}}>⊹</div>
                     {LoginButton()}
                     {AccountSettingsButton()}
                     
