@@ -5,7 +5,7 @@ import { useUserService } from '../api/userService';
 
 
 export const useAuth = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['jwt_token']);
+    const [cookies,, removeCookie] = useCookies(['jwt_token']);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const token = cookies.jwt_token;
@@ -15,7 +15,7 @@ export const useAuth = () => {
     const refreshUser = useCallback(async (userId) => {
         const updatedUser = await userService.getUserInfo(userId);
         setUser(prev => ({ ...prev, ...updatedUser }));
-    });
+    }, [userService]);
 
 
     // Récupérer les détails utilisateur depuis l'API
@@ -29,7 +29,7 @@ export const useAuth = () => {
         } catch (error) {
             console.error('Erreur récupération user:', error);
         }
-    }, [token]);
+    }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (token) {
@@ -41,6 +41,7 @@ export const useAuth = () => {
                     console.error('Aucun ID trouvé dans le token. Clés disponibles:', Object.keys(decoded));
                 }
 
+                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setUser(decoded);
 
                 // Récupérer les infos complètes APRÈS avoir décodé

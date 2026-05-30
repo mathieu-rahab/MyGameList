@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import GameDetail from '../../components/GameDetail';
 import './index.css';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {useUserService} from "../../api/userService.js";
 
@@ -18,8 +18,7 @@ export default function Game() {
 
     const { getGameInfo } = useUserService();
     const { gameId } = useParams();
-    const [searchParams] = useSearchParams();
-    
+
     const apiLanguage = languageMap[currentLangCode] || 'french';
 
     const [game, setGame] = useState(null);
@@ -44,7 +43,8 @@ export default function Game() {
         };
 
         fetchGameData();
-    }, [gameId, apiLanguage]); // Le useEffect se relancera si l'ID ou la langue change
+        // Le useEffect se relancera si l'ID ou la langue change
+    }, [gameId, apiLanguage]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // 3. Adapter l'affichage en fonction de l'état (Chargement, Erreur, ou Succès)
     if (isLoading) {

@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import {useNavigate, useLocation, useSearchParams} from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./index.css"
 import "../../auth.css"
 import { useTranslation } from "react-i18next";
@@ -16,15 +15,12 @@ export default function Login(){
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const userService = useUserService();
-    const [cookies, setCookie] = useCookies(['jwt_token']);
     const [inputs, setInputs] = useState({
         email: useLocation().state?.email || '', 
         password: ""
     });
-    const [touched, setTouched] = useState({});
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
 
 
     const handleChange = (e) => {
@@ -33,19 +29,14 @@ export default function Login(){
         setInputs(newInputs);
     };
 
-    const handleBlur = (e) => {
-        setTouched(t => ({ ...t, [e.target.name]: true })); // marque comme touché
-    };
 
     function handleSubmit(e) {
         e.preventDefault();
         // Marquer tout comme touché pour afficher toutes les erreurs
-        setTouched({ email: true, password: true});
         setLoading(true);
 
         userService.login(inputs.email, inputs.password)
-            .then((token) => {
-                setSuccess(true);
+            .then(() => {
                 const redirectUrl = searchParams.get('redirect');
                 // Après connexion réussie
                 if (redirectUrl) {
@@ -78,12 +69,12 @@ export default function Login(){
                     <div className="input-wrap">
                         <i className="ti ti-mail" aria-hidden="true"></i>
                         <input type="text" name="email" placeholder="Email"
-                               value={inputs.email} onChange={handleChange} onBlur={handleBlur} required />
+                               value={inputs.email} onChange={handleChange}  required />
                     </div>
                     <div className="input-wrap">
                         <i className="ti ti-lock" aria-hidden="true"></i>
                         <input type="password" name="password" placeholder={t('Login.Password')}
-                               value={inputs.password} onChange={handleChange} onBlur={handleBlur} required />
+                               value={inputs.password} onChange={handleChange}  required />
                     </div>
                     {errors.server && (
                             <div className="error-container">
@@ -91,19 +82,10 @@ export default function Login(){
                                 {errors.server}
                             </div>
                         )}
-                    <button type="submit" className="auth-submit">{t('Login.Submit')}</button>
+                    <button type="submit" className="auth-submit" disabled={loading}>{t('Login.Submit')}</button>
                 </form>
 
-                <div className="auth-divider" style={{display: "none"}}>
-                    <div className="auth-divider-line"></div>
-                    <span className="auth-divider-text">{t('Login.Alternative')}</span> /*ou continuer avec*/
-                    <div className="auth-divider-line"></div>
-                </div>
 
-                <button className="btn-steam" style={{display: "none"}}>
-                    <i className="ti ti-brand-steam" aria-hidden="true"></i>
-                    Steam
-                </button>
 
                 <div className="auth-alternative">
                     {t('Login.NoAccountYetQuestion')} <Link to="/NewUser">{t('Login.CreateAccount')}</Link>
