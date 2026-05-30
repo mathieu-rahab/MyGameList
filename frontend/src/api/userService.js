@@ -122,8 +122,19 @@ export const useUserService = () => {
                 method: 'PATCH',
                 body: JSON.stringify({ steamId })
             });
+        },
+
+        deleteCollection: async (href) => {
+            return apiCall(href, {method:'DELETE'});
+        },
+
+        updateCollection: async (href, collection) => {
+            return apiCall(href, {
+                method:'PUT',
+                body: JSON.stringify(
+                    collection
+                )
+            });
         }
-
-
     };
 };

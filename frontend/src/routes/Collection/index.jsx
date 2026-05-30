@@ -4,13 +4,17 @@ import { useTranslation } from "react-i18next";
 import "./index.css";
 import { useUserService } from "../../api/userService.js";
 import { useAuth } from "../../utils/useAuth.jsx";
+import {useNavigate} from 'react-router-dom';
+import CollectionModal from "../../components/CreateCollection/CollectionModal.jsx";
+
 
 export default function Collection() {
     const { t, i18n } = useTranslation();
     const { collectionId } = useParams();
+    const navigate = useNavigate();
 
     const { user } = useAuth();
-    const { getOneCollection, searchGames, addGameCollection, removeGameCollection, getGameInfo } = useUserService();
+    const { getOneCollection, searchGames, addGameCollection, removeGameCollection, getGameInfo, deleteCollection, updateCollection } = useUserService();
 
     const [collection, setCollection] = useState(null);
     const [games, setGames] = useState([]);
@@ -18,6 +22,9 @@ export default function Collection() {
     const [searchTerm, setSearchTerm] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const [showEditModal, setShowEditModal] = useState(false);
+
 
     // Fetch collection details
     useEffect(() => {
@@ -127,6 +134,10 @@ export default function Collection() {
 
             await addGameCollection(addGameCollectionLink.href, game.appId);
             setGames(prevGames => [...prevGames, game]);
+            setCollection({
+                ...collection,
+                gamesId: [...collection.gamesId, game.appId]
+            });
 
             // Supprimer le jeu des résultats de recherche
             setSearchResults(prevResults =>
@@ -154,6 +165,11 @@ export default function Collection() {
             await removeGameCollection(removeGameCollectionLink.href, game.appId);
 
             setGames(prevGames => prevGames.filter(g => g.appId !== game.appId));
+            setCollection({
+                ...collection,
+                gamesId: collection.gamesId.filter(id => id !== game.appId)
+            });
+
 
             // Réafficher le jeu dans les résultats de recherche
             setSearchResults(prevResults => [...prevResults, game]);
@@ -205,9 +221,61 @@ export default function Collection() {
         );
     }
 
+    const handleDeleteCollection = async () => {
+        if (!window.confirm(t('Collection.ConfirmDeleteCollection'))) {
+            return;
+        }
+
+        try {
+            // Récupérer le lien de suppression de la collection
+            const deleteCollectionLink = collection?.links?.find(
+                link => link.rel === 'delete-collection'
+            );
+
+            if (!deleteCollectionLink) {
+                console.error("Delete collection link not found");
+                return;
+            }
+
+            await deleteCollection(deleteCollectionLink.href);
+            navigate('/dashboard');
+        } catch (err) {
+            console.error("Error deleting collection:", err);
+        }
+    };
+
+    const handleUpdateCollectionLabel = async (label) => {
+        const updateLink = collection?.links?.find(link => link.rel === 'update-collection');
+        if (!updateLink) {
+            console.error("Update collection link not found");
+            return;
+        }
+
+        await updateCollection(updateLink.href, { ...collection, label });
+        setCollection(prev => ({ ...prev, label: label }));
+        setShowEditModal(false);
+    };
+
+
     return (
         <main className="collection-page">
             <div className="collection-header">
+                <div className="header-actions">
+                    <button
+                        className="btn btn-edit"
+                        onClick={() => {
+                            setShowEditModal(true);
+                        }}
+                    >
+                        <i className="ti ti-edit"></i>
+                    </button>
+                    <button
+                        className="btn btn-danger"
+                        onClick={handleDeleteCollection}
+                    >
+                        {t('Collection.DeleteCollection')}
+                    </button>
+                </div>
                 <h1>{collection?.label || t('Collection.Untitled')}</h1>
                 <div className="collection-meta">
                     {games.length} {t('Collection.GamesCount')}
@@ -270,6 +338,14 @@ export default function Collection() {
                     )}
                 </div>
             </div>
+            <CollectionModal
+                isOpen={showEditModal}
+                onClose={() => setShowEditModal(false)}
+                onSubmit={handleUpdateCollectionLabel}
+                t={t}
+                initialLabel={collection.label}
+                isEditing={true}
+            />
         </main>
     );
 }

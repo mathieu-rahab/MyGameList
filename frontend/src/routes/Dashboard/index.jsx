@@ -4,7 +4,7 @@ import "./index.css"
 import {useUserService} from "../../api/userService.js";
 import {useEffect, useState} from "react";
 import {useAuth} from "../../utils/useAuth.jsx";
-import CreateCollectionModal from "../../components/CreateCollection/CreateCollectionModal.jsx";
+import CollectionModal from "../../components/CreateCollection/CollectionModal.jsx";
 
 
 export default function Dashboard (){
@@ -380,7 +380,7 @@ export default function Dashboard (){
                                 </div>
                             </div>
                         </div>
-                        <CreateCollectionModal
+                        <CollectionModal
                             isOpen={showCreateModal}
                             onClose={() => setShowCreateModal(false)}
                             onSubmit={handleCreateCollection}
