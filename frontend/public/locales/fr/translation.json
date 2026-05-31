@@ -7,6 +7,8 @@
   },
   "Collection": {
     "AddGame": "Ajouter un jeu",
+    "ConfirmDeleteCollection": "Êtes-vous sûr de vouloir supprimer cette collection ? Cette action est irréversible.",
+    "DeleteCollection": "Supprimer la collection",
     "Games": "Jeux",
     "GamesCount": "jeux",
     "NoGames": "Aucun jeu",
@@ -14,6 +16,16 @@
     "SearchPlaceholder": "Rechercher un jeu...",
     "SearchResults": "Résultats de recherche",
     "Untitled": "Sans titre"
+  },
+  "CollectionModal": {
+    "Cancel": "Annuler",
+    "Create": "Créer",
+    "EditTitle": "Modifier la Collection",
+    "LabelRequired": "Le nom de la collection est obligatoire",
+    "Placeholder": "Nom de la collection",
+    "Save": "Enregistrer",
+    "Saving": "Enregistrement en cours...",
+    "Title": "Nouvelle Collection"
   },
   "CreateAccount": {
     "ExistingAccountQuestion": "Déjà un compte ?",
@@ -44,14 +56,6 @@
       "PseudoTooLong": "Le pseudo ne peut pas dépasser 20 caractères.",
       "PseudoTooShort": "Le pseudo doit contenir au moins 3 caractères."
     }
-  },
-  "CreateCollectionModal": {
-    "Cancel": "Annuler",
-    "Create": "Créer",
-    "Creating": "CreateCollectionModal.Creating",
-    "LabelRequired": "Le nom de la collection est requis",
-    "Placeholder": "Entrez le nom de votre collection",
-    "Title": "Créer une nouvelle collection"
   },
   "Dashboard": {
     "error": "Il y a eu une erreur lors du chargement",
@@ -100,6 +104,11 @@
     "BAD_GATEWAY": "Le serveur est temporairement indisponible. Réessayez dans quelques instants.",
     "INTERNAL_SERVER_ERROR": "Une erreur interne est survenue. Veuillez réessayer.",
     "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion."
+  },
+  "Search": {
+    "EnterSearchTerm": "Entrez un terme de recherche pour commencer",
+    "SearchGames": "Rechercher des jeux",
+    "TryDifferentTerm": "Essayez un autre terme de recherche"
   },
   "Settings": {
     "Delete": {

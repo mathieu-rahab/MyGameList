@@ -4,7 +4,7 @@ import "./index.css"
 import {useUserService} from "../../api/userService.js";
 import {useEffect, useState} from "react";
 import {useAuth} from "../../utils/useAuth.jsx";
-import CreateCollectionModal from "../../components/CreateCollection/CreateCollectionModal.jsx";
+import CollectionModal from "../../components/CreateCollection/CollectionModal.jsx";
 
 
 export default function Dashboard (){
@@ -193,7 +193,6 @@ export default function Dashboard (){
                                     src={game.image}
                                     alt={game.name}
                                     onError={() => handleImageError(game.id)}
-                                    style={{width: '100%', height: '100%', objectFit: 'cover'}}
                                 />
                         )}
                     </div>
@@ -278,7 +277,6 @@ export default function Dashboard (){
 
         if (reponse) {
             const u = JSON.parse(reponse);
-            console.log(u.steamId);
 
             if(u.steamId == null){
                 return (
@@ -380,7 +378,7 @@ export default function Dashboard (){
                                 </div>
                             </div>
                         </div>
-                        <CreateCollectionModal
+                        <CollectionModal
                             isOpen={showCreateModal}
                             onClose={() => setShowCreateModal(false)}
                             onSubmit={handleCreateCollection}

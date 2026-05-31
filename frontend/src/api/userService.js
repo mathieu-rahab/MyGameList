@@ -93,9 +93,16 @@ export const useUserService = () => {
             });
         },
 
+        deleteAccount: async (userId) => {
+            return apiCall(`User/${userId}`, {
+                method: 'DELETE'
+            });
+        },
+
         // Page collection
-        searchGames: async (term) => {
-            return apiCall(`Steam/search?term=${term}`, {method:'GET'});
+        searchGames: async (term, l) => {
+            const language_name = (l === 'fr') ? 'french' : 'english';
+            return apiCall(`Steam/search?term=${term}&l=${language_name}&cc=${l}`, {method:'GET'});
         },
 
         getOneCollection: async (href, id) => {
@@ -124,12 +131,19 @@ export const useUserService = () => {
             });
         },
 
-        deleteAccount: async (userId) => {
-            return apiCall(`User/${userId}`, {
-                method: 'DELETE'
+
+
+        deleteCollection: async (href) => {
+            return apiCall(href, {method:'DELETE'});
+        },
+
+        updateCollection: async (href, collection) => {
+            return apiCall(href, {
+                method:'PUT',
+                body: JSON.stringify(
+                    collection
+                )
             });
         }
-
-
     };
 };

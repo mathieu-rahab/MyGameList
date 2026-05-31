@@ -191,7 +191,7 @@ main {
 }
 
 .link-game-row:hover {
-    scale: 1.04;
+    scale: 1.02;
 }
 
 .game-row:last-child {
@@ -212,6 +212,13 @@ main {
     color: var(--muted)
 
 }
+
+.gthumb > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 
 
 .gt1 {

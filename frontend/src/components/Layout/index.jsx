@@ -3,14 +3,33 @@ import {Link, Outlet} from "react-router";
 import "./index.css";
 import { useTranslation } from "react-i18next";
 import { useAuth } from '../../utils/useAuth'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 
 
 
 export default function Layout() {
     const { isAuthenticated, logout } = useAuth();
     const { t, i18n } = useTranslation();
+    const location = useLocation();
     const navigate = useNavigate();
+
+
+
+    const [activeHome, setActiveHome] = useState(false);
+    const [activeDashboard, setActiveDashboard] = useState(false);
+
+    useEffect(() => {
+        const currentPage = encodeURIComponent(location.pathname + location.search);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setActiveDashboard(false);
+        setActiveHome(false)
+        if(currentPage.includes("%2Fdashboard")){
+            setActiveDashboard(true);
+        }
+        else if(currentPage === "%2F"){
+            setActiveHome(true);
+        }
+    }, [encodeURIComponent(location.pathname)]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleLogout = () => {
         logout();
@@ -38,14 +57,7 @@ export default function Layout() {
         return(
             <Link to={'/Settings'} className="button-no-style">
                 <div className="av">
-                        <i className="ti ti-user" aria-hidden="true"></i>
-                    </div>
-                    <div
-                        className="hamburger"
-                        aria-label="Menu"
-                        onClick={() => setMenuOpen(o => !o)}
-                    >
-                    <span></span><span></span><span></span>
+                    <i className="ti ti-user" aria-hidden="true"></i>
                 </div>
             </Link>
         )
@@ -58,7 +70,7 @@ export default function Layout() {
     const DashboardButton = () => {
       if (isAuthenticated) {
         return (
-            <Link to="/dashboard"><button>{t('Layout.Dashboard')}</button></Link>
+            <Link to="/dashboard"><button className={activeDashboard ? 'active' : ''}>{t('Layout.Dashboard')}</button></Link>
         )
       }
     }
@@ -97,7 +109,7 @@ export default function Layout() {
                     MygameList
                 </div>
                 <nav>
-                    <Link to="/"><button className="active">{t('Layout.Home')}</button></Link>
+                    <Link to="/"><button className={activeHome ? 'active' : ''}>{t('Layout.Home')}</button></Link>
                     {DashboardButton()}
                 </nav>
                 <div className="hright">
@@ -118,7 +130,14 @@ export default function Layout() {
                     <div className="notif" style={{display : 'none'}}>⊹</div>
                     {LoginButton()}
                     {AccountSettingsButton()}
-                    
+                    <div
+                        className="hamburger"
+                        aria-label="Menu"
+                        onClick={() => setMenuOpen(o => !o)}
+                    >
+                        <span></span><span></span><span></span>
+                    </div>
+
                 </div>
             </header>
 
