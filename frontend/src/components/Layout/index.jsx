@@ -70,7 +70,7 @@ export default function Layout() {
     const DashboardButton = () => {
       if (isAuthenticated) {
         return (
-            <Link to="/dashboard"><button className={activeDashboard ? 'active' : ''}>{t('Layout.Dashboard')}</button></Link>
+            <Link to="/dashboard"><button className={activeDashboard ? 'active' : ''} id="dashboard-button">{t('Layout.Dashboard')}</button></Link>
         )
       }
     }
@@ -109,7 +109,7 @@ export default function Layout() {
                     MygameList
                 </div>
                 <nav>
-                    <Link to="/"><button className={activeHome ? 'active' : ''}>{t('Layout.Home')}</button></Link>
+                    <Link to="/"><button className={activeHome ? 'active' : ''} id="home-button">{t('Layout.Home')}</button></Link>
                     {DashboardButton()}
                 </nav>
                 <div className="hright">
