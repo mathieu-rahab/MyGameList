@@ -56,6 +56,7 @@ Pas d'experience antérieure en .NET, C#, React et le dévlopement de WebApp en 
 ### Prérequis :
 
 * .NET SDK 10
+* ASPNET Runtime 10
 * Rider, Visual Studio ou VS Code avec extension C#
 * Une [clé API](<https://steamcommunity.com/dev/apikey>) Steam
 * SQLite ne nécessite pas forcément installation séparée si utilisé via Entity Framework Core
@@ -63,7 +64,7 @@ Pas d'experience antérieure en .NET, C#, React et le dévlopement de WebApp en 
 
 Cloner le projet :
 ```bash
-git clone [https://gitlab.dpt-info.univ-littoral.fr/duperrin.noe/mygamelist.git](https://gitlab.dpt-info.univ-littoral.fr/duperrin.noe/mygamelist.git)
+git clone https://gitlab.dpt-info.univ-littoral.fr/duperrin.noe/mygamelist.git
 ```
 #### Variables d’environnement backend
 
@@ -77,6 +78,7 @@ Variables nécessaires : ```env STEAM_KEY=cle_api_steam AUTH_KEY=cle_secrete_jwt
 cd backend/Mygamelist/Mygamelist.API/
 dotnet restore
 ```
+<!-- sudo dotnet workload update -->
 
 #### Installation Frontend
 
@@ -92,6 +94,18 @@ Depuis `/frontend/`, lancer le front via `npm run dev`
 
 ### Backend
 Depuis `/backend/Mygamelist/Mygamelist.API/`, lancer le back via `dotnet run Mygamelist.API`
+
+### Note:
+un compte admin doit être créé à l'installation du projet avec l'email `root@root.com`
+#### example:
+dans le swagger renseigner le body de la requête `POST /api/USER` avec:
+```
+{
+  "pseudo": "groot",
+  "email": "root@root.com",
+  "password": "Ro0t123"
+}
+```
 
 #### Routes d'API
 url du swagger : fixé à [localhost:5131/swagger](<http://localhost:5131/swagger>)
