@@ -109,7 +109,7 @@ export default function Layout() {
                     MygameList
                 </div>
                 <nav>
-                    <Link to="/"><button className="active">{t('Layout.Home')}</button></Link>
+                    <Link to="/"><button className={activeHome ? 'active' : ''}>{t('Layout.Home')}</button></Link>
                     {DashboardButton()}
                 </nav>
                 <div className="hright">
