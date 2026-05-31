@@ -172,7 +172,7 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
             );
         }
 
-        return steamIdElement.GetString();
+        return steamIdElement.GetString() ?? "";
     }
 
     /// <summary>
