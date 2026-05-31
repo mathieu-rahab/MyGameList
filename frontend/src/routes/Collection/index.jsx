@@ -24,7 +24,11 @@ export default function Collection() {
     const [error, setError] = useState(null);
 
     const [showEditModal, setShowEditModal] = useState(false);
+    const [imageErrors, setImageErrors] = useState({});
 
+    const handleImageError = (gameId) => {
+        setImageErrors(prev => ({ ...prev, [gameId]: true }));
+    };
 
     // Fetch collection details
     useEffect(() => {
@@ -70,18 +74,13 @@ export default function Collection() {
                             try {
                                 const gameInfo = await getGameInfo(gameId, i18n.language);
                                 return {
-                                    appId: gameInfo.id,
+                                    id: gameInfo.id,
                                     name: gameInfo.name,
-                                    tinyImage: gameInfo.image
+                                    image: gameInfo.image
                                 };
                             } catch (err) {
                                 console.error(`Error fetching game info for ${gameId}:`, err);
-                                // Fallback to minimal data if API fails
-                                return {
-                                    appId: gameId,
-                                    name: `Game ${gameId}`,
-                                    tinyImage: '/covers/placeholder.png'
-                                };
+                                return {};
                             }
                         })
                     );
@@ -109,7 +108,7 @@ export default function Collection() {
                 return;
             }
             try {
-                const results = await searchGames(searchTerm);
+                const results = await searchGames(searchTerm,  i18n.language);
                 setSearchResults(results);
             } catch (err) {
                 console.error("Search error:", err);
@@ -118,7 +117,7 @@ export default function Collection() {
         }, 400);
 
         return () => clearTimeout(timeoutId);
-    }, [searchTerm]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [searchTerm, i18n.language]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Gérer l'ajout d'un jeu à la collection
     const handleAddGame = async (game) => {
@@ -132,16 +131,16 @@ export default function Collection() {
                 return;
             }
 
-            await addGameCollection(addGameCollectionLink.href, game.appId);
+            await addGameCollection(addGameCollectionLink.href, game.id);
             setGames(prevGames => [...prevGames, game]);
             setCollection({
                 ...collection,
-                gamesId: [...collection.gamesId, game.appId]
+                gamesId: [...collection.gamesId, game.id]
             });
 
             // Supprimer le jeu des résultats de recherche
             setSearchResults(prevResults =>
-                prevResults.filter(result => result.appId !== game.appId)
+                prevResults.filter(result => result.id !== game.id)
             );
         } catch (err) {
             console.error("Error adding game to collection:", err);
@@ -162,12 +161,12 @@ export default function Collection() {
             }
 
             // Appelez l'API pour supprimer le jeu
-            await removeGameCollection(removeGameCollectionLink.href, game.appId);
+            await removeGameCollection(removeGameCollectionLink.href, game.id);
 
-            setGames(prevGames => prevGames.filter(g => g.appId !== game.appId));
+            setGames(prevGames => prevGames.filter(g => g.id !== game.id));
             setCollection({
                 ...collection,
-                gamesId: collection.gamesId.filter(id => id !== game.appId)
+                gamesId: collection.gamesId.filter(id => id !== game.id)
             });
 
 
@@ -179,15 +178,24 @@ export default function Collection() {
     };
 
     const GameRow = ({ game, showRemoveButton = false }) => (
-        <Link to={`/Game/${game.appId}`} className="button-no-style" target="_blank">
+        <Link to={`/Game/${game.id}`} className="button-no-style" target="_blank">
             <div className="game-row">
-                <div className="gthumb">
-                        <img src={game.tinyImage} alt={game.name} />
+                <div className="gthumb ">
+                    {imageErrors[game.id] ? (
+                        <i className="ti ti-device-gamepad-2"></i>
+                    ) : (
+                        <img
+                            src={game.image}
+                            alt={game.name}
+                            onError={() => handleImageError(game.id)}
+
+                        />
+                    )}
 
                 </div>
                 <div className="ginfo">
                     <div className="gname">{game.name}</div>
-                    <div className="gmeta">App ID: {game.appId}</div>
+                    <div className="gmeta">App ID: {game.id}</div>
                 </div>
                 <div className="gactions">
                     {showRemoveButton ? (
@@ -293,7 +301,7 @@ export default function Collection() {
                         <div className="games-list">
                             {games.map(game => (
                                     <GameRow
-                                        key={game.appId}
+                                        key={game.id}
                                         game={game}
                                         showRemoveButton={true}
                                     />
@@ -331,9 +339,9 @@ export default function Collection() {
 
                             searchResults
                                 // si un jeux est déjà dans la collection, alors il ne s'affiche pas dans les resultats
-                                .filter(game => !games.some(g => g.appId === game.appId))
+                                .filter(game => !games.some(g => g.id === game.id))
                                 .map(game => (
-                                        <GameRow key={game.appId} game={game} />
+                                        <GameRow key={game.id} game={game} />
                                 )))}
                         </div>
                     )}

@@ -100,8 +100,9 @@ export const useUserService = () => {
         },
 
         // Page collection
-        searchGames: async (term) => {
-            return apiCall(`Steam/search?term=${term}`, {method:'GET'});
+        searchGames: async (term, l) => {
+            const language_name = (l === 'fr') ? 'french' : 'english';
+            return apiCall(`Steam/search?term=${term}&l=${language_name}&cc=${l}`, {method:'GET'});
         },
 
         getOneCollection: async (href, id) => {
