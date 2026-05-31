@@ -3,7 +3,7 @@ import {Link, Outlet} from "react-router";
 import "./index.css";
 import { useTranslation } from "react-i18next";
 import { useAuth } from '../../utils/useAuth'
-import {Navigate, useLocation} from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 
 
 
@@ -11,6 +11,8 @@ export default function Layout() {
     const { isAuthenticated, logout } = useAuth();
     const { t, i18n } = useTranslation();
     const location = useLocation();
+    const navigate = useNavigate();
+
 
 
     const [activeHome, setActiveHome] = useState(false);
@@ -21,7 +23,6 @@ export default function Layout() {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setActiveDashboard(false);
         setActiveHome(false)
-        console.log(currentPage)
         if(currentPage.includes("%2Fdashboard")){
             setActiveDashboard(true);
         }
@@ -32,7 +33,7 @@ export default function Layout() {
 
     const handleLogout = () => {
         logout();
-        Navigate('/');
+        navigate('/');
     };
 
     const LoginButton = () => {
