@@ -3,23 +3,15 @@ import {Link, Outlet} from "react-router";
 import "./index.css";
 import { useTranslation } from "react-i18next";
 import { useAuth } from '../../utils/useAuth'
-<<<<<<< HEAD
 import {Navigate, useLocation} from "react-router-dom";
-=======
-import { useNavigate } from "react-router-dom";
->>>>>>> dev
 
 
 
 export default function Layout() {
     const { isAuthenticated, logout } = useAuth();
     const { t, i18n } = useTranslation();
-<<<<<<< HEAD
     const location = useLocation();
 
-=======
-    const navigate = useNavigate();
->>>>>>> dev
 
     const [activeHome, setActiveHome] = useState(false);
     const [activeDashboard, setActiveDashboard] = useState(false);
@@ -40,7 +32,7 @@ export default function Layout() {
 
     const handleLogout = () => {
         logout();
-        navigate('/');
+        Navigate('/');
     };
 
     const LoginButton = () => {
@@ -116,7 +108,7 @@ export default function Layout() {
                     MygameList
                 </div>
                 <nav>
-                    <Link to="/"><button className={activeHome ? 'active' : ''}>{t('Layout.Home')}</button></Link>
+                    <Link to="/"><button className="active">{t('Layout.Home')}</button></Link>
                     {DashboardButton()}
                 </nav>
                 <div className="hright">
@@ -144,7 +136,7 @@ export default function Layout() {
                     >
                         <span></span><span></span><span></span>
                     </div>
-                    
+
                 </div>
             </header>
 
