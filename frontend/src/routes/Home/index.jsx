@@ -44,7 +44,7 @@ export default function Home() {
         <main className="search-page">
             <div className="search-header">
                 <h1>{t('Search.SearchGames')}</h1>
-                <div className="search-input-wrapper">
+                <div className="search-input-wrapper glass">
                     <i className="ti ti-search" aria-hidden="true"></i>
                     <input
                         type="text"
@@ -81,7 +81,7 @@ export default function Home() {
                             <Link
                                 key={game.id}
                                 to={`/Game/${game.id}`}
-                                className="game-card"
+                                className="game-card glass"
                             >
                                 <div className="game-card-image">
                                     {imageErrors[game.id] ? (

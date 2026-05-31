@@ -20,6 +20,7 @@ export default function Collection() {
     const [games, setGames] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [searchLoading, setSearchLoading] = useState(false); // Nouvel état pour le chargement de la recherche
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -105,14 +106,19 @@ export default function Collection() {
         const timeoutId = setTimeout(async () => {
             if (!searchTerm.trim()) {
                 setSearchResults([]);
+                setSearchLoading(false);
                 return;
             }
+
+            setSearchLoading(true);
             try {
-                const results = await searchGames(searchTerm,  i18n.language);
+                const results = await searchGames(searchTerm, i18n.language);
                 setSearchResults(results);
             } catch (err) {
                 console.error("Search error:", err);
                 setSearchResults([]);
+            } finally {
+                setSearchLoading(false);
             }
         }, 400);
 
@@ -204,7 +210,7 @@ export default function Collection() {
                         </button>
                     ) : (
                         <button className="btn btn-primary" onClick={(event) => {event.preventDefault(); handleAddGame(game);}}>
-                        <i className="ti ti-plus"></i>
+                            <i className="ti ti-plus"></i>
                         </button>
                     )
                     }
@@ -300,11 +306,11 @@ export default function Collection() {
                     {games.length > 0 ? (
                         <div className="games-list">
                             {games.map(game => (
-                                    <GameRow
-                                        key={game.id}
-                                        game={game}
-                                        showRemoveButton={true}
-                                    />
+                                <GameRow
+                                    key={game.id}
+                                    game={game}
+                                    showRemoveButton={true}
+                                />
                             ))}
                         </div>
                     ) : (
@@ -331,18 +337,25 @@ export default function Collection() {
                     {searchTerm.length > 0 && (
                         <div className="search-results">
                             <h3>{t('Collection.SearchResults')}</h3>
-                            {(searchResults.length < 1) ? (
+
+                            {/* État de chargement */}
+                            {searchLoading ? (
+                                <div className="search-loading">
+                                    <div className="spinner-small"></div>
+                                    <span>{t('Dashboard.loading')}</span>
+                                </div>
+                            ) : searchResults.length < 1 ? (
                                 <span className="no-results">
                                     {t('Collection.NoSearchResults')}
                                 </span>
                             ) : (
-
-                            searchResults
-                                // si un jeux est déjà dans la collection, alors il ne s'affiche pas dans les resultats
-                                .filter(game => !games.some(g => g.id === game.id))
-                                .map(game => (
+                                searchResults
+                                    // si un jeux est déjà dans la collection, alors il ne s'affiche pas dans les resultats
+                                    .filter(game => !games.some(g => g.id === game.id))
+                                    .map(game => (
                                         <GameRow key={game.id} game={game} />
-                                )))}
+                                    ))
+                            )}
                         </div>
                     )}
                 </div>
