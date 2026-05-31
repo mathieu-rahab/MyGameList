@@ -3,18 +3,18 @@ import {Link, Outlet} from "react-router";
 import "./index.css";
 import { useTranslation } from "react-i18next";
 import { useAuth } from '../../utils/useAuth'
-import {Navigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
 export default function Layout() {
     const { isAuthenticated, logout } = useAuth();
     const { t, i18n } = useTranslation();
-
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
-        Navigate('/');
+        navigate('/');
     };
 
     const LoginButton = () => {
