@@ -61,6 +61,6 @@ describe('AccountLifeCycle', () => {
     cy.get('#Outlet [name="email"]').type('azerty@azerty.az');
     cy.get('#Outlet [name="password"]').type('Azerty456');
     cy.get('#Outlet button.auth-submit').click();
-    cy.get('#page button.active').click();
+    cy.get('#page #home-button').click();
   })
 })
