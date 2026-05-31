@@ -1,0 +1,39 @@
+/* ── SÉPARATEUR ── */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0;
+}
+.auth-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--glass-border);
+}
+.auth-divider-text {
+    font-size: 11px;
+    color: var(--muted2);
+    letter-spacing: .5px;
+}
+
+/* ── BOUTON STEAM (pour plus tard) ── */
+.btn-steam {
+    width: 100%;
+    padding: 12px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn-steam:hover {
+    background: var(--glass-hover);
+    color: var(--text);
+}

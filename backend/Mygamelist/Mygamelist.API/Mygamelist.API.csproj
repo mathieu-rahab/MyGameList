@@ -5,14 +5,27 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Mygamelist</RootNamespace>
+        <AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.7" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.17.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+        <ProjectReference Include="..\Mygamelist.DatabaseRepository\Mygamelist.DatabaseRepository.csproj" />
+        <ProjectReference Include="..\Mygamelist.Core\Mygamelist.Core.csproj" />
+        <ProjectReference Include="..\Mygamelist.Business\Mygamelist.Business.csproj" />
+        <ProjectReference Include="..\Mygamelist.Contracts\Mygamelist.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

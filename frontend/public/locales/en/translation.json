@@ -1,0 +1,141 @@
+{
+  "achievements": {
+    "bronze": "Bronze",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "silver": "Silver"
+  },
+  "Collection": {
+    "AddGame": "Add Game",
+    "Games": "Games",
+    "GamesCount": "games",
+    "NoGames": "No Games",
+    "NoSearchResults": "No games found",
+    "SearchPlaceholder": "Search games...",
+    "SearchResults": "Search Results",
+    "Untitled": "Untitled"
+  },
+  "CreateAccount": {
+    "ExistingAccountQuestion": "Already have an account?",
+    "Fields": {
+      "ConfirmPassword": "Confirm password",
+      "Email": "Email address",
+      "Password": "Password",
+      "Pseudo": "Username"
+    },
+    "ServerErrors": {
+      "EMAIL_ALREADY_EXISTS": "This email address is already associated with an account.",
+      "INVALID_PSEUDO": "The provided username is not valid.",
+      "UNKNOWN": "An unexpected error occurred. Please try again.",
+      "USERNAME_ALREADY_EXISTS": "This username is already taken by another user."
+    },
+    "Submit": "Create my account",
+    "Success": {
+      "Subtitle": "Redirecting to the login page…",
+      "Title": "Account created successfully!"
+    },
+    "Title": "Create an account",
+    "ToLogin": "Submit",
+    "Validation": {
+      "EmailInvalid": "Please enter a valid email address.",
+      "PasswordConfirmDifferent": "Passwords do not match.",
+      "PasswordInvalid": "Password must be at least 7 characters long.",
+      "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
+      "PseudoTooLong": "Username cannot exceed 20 characters.",
+      "PseudoTooShort": "Username must be at least 3 characters long."
+    }
+  },
+  "CreateCollectionModal": {
+    "Cancel": "Cancel",
+    "Create": "Create",
+    "Creating": "",
+    "LabelRequired": "Collection name is required",
+    "Placeholder": "Enter your collection name",
+    "Title": "Create a new collection"
+  },
+  "Dashboard": {
+    "error": "An error occurred during loading",
+    "Friends": "Friends",
+    "GamesInCollection": "games",
+    "HoursPlayed": "recently",
+    "HoursPlayedTotal": "total",
+    "LinkSettings": "Settings",
+    "loading": "Loading in progress",
+    "Manage": "manage",
+    "MessageSetting": "To see your dashboard, please link your Steam ID in the ",
+    "NewCollection": "New collection",
+    "NoRecentAchievements": "No recent achievements",
+    "NoRecentGames": "No recent games",
+    "RecentAchievements": "Recent achievements",
+    "RecentGames": "Recent games",
+    "ShowMore": "show more",
+    "WelcomeBack": "Welcome back,"
+  },
+  "Game": {
+    "GameRetrieveError": "Impossible to retrieve game data",
+    "LoadingGame": "Loading Game..."
+  },
+  "GameDetail": {
+    "AboutTheGame": "Description"
+  },
+  "Layout": {
+    "Dark": "Dark",
+    "Dashboard": "Dashboard",
+    "Home": "Home",
+    "Light": "Light",
+    "Login": "Sign in",
+    "Logout": "Logout"
+  },
+  "Login": {
+    "CreateAccount": "Create one",
+    "NoAccountYetQuestion": "Don't have an account yet ?",
+    "Password": "Password",
+    "ServerErrors": {
+      "EMAIL_OR_PASSWORD_INCORRECT": "Incorrect email or password"
+    },
+    "Submit": "Submit",
+    "Title": "Sign in"
+  },
+  "NetworkErrors": {
+    "BAD_GATEWAY": "The server is temporarily unavailable. Please try again in a few moments.",
+    "INTERNAL_SERVER_ERROR": "An internal error occurred. Please try again.",
+    "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection."
+  },
+  "Settings": {
+    "Delete": {
+      "button": "Delete your account",
+      "PopUpOk": "Your account has been successfully deleted.",
+      "Warning": "Are you sure you want to delete your account? This action cannot be undone."
+    },
+    "ServerErrors": {
+      "STEAM_ACCOUNT_NOT_FOUND": "No valid Steam account found."
+    },
+    "Steam": {
+      "Texte1": "You can find your SteamID on your",
+      "Texte2": "Steam account"
+    },
+    "Validation": {
+      "button": "Validate",
+      "EmailInvalid": "Please enter a valid email address.",
+      "EmailNotChanged": "This email address is already associated with your account.",
+      "newEmail": "New Email",
+      "newPassword": "New Password",
+      "newPseudo": "New Username",
+      "newSteamId": "New SteamID",
+      "oldPassword": "Old Password",
+      "PasswordInvalid": "Password must be at least 7 characters long.",
+      "PopUpFailed": "Your data update failed.",
+      "PopUpOk": "Your data has been successfully updated.",
+      "PseudoInvalidCharacter": "Username may only contain letters, numbers and the characters - _ .",
+      "PseudoNotChanged": "You are already using this username.",
+      "PseudoTooLong": "Username cannot exceed 20 characters.",
+      "PseudoTooShort": "Username must be at least 3 characters long.",
+      "setEmail": "Email Setting",
+      "setPassword": "Password Setting",
+      "setPseudo": "Username Setting",
+      "setSteamId": "Steam Setting",
+      "SteamIdInvalid": "This SteamID is incorrect",
+      "SteamIdNotChanged": "Already linked to this SteamID"
+    }
+  }
+}

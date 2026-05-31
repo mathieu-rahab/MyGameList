@@ -1,0 +1,70 @@
+.game-detail-container > .game-preview-container {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1000px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+}
+
+.game-detail-container > .game-preview-container .game-info {
+    color: var(--accent);
+    text-align: center;
+}
+
+.game-description {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1000px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.game-description h2 {
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.game-description .line{
+    width: 150px;
+    border-top: 3px solid ;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    color: var(--accent);
+
+
+}
+
+.description {
+    color: var(--text);
+}
+
+.description img,
+.description video,
+.game-detail-container > .game-preview-container img{
+    position: relative;
+    left: 50%;
+    max-width: 50%;
+    height: auto;
+    margin: 20px  ;
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+.game-detail-container > .game-preview-container img {
+    width: 60%; !important;
+    max-width: none !important;
+}
+
+
+/*style pour steam*/
+
+.bb_paragraph {
+    text-align: left !important;
+}
+
+.bb_ul {
+    margin-left: 16px;
+}

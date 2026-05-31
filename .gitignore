@@ -1,3 +1,8 @@
 bin/
 obj/
 .idea/
+*.db
+
+.env
+backend/Mygamelist/Mygamelist.DatabaseRepository/Database/mygamelist.db-shm
+backend/Mygamelist/Mygamelist.DatabaseRepository/Database/mygamelist.db-wal
