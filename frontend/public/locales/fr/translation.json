@@ -17,19 +17,16 @@
     "SearchResults": "Résultats de recherche",
     "Untitled": "Sans titre"
   },
-
   "CollectionModal": {
-    "Title": "Nouvelle Collection",
-    "EditTitle": "Modifier la Collection",
-    "Placeholder": "Nom de la collection",
-    "LabelRequired": "Le nom de la collection est obligatoire",
     "Cancel": "Annuler",
     "Create": "Créer",
+    "EditTitle": "Modifier la Collection",
+    "LabelRequired": "Le nom de la collection est obligatoire",
+    "Placeholder": "Nom de la collection",
     "Save": "Enregistrer",
-    "Creating": "Création en cours...",
-    "Saving": "Enregistrement en cours..."
+    "Saving": "Enregistrement en cours...",
+    "Title": "Nouvelle Collection"
   },
-
   "CreateAccount": {
     "ExistingAccountQuestion": "Déjà un compte ?",
     "Fields": {
@@ -107,6 +104,11 @@
     "BAD_GATEWAY": "Le serveur est temporairement indisponible. Réessayez dans quelques instants.",
     "INTERNAL_SERVER_ERROR": "Une erreur interne est survenue. Veuillez réessayer.",
     "SERVER_UNREACHABLE": "Impossible de contacter le serveur. Vérifiez votre connexion."
+  },
+  "Search": {
+    "EnterSearchTerm": "Entrez un terme de recherche pour commencer",
+    "SearchGames": "Rechercher des jeux",
+    "TryDifferentTerm": "Essayez un autre terme de recherche"
   },
   "Settings": {
     "Delete": {

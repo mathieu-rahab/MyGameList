@@ -18,15 +18,14 @@
     "Untitled": "Untitled"
   },
   "CollectionModal": {
-    "Title": "New Collection",
-    "EditTitle": "Edit Collection",
-    "Placeholder": "Collection name",
-    "LabelRequired": "Collection name is required",
     "Cancel": "Cancel",
     "Create": "Create",
+    "EditTitle": "Edit Collection",
+    "LabelRequired": "Collection name is required",
+    "Placeholder": "Collection name",
     "Save": "Save",
-    "Creating": "Creating...",
-    "Saving": "Saving..."
+    "Saving": "Saving...",
+    "Title": "New Collection"
   },
   "CreateAccount": {
     "ExistingAccountQuestion": "Already have an account?",
@@ -105,6 +104,11 @@
     "BAD_GATEWAY": "The server is temporarily unavailable. Please try again in a few moments.",
     "INTERNAL_SERVER_ERROR": "An internal error occurred. Please try again.",
     "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection."
+  },
+  "Search": {
+    "EnterSearchTerm": "Enter a search term to get started",
+    "SearchGames": "Search Games",
+    "TryDifferentTerm": "Try a different search term"
   },
   "Settings": {
     "Delete": {

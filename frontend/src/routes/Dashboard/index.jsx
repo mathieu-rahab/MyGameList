@@ -193,7 +193,6 @@ export default function Dashboard (){
                                     src={game.image}
                                     alt={game.name}
                                     onError={() => handleImageError(game.id)}
-                                    style={{width: '100%', height: '100%', objectFit: 'cover'}}
                                 />
                         )}
                     </div>
@@ -278,7 +277,6 @@ export default function Dashboard (){
 
         if (reponse) {
             const u = JSON.parse(reponse);
-            console.log(u.steamId);
 
             if(u.steamId == null){
                 return (

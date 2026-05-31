@@ -213,6 +213,13 @@ main {
 
 }
 
+.gthumb > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
 
 .gt1 {
     background: rgba(139, 92, 246, .14)
