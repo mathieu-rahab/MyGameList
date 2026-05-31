@@ -52,7 +52,7 @@
     font-size: 1.1rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .collection-content {
         grid-template-columns: 1fr;
     }
@@ -62,15 +62,6 @@
         order: -1;
     }
 
-    .input-collection-search {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: var(--glass, rgba(255,255,255,1));
-        backdrop-filter: blur(8px);
-        padding: 10px 0;
-        margin: -4px 0 12px;
-    }
 }
 
 .search-results > h3{
@@ -79,4 +70,55 @@
 
 .search-results > .no-results{
     color: var(--muted);
+}
+
+.header-actions {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.header-actions button {
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #cc0000;
+}
+
+
+.btn-edit {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 2px;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-edit:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.collection-card {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.cname {
+    position: relative;
 }

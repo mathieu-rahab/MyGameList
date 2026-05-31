@@ -1,17 +1,24 @@
 import { useState } from 'react';
-import './CreateCollectionModal.css';
+import './CollectionModal.css';
 import {getHttpErrorMessage, getServerErrorMessage} from "../../api/errorHandler.js";
 import i18n from "i18next";
 
-export default function CreateCollectionModal({ isOpen, onClose, onSubmit, t }) {
-    const [label, setLabel] = useState('');
+export default function CollectionModal({
+                                                  isOpen,
+                                                  onClose,
+                                                  onSubmit,
+                                                  t,
+                                                  initialLabel = '',
+                                                  isEditing = false
+                                              }) {
+    const [label, setLabel] = useState(initialLabel);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!label.trim()) {
-            setError(t('CreateCollectionModal.LabelRequired'));
+            setError(t('CollectionModal.LabelRequired'));
             return;
         }
 
@@ -24,12 +31,10 @@ export default function CreateCollectionModal({ isOpen, onClose, onSubmit, t }) 
             onClose();
         } catch (err) {
             if (err.error) {
-                setError(getServerErrorMessage(err.error, t, i18n, 'CreateCollectionModal'));
+                setError(getServerErrorMessage(err.error, t, i18n, 'CollectionModal'));
                 return;
             }
-            // erreur HTTP/réseau
             setError(getHttpErrorMessage(err.status, t));
-
         } finally {
             setLoading(false);
         }
@@ -41,7 +46,7 @@ export default function CreateCollectionModal({ isOpen, onClose, onSubmit, t }) 
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content glass" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2>{t('CreateCollectionModal.Title')}</h2>
+                    <h2>{isEditing ? t('CollectionModal.EditTitle') : t('CollectionModal.Title')}</h2>
                     <button
                         className="modal-close"
                         onClick={onClose}
@@ -54,13 +59,14 @@ export default function CreateCollectionModal({ isOpen, onClose, onSubmit, t }) 
                 <form onSubmit={handleSubmit}>
                     <div className="input-wrap">
                         <i className="ti ti-tag" aria-hidden="true"></i>
-                        <input type="text"
-                               name="collection-labe"
-                               id="collection-label"
-                               value={label}
-                               onChange={(e) => setLabel(e.target.value)}
-                               placeholder={t('CreateCollectionModal.Placeholder')}
-                               disabled={loading}
+                        <input
+                            type="text"
+                            name="collection-label"
+                            id="collection-label"
+                            value={label}
+                            onChange={(e) => setLabel(e.target.value)}
+                            placeholder={t('CollectionModal.Placeholder')}
+                            disabled={loading}
                         />
                     </div>
 
@@ -73,14 +79,14 @@ export default function CreateCollectionModal({ isOpen, onClose, onSubmit, t }) 
                             disabled={loading}
                             className="btn-cancel"
                         >
-                            {t('CreateCollectionModal.Cancel')}
+                            {t('CollectionModal.Cancel')}
                         </button>
                         <button
                             type="submit"
                             disabled={loading}
                             className="btn-primary"
                         >
-                            {loading ? (t('CreateCollectionModal.Creating')) : (t('CreateCollectionModal.Create'))}
+                            {loading ? (t('CollectionModal.Saving')) : (isEditing ? t('CollectionModal.Save') : t('CollectionModal.Create'))}
                         </button>
                     </div>
                 </form>

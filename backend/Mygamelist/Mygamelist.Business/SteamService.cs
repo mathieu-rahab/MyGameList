@@ -30,7 +30,9 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
         return l?.ToLowerInvariant() switch
         {
             "french" => "french",
+            "fr" => "french",
             "english" => "english",
+            "en" => "english",
             _ => "french"
         };
     }
@@ -82,7 +84,9 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
             Id   = data.GetProperty("steam_appid").GetInt32(),
             Name = data.GetProperty("name").GetString() ?? "",
             Description = data.GetProperty("detailed_description").GetString() ?? "",
-            Image = data.GetProperty("header_image").GetString() ?? ""
+            HeaderImage = data.GetProperty("header_image").GetString() ?? "",
+            Image = GetImageUrl(data.GetProperty("steam_appid").GetInt32(), VerticalCapsule)
+
         };
         memoryCache.Set(cacheKey, game, TimeSpan.FromHours(3));
         return game;
@@ -680,9 +684,10 @@ public class SteamService(string steamKey, HttpClient httpClient, IMemoryCache m
 
                 games.Add(new SearchGameDto
                 {
-                    AppId = appId,
+                    Id = appId,
                     Name = name,
-                    TinyImage = tinyImage
+                    TinyImage = tinyImage,
+                    Image = GetImageUrl(appId, VerticalCapsule)
                 });
             }
             catch (Exception)

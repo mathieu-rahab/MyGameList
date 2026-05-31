@@ -307,11 +307,15 @@ export default function Settings() {
 
         } catch (err) {
             console.error(err);
+            // erreur backend connue
+            if (err.error) {
+                setErrors(prev => ({ ...prev, delete: getServerErrorMessage(err.error, t, i18n, 'Settings') }));
+                return;
+            }
+            // erreur HTTP/réseau
+            setErrors(prev => ({...prev, delete: getHttpErrorMessage(err.status, t)}));
 
-            setErrors(
-                err?.response?.data?.message ||
-                "Une erreur est survenue lors de la suppression du compte"
-            );
+
         }
     }
 

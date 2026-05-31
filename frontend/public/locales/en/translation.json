@@ -7,6 +7,8 @@
   },
   "Collection": {
     "AddGame": "Add Game",
+    "ConfirmDeleteCollection": "Are you sure you want to delete this collection? This action cannot be undone.",
+    "DeleteCollection": "Delete the collection",
     "Games": "Games",
     "GamesCount": "games",
     "NoGames": "No Games",
@@ -14,6 +16,16 @@
     "SearchPlaceholder": "Search games...",
     "SearchResults": "Search Results",
     "Untitled": "Untitled"
+  },
+  "CollectionModal": {
+    "Cancel": "Cancel",
+    "Create": "Create",
+    "EditTitle": "Edit Collection",
+    "LabelRequired": "Collection name is required",
+    "Placeholder": "Collection name",
+    "Save": "Save",
+    "Saving": "Saving...",
+    "Title": "New Collection"
   },
   "CreateAccount": {
     "ExistingAccountQuestion": "Already have an account?",
@@ -44,14 +56,6 @@
       "PseudoTooLong": "Username cannot exceed 20 characters.",
       "PseudoTooShort": "Username must be at least 3 characters long."
     }
-  },
-  "CreateCollectionModal": {
-    "Cancel": "Cancel",
-    "Create": "Create",
-    "Creating": "",
-    "LabelRequired": "Collection name is required",
-    "Placeholder": "Enter your collection name",
-    "Title": "Create a new collection"
   },
   "Dashboard": {
     "error": "An error occurred during loading",
@@ -100,6 +104,11 @@
     "BAD_GATEWAY": "The server is temporarily unavailable. Please try again in a few moments.",
     "INTERNAL_SERVER_ERROR": "An internal error occurred. Please try again.",
     "SERVER_UNREACHABLE": "Unable to reach the server. Please check your connection."
+  },
+  "Search": {
+    "EnterSearchTerm": "Enter a search term to get started",
+    "SearchGames": "Search Games",
+    "TryDifferentTerm": "Try a different search term"
   },
   "Settings": {
     "Delete": {

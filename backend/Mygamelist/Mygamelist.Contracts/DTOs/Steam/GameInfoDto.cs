@@ -6,6 +6,7 @@ public class
     public required int Id { get; set; }
     public required string Name { get; set; }
     public string? Image { get; set; }
+    public string? HeaderImage { get; set; }
     public string? Description { get; set; }
     
 }

@@ -4,7 +4,7 @@ export default function GamePreview({ game }) {
   return (
     
     <div className="scard glass game-preview-container">
-      <img src={game.image} alt={`Couverture de ${game.name}`} className="game-cover" />
+      <img src={game.headerImage } alt={`Couverture de ${game.name}`} className="game-cover" />
       {/* L'overlay qui contient les infos superposées */}
       <div className="game-info">
         {/* Les infos en bas */}
