@@ -1,5 +1,5 @@
 # My Game List
-
+Projet universitaire
 ## Equipe
 
 - Boussad, Mohand Said Ramy, mohand-said-ram.boussad@etu.univ-littoral.fr
@@ -64,7 +64,7 @@ Pas d'experience antérieure en .NET, C#, React et le dévlopement de WebApp en 
 
 Cloner le projet :
 ```bash
-git clone https://gitlab.dpt-info.univ-littoral.fr/duperrin.noe/mygamelist.git
+git clone https://github.com/mathieu-rahab/MyGameList.git
 ```
 #### Variables d’environnement backend
 
